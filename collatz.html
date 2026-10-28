@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Collatz explorer</title>
+<meta name="description" content="Interactive Collatz explorer: steps for every starting number, the full sequence for any start, and what changes with the rules 3n − 1 and 5n + 1.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%232447C9'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+  --bg: #F6F7F3;
+  --surface: #FFFFFF;
+  --ink: #14213D;
+  --muted: #566176;
+  --line: #CFDCEB;
+  --c-plain: #3A4A78;
+  --c-slate: #8591AA;
+  --c-blue: #2447C9;
+  --c-ochre: #B86E0B;
+  --c-green: #0C7A5C;
+  --c-red: #C2362B;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0F1626;
+    --surface: #172036;
+    --ink: #EDF0F8;
+    --muted: #A4ADC3;
+    --line: #26324A;
+    --c-plain: #8FA6E8;
+    --c-slate: #7D89A6;
+    --c-blue: #7B9BFF;
+    --c-ochre: #EBAA3E;
+    --c-green: #4FCBA1;
+    --c-red: #FF7A6B;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0F1626;
+  --surface: #172036;
+  --ink: #EDF0F8;
+  --muted: #A4ADC3;
+  --line: #26324A;
+  --c-plain: #8FA6E8;
+  --c-slate: #7D89A6;
+  --c-blue: #7B9BFF;
+  --c-ochre: #EBAA3E;
+  --c-green: #4FCBA1;
+  --c-red: #FF7A6B;
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 18px/1.45 "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.wrap { max-width: 1280px; margin: 0 auto; padding: 20px 20px 32px; }
+h1 { font-family: "STIX Two Text", Cambria, Georgia, serif; font-size: 2.4rem; line-height: 1.1; margin: 0 0 8px; font-weight: 600; letter-spacing: -0.01em; }
+var { font-family: "STIX Two Text", Cambria, Georgia, serif; font-style: italic; font-size: 1.1em; line-height: 1; padding-right: 0.04em; }
+.back { display: inline-block; margin: 0 0 8px; color: var(--c-blue); font-weight: 700; text-underline-offset: 0.15em; }
+.back:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; border-radius: 2px; }
+.lede { margin: 0 0 18px; color: var(--muted); max-width: 66ch; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+.main { display: grid; gap: 20px; min-width: 0; }
+@media (min-width: 960px) {
+  .grid { grid-template-columns: minmax(0, 1fr) 370px; align-items: start; }
+}
+.plotcard, .pathcard {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.plotcard { aspect-ratio: 4 / 3; min-height: 300px; }
+@media (min-width: 960px) { .plotcard { aspect-ratio: 16 / 9; } }
+.pathcard { height: 240px; }
+canvas { display: block; width: 100%; height: 100%; }
+#plot { touch-action: pan-y; cursor: crosshair; }
+canvas:focus-visible { outline: 3px solid var(--c-blue); outline-offset: -3px; }
+.pathhead { position: absolute; top: 10px; left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 0.9rem; color: var(--muted); pointer-events: none; }
+.pathhead label { pointer-events: auto; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.pathhead input { width: 18px; height: 18px; accent-color: var(--c-blue); margin: 0; }
+.pathhead input:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; }
+.side { display: grid; gap: 18px; }
+.readout {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.readout .n { font-family: "STIX Two Text", Cambria, Georgia, serif; font-size: 2.1rem; font-weight: 600; line-height: 1.1; font-variant-numeric: lining-nums; }
+.readout .big { font-size: 1.15rem; margin-top: 2px; }
+.readout .big strong { font-size: 1.6rem; }
+.readout .fate { margin: 4px 0 10px; color: var(--muted); }
+.readout .fate.escaped { color: var(--c-red); font-weight: 700; }
+.seq { display: flex; flex-wrap: wrap; gap: 5px 6px; margin: 0; padding: 0; list-style: none; }
+.seq li { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; font-size: 0.95rem; white-space: nowrap; }
+.seq li.gap { background: none; border: 0; color: var(--muted); padding: 1px 2px; }
+.seq li.pk { border-color: var(--c-red); color: var(--c-red); font-weight: 700; }
+.showall { margin: 10px 0 0; font: inherit; font-size: 0.95rem; font-weight: 700; color: var(--c-blue); background: none; border: 0; padding: 4px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 0.15em; }
+.showall:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; border-radius: 2px; }
+.controls { display: grid; gap: 16px; }
+.field label, .field legend { display: block; font-weight: 700; margin-bottom: 6px; padding: 0; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+fieldset[hidden] { display: none; }
+input[type="range"] { width: 100%; accent-color: var(--c-blue); height: 32px; }
+.range-out { color: var(--muted); font-size: 0.95rem; }
+.seg { display: grid; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.seg.row { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+.seg label { position: relative; margin: 0; font-weight: 400; }
+.seg label + label { border-top: 1px solid var(--line); }
+.seg.row label + label { border-top: 0; border-left: 1px solid var(--line); }
+.seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg span { display: block; padding: 11px 14px; min-height: 44px; }
+.seg.row span { text-align: center; padding: 11px 6px; }
+.seg input:checked + span { background: var(--ink); color: var(--bg); font-weight: 700; }
+.seg input:focus-visible + span { outline: 3px solid var(--c-blue); outline-offset: -3px; }
+.pick { display: flex; gap: 8px; }
+.pick input {
+  flex: 1; min-width: 0; font: inherit; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; min-height: 44px;
+}
+.pick button {
+  font: inherit; font-weight: 700; color: var(--bg); background: var(--ink);
+  border: 0; border-radius: 10px; padding: 0 16px; min-height: 44px; cursor: pointer;
+}
+.pick input:focus-visible, .pick button:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; }
+.msg { color: var(--muted); font-size: 0.95rem; min-height: 1.4em; margin: 4px 0 0; }
+.stats { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; }
+.stats h2 { font-size: 1rem; margin: 0 0 8px; }
+.stats table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.stats th { text-align: left; font-weight: 400; padding: 5px 0; }
+.stats td { text-align: right; padding: 5px 0 5px 10px; white-space: nowrap; }
+.stats thead th, .stats thead td { color: var(--muted); font-size: 0.9rem; border-bottom: 1px solid var(--line); }
+.stats .note { color: var(--muted); font-size: 0.92rem; margin: 10px 0 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0 0 -8px; padding: 0; list-style: none; font-size: 0.92rem; color: var(--ink); }
+.legend[hidden] { display: none; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; }
+.legend .sw { width: 10px; height: 10px; margin-right: 6px; vertical-align: 0; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 18px; }
+summary { cursor: pointer; font-weight: 700; min-height: 28px; }
+summary:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 4px; }
+details p { margin: 10px 0 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 520px) {
+  body { font-size: 17px; }
+  .wrap { padding: 16px 14px 28px; }
+  h1 { font-size: 1.9rem; }
+  .legend { font-size: 0.85rem; gap: 2px 14px; }
+  .plotcard { min-height: 240px; }
+  .pathcard { height: 210px; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <a class="back" href="index.html">Resource sheet</a>
+    <h1>The Collatz explorer</h1>
+    <p class="lede">Each dot is a starting number <var>n</var>. Its height is how many steps the sequence takes to come down to the bottom of its loop; for the usual 3<var>n</var> + 1 rule, that means reaching 1. Tap a dot, use the arrow keys, or type a number to see the whole sequence. Then try another rule.</p>
+  </header>
+
+  <div class="grid">
+    <div class="main">
+      <ul class="legend" id="legend" aria-label="Dot colors" hidden></ul>
+      <section class="plotcard" aria-label="Scatter plot of steps for each starting number">
+        <canvas id="plot" tabindex="0" role="img" aria-label="Scatter plot: for each starting number n, the number of steps its sequence takes. Use the left and right arrow keys to move between starting numbers."></canvas>
+      </section>
+      <section class="pathcard" aria-label="Line chart of the selected sequence">
+        <canvas id="path" role="img" aria-label="Line chart of the selected sequence"></canvas>
+        <div class="pathhead"><span id="pathtitle"></span><label><input type="checkbox" id="logpath"> Log scale</label></div>
+      </section>
+    </div>
+
+    <aside class="side">
+      <div class="readout" id="readout"></div>
+      <span class="sr" id="announce" aria-live="polite"></span>
+
+      <div class="controls">
+        <fieldset class="field">
+          <legend>Rule for odd numbers</legend>
+          <div class="seg row" id="rules">
+            <label><input type="radio" name="rule" value="0" checked><span>3<var>n</var> + 1</span></label>
+            <label><input type="radio" name="rule" value="1"><span>3<var>n</var> − 1</span></label>
+            <label><input type="radio" name="rule" value="2"><span>5<var>n</var> + 1</span></label>
+          </div>
+        </fieldset>
+
+        <div class="stats" id="stats"></div>
+
+        <fieldset class="field">
+          <legend>Height of each dot</legend>
+          <div class="seg row">
+            <label><input type="radio" name="ymode" value="0" checked><span>Steps</span></label>
+            <label><input type="radio" name="ymode" value="1"><span>Highest value</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="field" id="hlfield">
+          <legend>Highlight</legend>
+          <div class="seg">
+            <label><input type="radio" name="hl" value="0" checked><span>Nothing</span></label>
+            <label><input type="radio" name="hl" value="1"><span>Powers of 2</span></label>
+            <label><input type="radio" name="hl" value="2"><span>Record-setters</span></label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="maxn">How far to plot</label>
+          <input type="range" id="maxn" min="1000" max="100000" step="1000" value="10000">
+          <div class="range-out" id="maxn-out"></div>
+        </div>
+
+        <div class="field">
+          <label for="pick">Look up a number</label>
+          <div class="pick">
+            <input id="pick" type="number" min="1" max="1000000000" step="1" inputmode="numeric" value="27">
+            <button type="button" id="go">Show</button>
+          </div>
+          <p class="msg" id="msg"></p>
+        </div>
+      </div>
+
+      <details id="why">
+        <summary id="why-title"></summary>
+        <div id="why-body"></div>
+      </details>
+    </aside>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var MAXN = 100000;          // largest start the plot can show
+  var CAP = 1e12;             // a sequence that passes this is marked escaped
+  var LOOKUP_MAX = 1e9;
+  var fmt = new Intl.NumberFormat("en-US");
+  var RULES = [
+    { a: 3, b: 1, name: "3<var>n</var> + 1" },
+    { a: 3, b: -1, name: "3<var>n</var> − 1" },
+    { a: 5, b: 1, name: "5<var>n</var> + 1" }
+  ];
+  var LOOP_COLORS = ["--c-blue", "--c-ochre", "--c-green", "--c-plain"];
+  var WHY = [
+    { t: "Why do most sequences come down?",
+      p: ["An odd <var>n</var> goes to 3<var>n</var> + 1, which is even, so the next step always halves it: two steps take <var>n</var> to about 3<var>n</var>/2. An even <var>n</var> goes to <var>n</var>/2.",
+          "So, roughly, half the steps multiply by 3/2 and half by 1/2. The typical factor per step is √(3/4) ≈ 0.87, below 1, so sequences drift downward. That is a reason to believe the conjecture, not a proof of it."] },
+    { t: "Why are there other loops?",
+      p: ["The drift is the same as for 3<var>n</var> + 1 (a typical factor of about √(3/4) per step), so sequences still come down. But nothing forces them to land on 1.",
+          "Three loops are known: 1 → 2 → 1; 5 → 14 → 7 → 20 → 10 → 5; and an 18-number loop through 17. Every start checked ends in one of them.",
+          "The 3<var>n</var> − 1 rule on positive numbers is the 3<var>n</var> + 1 rule on negative numbers in disguise: replace <var>n</var> with −<var>n</var> and the two rules match."] },
+    { t: "Why do sequences run away?",
+      p: ["Now an odd <var>n</var> goes to about 5<var>n</var>/2 after the halving that follows. The typical factor per step is √(5/4) ≈ 1.12, above 1, so most sequences drift upward.",
+          "This page stops following a sequence once it passes 10<sup>12</sup> (a trillion) and marks it as escaped. Nobody has proved that any of them really grows forever. The start 7, for example, has never been seen to come back down.",
+          "A few starts still fall into loops: one through 1 and two longer ones through 13 and 17."] }
+  ];
+
+  var cv = document.getElementById("plot"), ctx = cv.getContext("2d");
+  var pcv = document.getElementById("path"), pctx = pcv.getContext("2d");
+  var readout = document.getElementById("readout");
+  var statsEl = document.getElementById("stats");
+  var legendEl = document.getElementById("legend");
+  var hlField = document.getElementById("hlfield");
+  var slider = document.getElementById("maxn"), sliderOut = document.getElementById("maxn-out");
+  var pickEl = document.getElementById("pick"), goBtn = document.getElementById("go"), msgEl = document.getElementById("msg");
+  var announceEl = document.getElementById("announce");
+  var logBox = document.getElementById("logpath"), pathTitle = document.getElementById("pathtitle");
+  var whyTitle = document.getElementById("why-title"), whyBody = document.getElementById("why-body");
+
+  var state = { rule: 0, ymode: 0, hl: 0, maxN: 10000, sel: 27, showAll: false };
+  var data = [];   // per rule, computed on first use
+
+  function next(x, r) { return x % 2 === 0 ? x / 2 : r.a * x + r.b; }
+
+  // For every start up to MAXN: steps until the sequence first reaches the smallest
+  // number of its loop (for 3n + 1, steps to 1), the highest value on the way, and
+  // where it ends (loop index, or -1 if it passed CAP). Starts reuse results for smaller numbers.
+  function compute(ri) {
+    var r = RULES[ri];
+    var steps = new Int32Array(MAXN + 1), peak = new Float64Array(MAXN + 1), fate = new Int16Array(MAXN + 1);
+    var loops = [];
+    for (var n = 1; n <= MAXN; n++) {
+      var path = [], seen = new Map(), x = n, mp = 0;
+      for (;;) {
+        if (x < n) { steps[n] = path.length + steps[x]; peak[n] = Math.max(mp, peak[x]); fate[n] = fate[x]; break; }
+        if (x > CAP) { steps[n] = path.length; peak[n] = x; fate[n] = -1; break; }
+        if (seen.has(x)) {
+          var cyc = path.slice(seen.get(x)), m = Math.min.apply(null, cyc), at = path.indexOf(m);
+          steps[n] = at; peak[n] = Math.max.apply(null, path.slice(0, at + 1)); fate[n] = loopIndex(loops, cyc, m); break;
+        }
+        seen.set(x, path.length); path.push(x); if (x > mp) mp = x;
+        x = next(x, r);
+      }
+    }
+    var records = new Uint8Array(MAXN + 1), best = -1;
+    for (n = 1; n <= MAXN; n++) if (fate[n] >= 0 && steps[n] > best) { best = steps[n]; records[n] = 1; }
+    var anyEscaped = false;
+    for (n = 1; n <= MAXN; n++) if (fate[n] < 0) { anyEscaped = true; break; }
+    return { steps: steps, peak: peak, fate: fate, loops: loops, records: records, anyEscaped: anyEscaped };
+  }
+  function loopIndex(loops, cyc, m) {
+    for (var i = 0; i < loops.length; i++) if (loops[i].min === m) return i;
+    var k = cyc.indexOf(m);
+    loops.push({ min: m, cycle: cyc.slice(k).concat(cyc.slice(0, k)) });
+    return loops.length - 1;
+  }
+  function D() { if (!data[state.rule]) data[state.rule] = compute(state.rule); return data[state.rule]; }
+
+  // Full sequence for one start (any size up to LOOKUP_MAX), for the panel and the path chart.
+  function trace(n) {
+    var r = RULES[state.rule], path = [], seen = new Map(), x = n;
+    for (;;) {
+      if (x > CAP) { path.push(x); return { path: path, escaped: true, steps: path.length - 1 }; }
+      if (seen.has(x)) {
+        var cyc = path.slice(seen.get(x)), m = Math.min.apply(null, cyc), at = path.indexOf(m);
+        var li = loopIndex(D().loops, cyc, m);
+        if (at === 0) { var c = D().loops[li].cycle; return { path: c.concat([c[0]]), inLoop: true, loop: li, steps: 0 }; }
+        return { path: path.slice(0, at + 1), loop: li, steps: at };
+      }
+      seen.set(x, path.length); path.push(x);
+      x = next(x, r);
+    }
+  }
+
+  function loopName(li) {
+    var c = D().loops[li].cycle;
+    if (c.length <= 7) return "the loop " + c.concat([c[0]]).map(function (v) { return fmt.format(v); }).join(" → ");
+    return "the " + c.length + "-number loop through " + fmt.format(c[0]);
+  }
+  function loopShort(li) {
+    var c = D().loops[li].cycle;
+    return c.length <= 5 ? c.concat([c[0]]).join(" → ") : "Loop through " + fmt.format(c[0]);
+  }
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  // Color group for each start, with legend entries
+  function groups() {
+    var d = D();
+    if (state.rule === 0) {
+      if (state.hl === 0) return { of: function () { return 0; }, list: [{ v: "--c-plain", lab: "" }], legend: false };
+      if (state.hl === 1) return { of: function (n) { return (n & (n - 1)) === 0 ? 1 : 0; }, list: [{ v: "--c-slate", lab: "Other starts" }, { v: "--c-green", lab: "Powers of 2" }], legend: true };
+      return { of: function (n) { return d.records[n] ? 1 : 0; }, list: [{ v: "--c-slate", lab: "Other starts" }, { v: "--c-blue", lab: "Record-setters" }], legend: true };
+    }
+    var list = d.loops.map(function (l, i) { return { v: LOOP_COLORS[i % LOOP_COLORS.length], lab: loopShort(i) }; });
+    var esc = list.length;
+    if (!d.anyEscaped) esc = -2;
+    else list.push({ v: "--c-red", lab: "Escaped past 10¹²" });
+    return { of: function (n) { return d.fate[n] < 0 ? esc : d.fate[n]; }, list: list, legend: true };
+  }
+
+  function niceStep(raw) {
+    var pow = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / pow;
+    return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * pow;
+  }
+  function ticksTo(max, target, whole) {
+    var step = niceStep(max / target), out = [];
+    if (whole) step = Math.max(1, step);
+    for (var v = 0; v <= max + step * 0.999; v += step) out.push(v);
+    return out;
+  }
+  var SUP = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+  function powLabel(e) { return e <= 5 ? fmt.format(Math.pow(10, e)) : "10" + String(e).split("").map(function (c) { return SUP[+c]; }).join(""); }
+  function logTicks(maxV, most) {
+    var top = Math.max(1, Math.ceil(Math.log10(maxV))), stepE = Math.max(1, Math.ceil(top / (most || 7))), out = [];
+    for (var e = 0; e <= top; e += stepE) out.push(e);
+    if (out[out.length - 1] < top) out.push(out[out.length - 1] + stepE);
+    return out;
+  }
+
+  function setup(c, k) {
+    var W = c.clientWidth, H = c.clientHeight, dpr = window.devicePixelRatio || 1;
+    var bw = Math.max(1, Math.round(W * dpr)), bh = Math.max(1, Math.round(H * dpr));
+    if (c.width !== bw || c.height !== bh) { c.width = bw; c.height = bh; }
+    k.setTransform(dpr, 0, 0, dpr, 0, 0); k.clearRect(0, 0, W, H);
+    k.font = (W < 520 ? 12 : 15) + "px " + getComputedStyle(document.body).fontFamily;
+    k.lineWidth = 1;
+    return { W: W, H: H };
+  }
+  function geom() {
+    var W = cv.clientWidth, H = cv.clientHeight, L = W < 520 ? 52 : 64, R = 18, T = 18, B = 56;
+    return { W: W, H: H, L: L, R: R, T: T, B: B, pw: W - L - R, ph: H - T - B };
+  }
+  // y position (0..1) of a start in the main plot
+  function yval(n) { var d = D(); return state.ymode === 0 ? d.steps[n] : Math.log10(Math.min(d.peak[n], CAP * 10)); }
+
+  function xAxis(k, g, maxN, label) {
+    var xt = ticksTo(maxN, g.W < 520 ? 4 : 6, true).filter(function (v) { return v <= maxN; });
+    k.textBaseline = "top";
+    xt.forEach(function (v) {
+      var x = Math.round(g.L + v / maxN * g.pw) + 0.5;
+      k.beginPath(); k.moveTo(x, g.T + g.ph); k.lineTo(x, g.T + g.ph + 5); k.stroke();
+      var half = k.measureText(fmt.format(v)).width / 2;
+      k.textAlign = x + half > g.W - 2 ? "right" : "center";
+      k.fillText(fmt.format(v), k.textAlign === "right" ? g.W - 2 : x, g.T + g.ph + 8);
+    });
+    k.textAlign = "center"; k.textBaseline = "alphabetic";
+    k.fillText(label, g.L + g.pw / 2, g.H - 8);
+  }
+
+  function draw() {
+    var d = D(), s = setup(cv, ctx), g = geom(), maxN = state.maxN;
+    var line = css("--line"), muted = css("--muted");
+    var ymax, yt, ylab, fy;
+    if (state.ymode === 0) {
+      var m = 0; for (var n = 1; n <= maxN; n++) if (d.steps[n] > m) m = d.steps[n];
+      yt = ticksTo(Math.max(m, 4), 5); ymax = yt[yt.length - 1];
+      ylab = function (v) { return fmt.format(v); };
+      fy = function (v) { return g.T + g.ph - v / ymax * g.ph; };
+    } else {
+      var pm = 1; for (n = 1; n <= maxN; n++) if (d.peak[n] > pm) pm = d.peak[n];
+      yt = logTicks(Math.min(pm, CAP * 10)); ymax = yt[yt.length - 1];
+      ylab = powLabel;
+      fy = function (v) { return g.T + g.ph - v / ymax * g.ph; };
+    }
+    state.fy = fy; state.ymax = ymax;
+    ctx.strokeStyle = line; ctx.fillStyle = muted; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    yt.forEach(function (v) {
+      var y = Math.round(fy(v)) + 0.5;
+      ctx.beginPath(); ctx.moveTo(g.L, y); ctx.lineTo(g.L + g.pw, y); ctx.stroke();
+      ctx.fillText(ylab(v), g.L - 8, y);
+    });
+    xAxis(ctx, g, maxN, "starting number n");
+    ctx.strokeStyle = muted;
+    ctx.beginPath(); ctx.moveTo(g.L + 0.5, g.T); ctx.lineTo(g.L + 0.5, g.T + g.ph + 0.5); ctx.lineTo(g.L + g.pw, g.T + g.ph + 0.5); ctx.stroke();
+    ctx.save(); ctx.translate(14, g.T + g.ph / 2); ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillText(state.ymode === 0 ? "steps" : "highest value (log scale)", 0, 0);
+    ctx.restore();
+
+    var gr = groups(), spacing = g.pw / maxN, r = Math.max(1.1, Math.min(4.5, spacing * 0.45));
+    for (var ci = 0; ci < gr.list.length; ci++) {
+      var big = ci > 0 && state.rule === 0;
+      var rr = big ? Math.max(r, 2.6) : r;
+      ctx.fillStyle = css(gr.list[ci].v);
+      ctx.beginPath();
+      for (n = 1; n <= maxN; n++) {
+        if (gr.of(n) !== ci) continue;
+        var x = g.L + n / maxN * g.pw, y = fy(yval(n));
+        if (rr < 2.4) ctx.rect(x - rr, y - rr, rr * 2, rr * 2);
+        else { ctx.moveTo(x + rr, y); ctx.arc(x, y, rr, 0, Math.PI * 2); }
+      }
+      ctx.fill();
+    }
+    var sel = state.sel;
+    if (sel >= 1 && sel <= maxN) {
+      var sx = g.L + sel / maxN * g.pw, sy = fy(yval(sel));
+      ctx.save(); ctx.setLineDash([4, 4]); ctx.strokeStyle = muted;
+      ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx, g.T + g.ph); ctx.moveTo(sx, sy); ctx.lineTo(g.L, sy); ctx.stroke();
+      ctx.restore();
+      ctx.lineWidth = 2.5; ctx.strokeStyle = css("--ink");
+      ctx.beginPath(); ctx.arc(sx, sy, Math.max(r, 3) + 4, 0, Math.PI * 2); ctx.stroke();
+    }
+    renderLegend(gr);
+  }
+
+  function drawPath() {
+    var t = trace(state.sel), p = t.path, s = setup(pcv, pctx);
+    var g = { W: s.W, H: s.H, L: s.W < 520 ? 52 : 64, R: 18, T: 50, B: 44 };
+    g.pw = g.W - g.L - g.R; g.ph = g.H - g.T - g.B;
+    var log = logBox.checked, mx = Math.max.apply(null, p), last = Math.max(1, p.length - 1);
+    var yt, top, fy, ylab;
+    if (log) { yt = logTicks(mx, 4); top = yt[yt.length - 1]; fy = function (v) { return g.T + g.ph - Math.log10(Math.max(v, 1)) / top * g.ph; }; ylab = powLabel; yt = yt.map(function (e) { return Math.pow(10, e); }); }
+    else { yt = ticksTo(Math.max(mx, 4), 4); top = yt[yt.length - 1]; fy = function (v) { return g.T + g.ph - v / top * g.ph; }; ylab = function (v) { return fmt.format(v); }; }
+    var muted = css("--muted");
+    pctx.strokeStyle = css("--line"); pctx.fillStyle = muted; pctx.textAlign = "right"; pctx.textBaseline = "middle";
+    yt.forEach(function (v) {
+      var y = Math.round(fy(v)) + 0.5;
+      pctx.beginPath(); pctx.moveTo(g.L, y); pctx.lineTo(g.L + g.pw, y); pctx.stroke();
+      pctx.fillText(log ? ylab(Math.round(Math.log10(v))) : ylab(v), g.L - 8, y);
+    });
+    xAxis(pctx, g, last, "step");
+    pctx.strokeStyle = css("--ink"); pctx.lineWidth = p.length > 300 ? 1.25 : 2; pctx.lineJoin = "round";
+    pctx.beginPath();
+    p.forEach(function (v, i) { var x = g.L + i / last * g.pw, y = fy(v); if (i) pctx.lineTo(x, y); else pctx.moveTo(x, y); });
+    pctx.stroke();
+    var ip = p.indexOf(mx);
+    pctx.fillStyle = css("--c-red");
+    pctx.beginPath(); pctx.arc(g.L + ip / last * g.pw, fy(mx), 4.5, 0, Math.PI * 2); pctx.fill();
+    pathTitle.innerHTML = t.escaped ? "Sequence from " + fmt.format(state.sel) + " (stopped past 10<sup>12</sup>)" : t.inLoop ? "The loop through " + fmt.format(state.sel) : "Sequence from " + fmt.format(state.sel);
+    pcv.setAttribute("aria-label", "Line chart of the sequence from " + state.sel + ": " + (p.length - 1) + " steps, highest value " + mx + ".");
+  }
+
+  function renderReadout() {
+    var n = state.sel, t = trace(n), p = t.path, mx = Math.max.apply(null, p);
+    var h = '<div class="n"><var>n</var> = ' + fmt.format(n) + '</div>';
+    if (t.escaped) {
+      h += '<div class="big"><strong>' + fmt.format(t.steps) + '</strong> steps so far</div>';
+      h += '<p class="fate escaped">Passed 10<sup>12</sup>. Nobody knows if it ever comes back down.</p>';
+    } else if (t.inLoop) {
+      h += '<div class="big">In a loop of <strong>' + (p.length - 1) + '</strong> numbers</div>';
+      h += '<p class="fate">' + fmt.format(n) + ' is the smallest number in ' + loopName(t.loop) + '.</p>';
+    } else {
+      var target = p[p.length - 1];
+      h += '<div class="big"><strong>' + fmt.format(t.steps) + '</strong> ' + (t.steps === 1 ? 'step' : 'steps') + ' to reach ' + fmt.format(target) + '</div>';
+      h += '<p class="fate">Highest value ' + fmt.format(mx) + (state.rule === 0 ? '' : '. Ends in ' + loopName(t.loop)) + '.</p>';
+    }
+    var show = p, cut = !state.showAll && p.length > 48;
+    var items = [], ip = p.indexOf(mx);
+    function li(v, i) { return '<li' + (i === ip && p.length > 2 ? ' class="pk"' : '') + '>' + fmt.format(v) + '</li>'; }
+    if (cut) {
+      for (var i = 0; i < 36; i++) items.push(li(p[i], i));
+      items.push('<li class="gap">… ' + (p.length - 42) + ' more …</li>');
+      for (i = p.length - 6; i < p.length; i++) items.push(li(p[i], i));
+    } else p.forEach(function (v, i) { items.push(li(v, i)); });
+    h += '<ul class="seq" aria-label="The sequence">' + items.join('') + '</ul>';
+    if (p.length > 48) h += '<button type="button" class="showall" id="showall">' + (state.showAll ? 'Show less' : 'Show all ' + fmt.format(p.length) + ' numbers') + '</button>';
+    readout.innerHTML = h;
+    var b = document.getElementById("showall");
+    if (b) b.addEventListener("click", function () { state.showAll = !state.showAll; renderReadout(); document.getElementById("showall").focus(); });
+  }
+
+  function renderStats() {
+    var d = D(), N = state.maxN, h = '<h2>Where starts up to ' + fmt.format(N) + ' end</h2>';
+    if (state.rule === 0) {
+      var best = 1; for (var n = 1; n <= N; n++) if (d.steps[n] > d.steps[best]) best = n;
+      h += '<p class="note" style="margin-top:0">All of them reach 1. The longest trip: ' + fmt.format(best) + ', with ' + fmt.format(d.steps[best]) + ' steps.</p>';
+    } else {
+      var gr = groups(), cnt = gr.list.map(function () { return 0; });
+      for (n = 1; n <= N; n++) cnt[gr.of(n)]++;
+      h += '<table><thead><tr><th scope="col">Ends</th><td>Starts</td><td>Share</td></tr></thead><tbody>' +
+        gr.list.map(function (g, i) {
+          if (!cnt[i]) return '';
+          return '<tr><th scope="row"><span class="sw" style="background:var(' + g.v + ')"></span>' + g.lab + '</th><td>' + fmt.format(cnt[i]) + '</td><td>' + (100 * cnt[i] / N).toFixed(1) + '%</td></tr>';
+        }).join('') + '</tbody></table>';
+    }
+    statsEl.innerHTML = h;
+  }
+  function renderLegend(gr) {
+    if (!gr.legend) { legendEl.hidden = true; return; }
+    legendEl.innerHTML = gr.list.map(function (g) { return '<li><span class="sw" style="background:var(' + g.v + ')"></span>' + g.lab + '</li>'; }).join('');
+    legendEl.hidden = false;
+  }
+  function renderWhy() {
+    var w = WHY[state.rule];
+    whyTitle.textContent = w.t;
+    whyBody.innerHTML = w.p.map(function (x) { return '<p>' + x + '</p>'; }).join('');
+  }
+
+  function render() {
+    sliderOut.textContent = 'Starting numbers from 1 to ' + fmt.format(state.maxN);
+    slider.value = state.maxN;
+    pickEl.value = state.sel;
+    hlField.hidden = state.rule !== 0;
+    draw(); drawPath(); renderReadout(); renderStats();
+  }
+  function announce() {
+    var t = trace(state.sel);
+    announceEl.textContent = 'n equals ' + state.sel + ', ' + (t.escaped ? 'escaped after ' + t.steps + ' steps' : t.steps + ' steps');
+  }
+
+  function selectNearest(e) {
+    var rect = cv.getBoundingClientRect(), mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    var g = geom(), maxN = state.maxN, toN = function (x) { return (x - g.L) / g.pw * maxN; };
+    var lo = Math.max(1, Math.floor(toN(mx - 10))), hi = Math.min(maxN, Math.ceil(toN(mx + 10)));
+    var best = -1, bestD = Infinity;
+    for (var n = lo; n <= hi; n++) {
+      var x = g.L + n / maxN * g.pw, y = state.fy(yval(n)), dd = (x - mx) * (x - mx) + (y - my) * (y - my);
+      if (dd < bestD) { bestD = dd; best = n; }
+    }
+    if (best > 0 && best !== state.sel) { state.sel = best; state.showAll = false; drawPath(); renderReadout(); draw(); pickEl.value = best; }
+  }
+  cv.addEventListener("pointermove", selectNearest);
+  cv.addEventListener("pointerdown", selectNearest);
+  cv.addEventListener("keydown", function (e) {
+    var step = e.shiftKey ? 10 : 1, n = Math.min(state.sel, state.maxN);
+    if (e.key === "ArrowRight" || e.key === "ArrowUp") n += step;
+    else if (e.key === "ArrowLeft" || e.key === "ArrowDown") n -= step;
+    else if (e.key === "Home") n = 1;
+    else if (e.key === "End") n = state.maxN;
+    else return;
+    e.preventDefault();
+    state.sel = Math.min(Math.max(1, n), state.maxN); state.showAll = false;
+    render(); announce();
+  });
+  slider.addEventListener("input", function () {
+    state.maxN = parseInt(slider.value, 10);
+    if (state.sel > state.maxN) state.sel = state.maxN;
+    render();
+  });
+  function radios(name, fn) {
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="' + name + '"]'), function (el) {
+      el.addEventListener("change", function () { fn(parseInt(el.value, 10)); render(); });
+    });
+  }
+  radios("rule", function (v) { state.rule = v; state.showAll = false; logBox.checked = v === 2; renderWhy(); });
+  radios("ymode", function (v) { state.ymode = v; });
+  radios("hl", function (v) { state.hl = v; });
+  logBox.addEventListener("change", drawPath);
+  function pick() {
+    var v = Number(pickEl.value);
+    if (!Number.isInteger(v) || v < 1 || v > LOOKUP_MAX) { msgEl.textContent = "Enter a whole number from 1 to " + fmt.format(LOOKUP_MAX) + "."; return; }
+    msgEl.textContent = v > MAXN ? "Beyond the plot, so there is no dot to mark. Its sequence is in the panel and the chart." : "";
+    state.sel = v; state.showAll = false;
+    if (v <= MAXN && v > state.maxN) state.maxN = Math.ceil(v / 1000) * 1000;
+    render(); announce();
+  }
+  goBtn.addEventListener("click", pick);
+  pickEl.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); pick(); } });
+
+  function redraw() { draw(); drawPath(); }
+  if (window.ResizeObserver) { new ResizeObserver(draw).observe(cv); new ResizeObserver(drawPath).observe(pcv); }
+  else window.addEventListener("resize", redraw);
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mq.addEventListener) mq.addEventListener("change", render);
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  renderWhy();
+  render();
+})();
+</script>
+</body>
+</html>

@@ -7,6 +7,7 @@ conjecture (with twin primes as an extension).
 Live site: https://ahitron.github.io/nov26pd/
 
 - `index.html` – the resource sheet
+- `collatz.html` – interactive Collatz explorer (3n + 1, 3n − 1 and 5n + 1)
 - `goldbach-comet.html` – interactive Goldbach comet
 - `glimpses-of-higher-math.pdf` – printable copy of the sheet
 
