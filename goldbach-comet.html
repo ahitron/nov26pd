@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Goldbach comet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+  --bg: #F5F6F9;
+  --surface: #FFFFFF;
+  --ink: #16213A;
+  --muted: #566176;
+  --line: #D6DBE5;
+  --c-plain: #3A4A78;
+  --c-slate: #8591AA;
+  --c-blue: #2447C9;
+  --c-ochre: #B86E0B;
+  --c-green: #0C7A5C;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0E1322;
+    --surface: #161C30;
+    --ink: #EDF0F8;
+    --muted: #A4ADC3;
+    --line: #2B3453;
+    --c-plain: #8FA6E8;
+    --c-slate: #7D89A6;
+    --c-blue: #7B9BFF;
+    --c-ochre: #EBAA3E;
+    --c-green: #4FCBA1;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0E1322;
+  --surface: #161C30;
+  --ink: #EDF0F8;
+  --muted: #A4ADC3;
+  --line: #2B3453;
+  --c-plain: #8FA6E8;
+  --c-slate: #7D89A6;
+  --c-blue: #7B9BFF;
+  --c-ochre: #EBAA3E;
+  --c-green: #4FCBA1;
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 18px/1.45 "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.wrap { max-width: 1280px; margin: 0 auto; padding: 20px 20px 32px; }
+h1 { font-size: 2rem; line-height: 1.15; margin: 0 0 6px; font-weight: 700; letter-spacing: -0.01em; }
+.lede { margin: 0 0 18px; color: var(--muted); max-width: 62ch; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+@media (min-width: 960px) {
+  .grid { grid-template-columns: minmax(0, 1fr) 370px; align-items: start; }
+}
+.plotcard {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  aspect-ratio: 4 / 3;
+  min-height: 300px;
+  overflow: hidden;
+}
+@media (min-width: 960px) { .plotcard { aspect-ratio: 16 / 11; } }
+canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; cursor: crosshair; }
+canvas:focus-visible { outline: 3px solid var(--c-blue); outline-offset: -3px; }
+.side { display: grid; gap: 18px; }
+.readout {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.readout .n { font-size: 2rem; font-weight: 700; line-height: 1.1; }
+.readout .ways { font-size: 1.15rem; margin-top: 2px; }
+.readout .ways strong { font-size: 1.6rem; }
+.readout .resid { color: var(--muted); margin: 4px 0 10px; }
+.sums { display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 0; padding: 0; list-style: none; }
+.sums li { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; font-size: 1rem; white-space: nowrap; }
+.more { color: var(--muted); margin: 8px 0 0; font-size: 0.95rem; }
+.controls { display: grid; gap: 16px; }
+.field label, .field legend { display: block; font-weight: 700; margin-bottom: 6px; padding: 0; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+input[type="range"] { width: 100%; accent-color: var(--c-blue); height: 32px; }
+.range-out { color: var(--muted); font-size: 0.95rem; }
+.seg { display: grid; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.seg label { position: relative; margin: 0; font-weight: 400; }
+.seg label + label { border-top: 1px solid var(--line); }
+.seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg span { display: block; padding: 11px 14px; min-height: 44px; }
+.seg input:checked + span { background: var(--ink); color: var(--bg); font-weight: 700; }
+.seg input:focus-visible + span { outline: 3px solid var(--c-blue); outline-offset: -3px; }
+.pick { display: flex; gap: 8px; }
+.pick input {
+  flex: 1; min-width: 0; font: inherit; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; min-height: 44px;
+}
+.pick button {
+  font: inherit; font-weight: 700; color: var(--bg); background: var(--ink);
+  border: 0; border-radius: 10px; padding: 0 16px; min-height: 44px; cursor: pointer;
+}
+.pick input:focus-visible, .pick button:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; }
+.msg { color: var(--muted); font-size: 0.95rem; min-height: 1.4em; margin: 4px 0 0; }
+.stats { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; }
+.stats[hidden] { display: none; }
+.stats h2 { font-size: 1rem; margin: 0 0 8px; }
+.stats table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.stats th { text-align: left; font-weight: 400; padding: 5px 0; }
+.stats td { text-align: right; padding: 5px 0 5px 10px; }
+.stats thead th, .stats thead td { color: var(--muted); font-size: 0.9rem; border-bottom: 1px solid var(--line); }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; }
+.stats .note { color: var(--muted); font-size: 0.92rem; margin: 10px 0 0; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 18px; }
+summary { cursor: pointer; font-weight: 700; min-height: 28px; }
+summary:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 4px; }
+details p { margin: 10px 0 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 520px) {
+  body { font-size: 17px; }
+  h1 { font-size: 1.6rem; }
+  .wrap { padding: 16px 14px 28px; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>The Goldbach comet</h1>
+    <p class="lede">Each dot is an even number n. Its height is the number of ways to write n as a sum of two primes. Hover, tap, or use the arrow keys to see the sums.</p>
+  </header>
+
+  <div class="grid">
+    <section class="plotcard" aria-label="Scatter plot of partition counts">
+      <canvas id="plot" tabindex="0" role="img" aria-label="Scatter plot: for each even number n, the number of ways to write n as a sum of two primes. Use the left and right arrow keys to move between even numbers."></canvas>
+    </section>
+
+    <aside class="side">
+      <div class="readout" id="readout"></div>
+      <span class="sr" id="announce" aria-live="polite"></span>
+
+      <div class="controls">
+        <div class="field">
+          <label for="maxn">How far to plot</label>
+          <input type="range" id="maxn" min="100" max="20000" step="100" value="2000">
+          <div class="range-out" id="maxn-out"></div>
+        </div>
+
+        <fieldset class="field">
+          <legend>Color the dots</legend>
+          <div class="seg" id="seg">
+            <label><input type="radio" name="mode" value="0" checked><span>No color</span></label>
+            <label><input type="radio" name="mode" value="1"><span>Multiples of 3</span></label>
+            <label><input type="radio" name="mode" value="2"><span>Multiples of 3 and 5</span></label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="pick">Look up a number</label>
+          <div class="pick">
+            <input id="pick" type="number" min="4" max="20000" step="1" inputmode="numeric" value="100">
+            <button type="button" id="go">Show</button>
+          </div>
+          <p class="msg" id="msg"></p>
+        </div>
+      </div>
+
+      <div class="stats" id="stats" hidden></div>
+
+      <details>
+        <summary>Why are there bands?</summary>
+        <p>Take an even n that is a multiple of 3, and a prime p other than 3. Then n − p is not a multiple of 3 either, so p and n − p can both be prime.</p>
+        <p>If n is 1 or 2 more than a multiple of 3, half of the primes p fail. For example, if n ≡ 1 (mod 3) and p ≡ 1 (mod 3), then n − p is a multiple of 3. So multiples of 3 get about twice as many chances.</p>
+        <p>The same idea with 5 gives a smaller boost: about 4/3 times as many ways for multiples of 5.</p>
+      </details>
+    </aside>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var MAXN = 20000;
+  var fmt = new Intl.NumberFormat("en-US");
+
+  // Sieve and partition counts (p <= q, so 4 = 2 + 2 counts once).
+  var isP = new Uint8Array(MAXN + 1);
+  isP.fill(1); isP[0] = 0; isP[1] = 0;
+  for (var i = 2; i * i <= MAXN; i++) {
+    if (isP[i]) for (var j = i * i; j <= MAXN; j += i) isP[j] = 0;
+  }
+  var primes = [];
+  for (var k = 2; k <= MAXN; k++) if (isP[k]) primes.push(k);
+  var cnt = new Uint16Array(MAXN + 1);
+  for (var n = 4; n <= MAXN; n += 2) {
+    var c = 0;
+    for (var t = 0; t < primes.length; t++) {
+      var p = primes[t];
+      if (p > n / 2) break;
+      if (isP[n - p]) c++;
+    }
+    cnt[n] = c;
+  }
+
+  var cv = document.getElementById("plot");
+  var ctx = cv.getContext("2d");
+  var readout = document.getElementById("readout");
+  var statsEl = document.getElementById("stats");
+  var slider = document.getElementById("maxn");
+  var sliderOut = document.getElementById("maxn-out");
+  var pickEl = document.getElementById("pick");
+  var goBtn = document.getElementById("go");
+  var msgEl = document.getElementById("msg");
+  var announceEl = document.getElementById("announce");
+
+  var state = { maxN: 2000, mode: 0, sel: 100, yMax: 10 };
+
+  function sumsFor(n) {
+    var out = [];
+    if (n % 2 === 0) {
+      for (var t = 0; t < primes.length; t++) {
+        var p = primes[t];
+        if (p > n / 2) break;
+        if (isP[n - p]) out.push([p, n - p]);
+      }
+    } else if (n >= 5 && isP[n - 2]) {
+      out.push([2, n - 2]);
+    }
+    return out;
+  }
+
+  function classOf(n) {
+    if (state.mode === 1) return n % 3 === 0 ? 1 : 0;
+    if (state.mode === 2) return (n % 3 === 0 ? 1 : 0) + (n % 5 === 0 ? 2 : 0);
+    return 0;
+  }
+
+  function niceStep(raw) {
+    var pow = Math.pow(10, Math.floor(Math.log10(raw)));
+    var f = raw / pow;
+    var nice = f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10;
+    return nice * pow;
+  }
+  function ticksTo(max, target) {
+    var step = niceStep(max / target);
+    var out = [];
+    for (var v = 0; v <= max + step * 0.999; v += step) out.push(v);
+    return out;
+  }
+
+  function geom() {
+    var W = cv.clientWidth, H = cv.clientHeight;
+    var L = 64, R = 18, T = 18, B = 56;
+    return { W: W, H: H, L: L, R: R, T: T, B: B, pw: W - L - R, ph: H - T - B };
+  }
+
+  function draw() {
+    var css = getComputedStyle(document.documentElement);
+    function col(name) { return css.getPropertyValue(name).trim(); }
+    var g = geom();
+    var dpr = window.devicePixelRatio || 1;
+    var bw = Math.max(1, Math.round(g.W * dpr)), bh = Math.max(1, Math.round(g.H * dpr));
+    if (cv.width !== bw || cv.height !== bh) { cv.width = bw; cv.height = bh; }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, g.W, g.H);
+
+    var maxN = state.maxN;
+    var ym = 0;
+    for (var n = 4; n <= maxN; n += 2) if (cnt[n] > ym) ym = cnt[n];
+    var yt = ticksTo(Math.max(ym, 4), 5);
+    var yMax = yt[yt.length - 1];
+    state.yMax = yMax;
+    var xt = ticksTo(maxN, 6).filter(function (v) { return v <= maxN; });
+
+    var family = getComputedStyle(document.body).fontFamily;
+    var fs = g.W < 520 ? 12 : 15;
+    ctx.font = fs + "px " + family;
+    var px = function (v) { return g.L + (v / maxN) * g.pw; };
+    var py = function (v) { return g.T + g.ph - (v / yMax) * g.ph; };
+
+    // Grid and axes
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = col("--line");
+    ctx.fillStyle = col("--muted");
+    ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    yt.forEach(function (v) {
+      var y = Math.round(py(v)) + 0.5;
+      ctx.beginPath(); ctx.moveTo(g.L, y); ctx.lineTo(g.L + g.pw, y); ctx.stroke();
+      ctx.fillText(fmt.format(v), g.L - 8, y);
+    });
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    xt.forEach(function (v) {
+      var x = Math.round(px(v)) + 0.5;
+      ctx.beginPath(); ctx.moveTo(x, g.T + g.ph); ctx.lineTo(x, g.T + g.ph + 5); ctx.stroke();
+      ctx.fillText(fmt.format(v), x, g.T + g.ph + 8);
+    });
+    ctx.strokeStyle = col("--muted");
+    ctx.beginPath(); ctx.moveTo(g.L + 0.5, g.T); ctx.lineTo(g.L + 0.5, g.T + g.ph + 0.5); ctx.lineTo(g.L + g.pw, g.T + g.ph + 0.5); ctx.stroke();
+
+    ctx.fillStyle = col("--muted");
+    ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    ctx.fillText("even number n", g.L + g.pw / 2, g.H - 8);
+    ctx.save();
+    ctx.translate(14, g.T + g.ph / 2); ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillText("ways to write n as p + q", 0, 0);
+    ctx.restore();
+
+    // Points, drawn class by class so colored classes sit on top of slate
+    var palette = state.mode === 0 ? [col("--c-plain")]
+      : state.mode === 1 ? [col("--c-slate"), col("--c-blue")]
+      : [col("--c-slate"), col("--c-blue"), col("--c-ochre"), col("--c-green")];
+    var spacing = g.pw / (maxN / 2);
+    var r = Math.max(1.6, Math.min(5.5, spacing * 0.42));
+    for (var ci = 0; ci < palette.length; ci++) {
+      ctx.fillStyle = palette[ci];
+      ctx.beginPath();
+      for (var m = 4; m <= maxN; m += 2) {
+        if (classOf(m) !== ci) continue;
+        var x = px(m), y = py(cnt[m]);
+        if (r < 2.4) { ctx.rect(x - r, y - r, r * 2, r * 2); }
+        else { ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, Math.PI * 2); }
+      }
+      ctx.fill();
+    }
+
+    // Selection marker
+    var s = state.sel;
+    if (s % 2 === 0 && s >= 4 && s <= maxN) {
+      var sx = px(s), sy = py(cnt[s]);
+      ctx.save();
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = col("--muted");
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx, g.T + g.ph); ctx.moveTo(sx, sy); ctx.lineTo(g.L, sy); ctx.stroke();
+      ctx.restore();
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = col("--ink");
+      ctx.beginPath(); ctx.arc(sx, sy, Math.max(r, 3) + 4, 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+
+  function renderReadout() {
+    var n = state.sel;
+    var sums = sumsFor(n);
+    var shown = sums.slice(0, 14);
+    var h = '<div class="n">n = ' + fmt.format(n) + '</div>';
+    h += '<div class="ways"><strong>' + sums.length + '</strong> ' + (sums.length === 1 ? 'way' : 'ways') + '</div>';
+    h += '<div class="resid">' + (n % 2 === 0 ? 'n mod 3 = ' + (n % 3) + ', n mod 5 = ' + (n % 5)
+         : 'odd: a sum of two primes only if n − 2 is prime') + '</div>';
+    if (shown.length) {
+      h += '<ul class="sums">' + shown.map(function (s) { return '<li>' + fmt.format(s[0]) + ' + ' + fmt.format(s[1]) + '</li>'; }).join('') + '</ul>';
+      if (sums.length > shown.length) h += '<p class="more">and ' + (sums.length - shown.length) + ' more</p>';
+    } else {
+      h += '<p class="more">No sums of two primes.</p>';
+    }
+    readout.innerHTML = h;
+  }
+
+  function renderStats() {
+    if (state.mode === 0) { statsEl.hidden = true; return; }
+    var labels = state.mode === 1
+      ? ["Other even numbers", "Multiples of 3"]
+      : ["Neither 3 nor 5", "Multiples of 3 only", "Multiples of 5 only", "Multiples of 3 and 5"];
+    var vars = ["--c-slate", "--c-blue", "--c-ochre", "--c-green"];
+    var sum = labels.map(function () { return 0; });
+    var num = labels.map(function () { return 0; });
+    for (var n = 4; n <= state.maxN; n += 2) {
+      var ci = classOf(n); sum[ci] += cnt[n]; num[ci]++;
+    }
+    var base = num[0] ? sum[0] / num[0] : 0;
+    var rows = labels.map(function (lab, ci) {
+      var avg = num[ci] ? sum[ci] / num[ci] : 0;
+      var ratio = base ? avg / base : 0;
+      return '<tr><th scope="row"><span class="sw" style="background:var(' + vars[ci] + ')"></span>' + lab + '</th><td>' +
+        avg.toFixed(1) + '</td><td>' + (ci === 0 ? '1.00×' : ratio.toFixed(2) + '×') + '</td></tr>';
+    }).join('');
+    var note = state.mode === 1
+      ? 'As n grows, the ratio approaches 2.'
+      : 'As n grows, the ratios approach 2, 4/3, and 8/3 (about 1.33 and 2.67).';
+    statsEl.innerHTML = '<h2>Average ways for n up to ' + fmt.format(state.maxN) + '</h2>' +
+      '<table><thead><tr><th scope="col">Group</th><td>Average</td><td>× the gray dots</td></tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<p class="note">' + note + '</p>';
+    statsEl.hidden = false;
+  }
+
+  function render() {
+    sliderOut.textContent = 'Even numbers from 4 to ' + fmt.format(state.maxN);
+    slider.value = state.maxN;
+    pickEl.value = state.sel;
+    draw(); renderReadout(); renderStats();
+  }
+
+  function announce() {
+    var n = state.sel, k = sumsFor(n).length;
+    announceEl.textContent = 'n equals ' + n + ', ' + k + (k === 1 ? ' way' : ' ways');
+  }
+
+  function selectNearest(e) {
+    var rect = cv.getBoundingClientRect();
+    var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    var g = geom();
+    var maxN = state.maxN;
+    var toN = function (x) { return (x - g.L) / g.pw * maxN; };
+    var lo = Math.max(4, 2 * Math.floor(toN(mx - 10) / 2));
+    var hi = Math.min(maxN, 2 * Math.ceil(toN(mx + 10) / 2));
+    var best = -1, bestD = Infinity;
+    for (var n = lo; n <= hi; n += 2) {
+      var x = g.L + n / maxN * g.pw;
+      var y = g.T + g.ph - cnt[n] / state.yMax * g.ph;
+      var d = (x - mx) * (x - mx) + (y - my) * (y - my);
+      if (d < bestD) { bestD = d; best = n; }
+    }
+    if (best > 0 && best !== state.sel) { state.sel = best; render(); }
+  }
+
+  cv.addEventListener("pointermove", selectNearest);
+  cv.addEventListener("pointerdown", selectNearest);
+  cv.addEventListener("keydown", function (e) {
+    var step = e.shiftKey ? 20 : 2, n = state.sel;
+    if (n % 2 !== 0) n = Math.max(4, n - 1);
+    if (e.key === "ArrowRight" || e.key === "ArrowUp") n += step;
+    else if (e.key === "ArrowLeft" || e.key === "ArrowDown") n -= step;
+    else if (e.key === "Home") n = 4;
+    else if (e.key === "End") n = state.maxN - (state.maxN % 2);
+    else return;
+    e.preventDefault();
+    state.sel = Math.min(Math.max(4, n), state.maxN);
+    render(); announce();
+  });
+
+  slider.addEventListener("input", function () {
+    state.maxN = parseInt(slider.value, 10);
+    if (state.sel > state.maxN) state.sel = state.maxN - (state.maxN % 2);
+    render();
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="mode"]'), function (el) {
+    el.addEventListener("change", function () { state.mode = parseInt(el.value, 10); render(); });
+  });
+
+  function pick() {
+    var v = parseInt(pickEl.value, 10);
+    if (!isFinite(v) || v < 4 || v > MAXN) {
+      msgEl.textContent = "Enter a whole number from 4 to " + fmt.format(MAXN) + ".";
+      return;
+    }
+    msgEl.textContent = v % 2 === 1 ? "Odd numbers are not plotted. Only 2 + (n − 2) can work." : "";
+    state.sel = v;
+    if (v % 2 === 0 && v > state.maxN) state.maxN = Math.min(MAXN, Math.ceil(v / 100) * 100);
+    render(); announce();
+  }
+  goBtn.addEventListener("click", pick);
+  pickEl.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); pick(); } });
+
+  if (window.ResizeObserver) new ResizeObserver(function () { draw(); }).observe(cv);
+  else window.addEventListener("resize", draw);
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mq.addEventListener) mq.addEventListener("change", render);
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  render();
+})();
+</script>
+</body>
+</html>

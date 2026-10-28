@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glimpses of Higher Math</title>
+<meta name="description" content="PD resource sheet: the Collatz conjecture, Euclid’s proof that there are infinitely many primes, and Goldbach’s conjecture with twin primes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #F5F6F9;
+  --surface: #FFFFFF;
+  --ink: #16213A;
+  --muted: #566176;
+  --line: #D6DBE5;
+  --accent: #2447C9;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0E1322;
+    --surface: #161C30;
+    --ink: #EDF0F8;
+    --muted: #A4ADC3;
+    --line: #2B3453;
+    --accent: #7B9BFF;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0E1322;
+  --surface: #161C30;
+  --ink: #EDF0F8;
+  --muted: #A4ADC3;
+  --line: #2B3453;
+  --accent: #7B9BFF;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 18px/1.5 "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow-wrap: break-word;
+}
+main { max-width: 70ch; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 2rem; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.01em; }
+h2 { font-size: 1.45rem; line-height: 1.25; margin: 2.2em 0 0.6em; padding-top: 0.9em; border-top: 1px solid var(--line); }
+h3 { font-size: 1.2rem; line-height: 1.3; margin: 1.8em 0 0.5em; }
+h2, h3 { scroll-margin-top: 16px; }
+p, ul, ol { margin: 0 0 1em; }
+ul, ol { padding-left: 1.4em; }
+li { margin: 0.3em 0; }
+a { color: var(--accent); text-underline-offset: 0.15em; }
+a:focus-visible, .table-wrap:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+sup, sub { font-size: 0.72em; line-height: 0; }
+.meta { color: var(--muted); margin: 0 0 4px; }
+.download { margin: 12px 0 0; font-weight: 700; }
+.print-only { display: none; }
+.callout {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 0 0 1em;
+}
+.callout a { font-weight: 700; }
+.table-wrap {
+  overflow-x: auto;
+  margin: 0 0 1.2em;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+table { border-collapse: collapse; width: 100%; min-width: 18em; font-size: 0.95rem; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+th + th, td + td { border-left: 1px solid var(--line); }
+tbody tr:last-child td { border-bottom: 0; }
+thead th { background: var(--bg); }
+tbody td:first-child { font-weight: 700; width: 30%; }
+@media (max-width: 520px) {
+  body { font-size: 17px; }
+  h1 { font-size: 1.6rem; }
+}
+@media print {
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    color-scheme: light;
+    --bg: #FFFFFF; --surface: #FFFFFF; --ink: #000000; --muted: #333333; --line: #999999; --accent: #000000;
+  }
+  @page { size: letter; margin: 0.7in 0.75in; }
+  body { background: #FFFFFF; color: #000000; font-size: 11pt; line-height: 1.4; }
+  main { max-width: none; padding: 0; }
+  h1 { font-size: 20pt; }
+  h2 { font-size: 15pt; margin-top: 1.4em; }
+  h3 { font-size: 12.5pt; }
+  h2, h3 { break-after: avoid; page-break-after: avoid; }
+  * { box-shadow: none !important; text-shadow: none !important; }
+  .download { display: none; }
+  .print-only { display: block; }
+  .table-wrap { overflow: visible; border-color: #999999; }
+  table { min-width: 0; }
+  tr, li, .callout { break-inside: avoid; page-break-inside: avoid; }
+  a { color: #000000; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; word-break: break-all; }
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1 id="top">Glimpses of Higher Math: PD Resource Sheet</h1>
+  <p class="meta">Last updated <time datetime="2026-10-28">October 28, 2026</time></p>
+  <p class="meta print-only">Online, with the interactive Goldbach comet: ahitron.github.io/nov26pd</p>
+  <p class="download"><a href="glimpses-of-higher-math.pdf">Download the PDF</a> (for printing)</p>
+</header>
+
+<h2 id="how-to-use">How to use this sheet</h2>
+
+<p>Each “glimpse” is a real piece of higher mathematics that fits in a 10-minute warm-up and stretches to a full period. Each one has the same parts: the question, a try-it activity, what is actually known, and ways to adapt it by course.</p>
+
+<p>A good glimpse has four features:</p>
+
+<ul>
+  <li><strong>Low floor.</strong> Any student can start with arithmetic they already know.</li>
+  <li><strong>Real depth.</strong> The question connects to open problems or genuine theorems, not tricks.</li>
+  <li><strong>Pattern, then proof.</strong> Students notice something first, then ask why it must be true (or whether it is).</li>
+  <li><strong>Honest uncertainty.</strong> Some of these problems are unsolved, and saying so is part of the lesson.</li>
+</ul>
+
+<h2 id="collatz">1. The Collatz conjecture</h2>
+
+<p><strong>The question.</strong> Pick any positive integer. If it is even, halve it. If it is odd, triple it and add 1. Repeat. Does every starting number eventually reach 1?</p>
+
+<p>Nobody knows. Computers have checked every starting value up to 2<sup>71</sup> (about 2.4 × 10<sup>21</sup>) with no counterexample, but there is no proof.</p>
+
+<p><strong>Try it.</strong></p>
+
+<ul>
+  <li>Start at 6: 6, 3, 10, 5, 16, 8, 4, 2, 1 (8 steps).</li>
+  <li>Start at 7: it takes 16 steps and climbs to 52 before falling.</li>
+  <li>Start at 27: it takes 111 steps and climbs to 9,232 before falling.</li>
+  <li>Under 100, which start takes the longest? (97, with 118 steps.)</li>
+</ul>
+
+<p><strong>Discussion questions</strong></p>
+
+<ul>
+  <li>Why does 1 lead to the loop 4, 2, 1, 4, …? Could any other loop exist?</li>
+  <li>Can the sequence grow forever? What would that require?</li>
+  <li>Which starting values are “boring”? (Powers of 2 collapse straight to 1.)</li>
+  <li>Change the rule to 3n − 1. What happens? (There are other loops, for example 5, 14, 7, 20, 10, 5.) What does that say about how special 3n + 1 is?</li>
+</ul>
+
+<p><strong>What is known.</strong> There are four kinds of “known,” and none of them is a proof.</p>
+
+<ol>
+  <li><strong>Computer checks.</strong> Every starting value up to 2<sup>71</sup> (about 2.4 × 10<sup>21</sup>) reaches 1. Checking this far is evidence, not proof: Pólya’s conjecture on prime factors held up to about 9 × 10<sup>8</sup> and then failed, with smallest counterexample 906,150,257.</li>
+  <li><strong>No small loops.</strong> The only known loop is 4, 2, 1. Hercher proved in 2023 that no other loop can have 91 or fewer “up-then-down” blocks, and any such loop would need on the order of 10<sup>11</sup> odd steps. So a counterexample is most likely a sequence that grows forever, and nobody can rule that out.</li>
+  <li><strong>“Almost all” results.</strong> Terras (1976) showed that almost all numbers eventually drop below their starting value. Terence Tao (2019) showed that, in a precise statistical sense (logarithmic density), almost all starting numbers eventually drop below any function that goes to infinity, however slowly. The set of possible exceptions is thin, but it is not shown to be empty.</li>
+  <li><strong>A heuristic.</strong> Odd n goes to (3n + 1)/2 and even n goes to n/2, so each step multiplies by about 3/2 or 1/2 with roughly equal odds. The geometric mean is √(3/4) ≈ 0.87, so sequences behave like random walks that drift downward. Compare 5n + 1, where the factor is √(5/4) ≈ 1.12: the drift is upward, and some sequences appear to run off to infinity.</li>
+</ol>
+
+<p><strong>Ask the room:</strong> which rung is most convincing, and which would you accept as “knowing” something in math? What would it take to climb from rung 3 to a proof?</p>
+
+<p>Sources: <a href="https://link.springer.com/article/10.1007/s11227-025-07337-0">Barina (2025)</a> for the computer bound; <a href="https://arxiv.org/abs/2201.00406">Hercher (2023)</a> for loops; Tao (2019), “Almost all orbits of the Collatz map attain almost bounded values.”</p>
+
+<p><strong>Adapting it</strong></p>
+
+<div class="table-wrap" role="region" aria-label="Adapting the Collatz conjecture by course" tabindex="0">
+<table>
+  <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
+  <tbody>
+    <tr><td>Middle school / Algebra 1</td><td>Arithmetic practice with a mystery. Graph the sequence for a few starts and look at the shape.</td></tr>
+    <tr><td>Geometry / Algebra 2</td><td>Parity and “why does every power of 2 work?”; track how many steps each start takes and look for patterns.</td></tr>
+    <tr><td>Precalculus / Statistics</td><td>Plot steps-to-1 for n = 1 to 1000 and discuss the distribution; heuristic argument for why the sequence tends to shrink (each odd step is followed by at least one halving, so the average factor per step is below 1).</td></tr>
+    <tr><td>Computer science</td><td>Write the function, memoize it, and search for the longest sequence under a million.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="euclid">2. Euclid’s proof that there are infinitely many primes</h2>
+
+<p><strong>The claim.</strong> No finite list of primes can contain all the primes. This is Proposition 20 of Book IX of Euclid’s Elements, more than 2,000 years old, and still a model of a short, complete proof. Euclid did not say “infinitely many.” He wrote that primes are more than any assigned multitude, and argued for three primes standing in for any finite list.</p>
+
+<p><strong>The argument.</strong></p>
+
+<ol>
+  <li>Take any finite list of primes, say p<sub>1</sub>, p<sub>2</sub>, …, p<sub>n</sub>.</li>
+  <li>Form N = p<sub>1</sub> × p<sub>2</sub> × … × p<sub>n</sub> + 1.</li>
+  <li>N is bigger than 1, so it has at least one prime factor q. (This uses a lemma Euclid proves separately: the smallest divisor of N greater than 1 must itself be prime, since otherwise it would have a smaller divisor.)</li>
+  <li>If q were on the list, it would divide the product, and also divide N, so it would divide the difference, which is 1. That is impossible.</li>
+  <li>So q is a prime not on the list. Every finite list is incomplete.</li>
+</ol>
+
+<p><strong>Common misconceptions to address</strong></p>
+
+<ul>
+  <li>N does not have to be prime. With the first six primes, 2 × 3 × 5 × 7 × 11 × 13 + 1 = 30,031 = 59 × 509. The proof only needs N to have a prime factor outside the list.</li>
+  <li>The proof does not tell you how to find the next prime, or say that multiplying primes and adding 1 generates them. It shows only that a new prime always exists.</li>
+  <li>It is often presented as proof by contradiction, but it works directly: given any finite list, it produces a prime not on it.</li>
+</ul>
+
+<p><strong>Try it.</strong></p>
+
+<ul>
+  <li>Give each group a different starting list (for example {2, 5, 11}). Compute the product plus 1, factor it, and name a prime not on the list. Answer key: 2 × 5 × 11 + 1 = 111 = 3 × 37, which gives two new primes at once; 3 × 5 × 7 + 1 = 106 = 2 × 53. The proof promises a prime not on the list, not the next prime.</li>
+  <li>Try {2, 3, 5, 7, 11}: 2,311 is prime. Try {2, 3, 5, 7, 11, 13}: 30,031 is not.</li>
+  <li>Ask: where in the proof did we use that the list was finite? What breaks for an infinite list?</li>
+</ul>
+
+<p><strong>Extensions</strong></p>
+
+<ul>
+  <li>Arbitrarily long gaps: for any n, the numbers n! + 2, n! + 3, …, n! + n are all composite. Primes are infinite, yet can have huge empty stretches.</li>
+  <li>Euclid numbers: take the product of the first n primes and add 1. For n = 1 to 5 you get 3, 7, 31, 211, 2,311, all prime, but n = 6 gives 30,031 = 59 × 509. Whether infinitely many of these numbers are prime, or infinitely many are composite, is an open question.</li>
+  <li>Other proofs: Euler showed that the sum of 1/p over all primes diverges, and Furstenberg gave a topological proof in 1955. <cite>Proofs from THE BOOK</cite> collects six different proofs.</li>
+  <li>Compare with the twin prime and Goldbach questions in the next section: infinitude of primes is solved, but their finer structure is not.</li>
+</ul>
+
+<p><strong>Adapting it</strong></p>
+
+<div class="table-wrap" role="region" aria-label="Adapting Euclid’s proof by course" tabindex="0">
+<table>
+  <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
+  <tbody>
+    <tr><td>Middle school / Algebra 1</td><td>Factor products-plus-1 by hand; discuss “what is a proof?” vs. checking examples.</td></tr>
+    <tr><td>Geometry</td><td>Proof structure: each step justified, parallel to a two-column proof.</td></tr>
+    <tr><td>Algebra 2 / Precalculus</td><td>Divisibility argument in step 4; the n! + k composite-gap argument.</td></tr>
+    <tr><td>Computer science</td><td>Write a program that takes a list of primes and returns a prime not on it; find where brute force gets slow.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="goldbach-and-twin-primes">3. Goldbach and twin primes</h2>
+
+<p>Two simple-to-state questions about primes that remain open. The session focuses on Goldbach, with twin primes as a short extension.</p>
+
+<h3 id="goldbach">Goldbach’s conjecture</h3>
+
+<p><strong>The question.</strong> Can every even number greater than 2 be written as the sum of two primes? (Examples: 10 = 3 + 7 = 5 + 5; 28 = 5 + 23 = 11 + 17. Count each partition once, with the smaller prime first.) Christian Goldbach raised it in a 1742 letter to Euler.</p>
+
+<p><strong>Try it.</strong></p>
+
+<ul>
+  <li>Write each even number from 4 to 50 as a sum of two primes. Record how many ways each has.</li>
+  <li>Which even numbers have only one way? (4, 6, 8, and 12 are examples.) Which have the most?</li>
+  <li>Why only even numbers? When can an odd number be a sum of two primes? (Parity forces one of the primes to be 2.)</li>
+</ul>
+
+<p><strong>Look at the comet.</strong> If you plot the number of partitions against n for even n up to a few thousand, the points spread into bands that widen as n grows, often called the “Goldbach comet.” We will look at a ready-made plot rather than build one. Questions to ask:</p>
+
+<ul>
+  <li>Why do the counts tend to grow with n?</li>
+  <li>Why is there a clear upper band? (It is the multiples of 3. If n is a multiple of 3 and p is a prime other than 3, then n − p is not a multiple of 3 either, so every such p survives the mod 3 filter. If n ≡ 1 or 2 (mod 3), only half of the primes p do, so multiples of 3 have roughly twice as many partitions.)</li>
+</ul>
+
+<p class="callout"><a href="goldbach-comet.html">Open the interactive Goldbach comet</a>: a plot of how many ways each even number is a sum of two primes. Hover over or tap a dot to see the sums, and use the color options to show the bands.</p>
+
+<p><strong>In your classroom.</strong> Students can build the comet themselves: split the even numbers among groups, or write a short program or spreadsheet formula, pool the counts, and plot count against n. This works well as a multi-day activity or for a Math Club or computer science class.</p>
+
+<p><strong>What is known.</strong> As with Collatz, there are four kinds of “known,” and none of them is a proof.</p>
+
+<ol>
+  <li><strong>Computer checks.</strong> Every even number up to 4 × 10<sup>18</sup> is a sum of two primes (<a href="https://sweet.ua.pt/tos/bib/4.12.html">Oliveira e Silva, Herzog and Pardi, 2013</a>).</li>
+  <li><strong>Partial theorems.</strong> Vinogradov showed in 1937 that every sufficiently large odd number is a sum of three primes, and Harald Helfgott completed the proof for all odd numbers greater than 5 in 2013 (the “weak” Goldbach conjecture). Chen showed in 1973 that every sufficiently large even number is a prime plus a number with at most two prime factors.</li>
+  <li><strong>“Almost all” results.</strong> In the 1930s it was shown that the even numbers that fail, if any, have density zero.</li>
+  <li><strong>A heuristic.</strong> The expected number of partitions of n grows roughly like n/(ln n)², so a counterexample becomes less and less plausible as n grows.</li>
+</ol>
+
+<p><strong>A short proof to try.</strong> Goldbach implies weak Goldbach. If every even number from 4 up is a sum of two primes, take an odd n ≥ 7. Then n − 3 is even and at least 4, so n − 3 = p + q for primes p and q, and n = 3 + p + q. The reverse direction is not known, which is why the weak version could be proved while the original remains open.</p>
+
+<h3 id="twin-primes">Extension: the twin prime conjecture</h3>
+
+<p><strong>The question.</strong> Twin primes are primes that differ by 2, such as 3 and 5, 11 and 13, 17 and 19. Are there infinitely many pairs?</p>
+
+<p><strong>Try it.</strong></p>
+
+<ul>
+  <li>List the primes below 100 and circle the twin pairs. How many are there? Do they thin out?</li>
+  <li>Look at the gaps between consecutive primes. What gaps appear? Is a gap of 1 possible after 2? Why are all other gaps even?</li>
+  <li>Generalize: what about primes that differ by 4 (cousin primes) or 6?</li>
+</ul>
+
+<p><strong>What is known.</strong> In 2013 Yitang Zhang proved that infinitely many pairs of primes differ by less than 70 million. Soon after, James Maynard (and, independently, Terence Tao) cut the bound to 600, and the Polymath project refined it to 246. Getting from 246 to 2 is the open problem.</p>
+
+<p>Two connections to earlier ideas:</p>
+
+<ul>
+  <li>Euclid extension: n! + 2, …, n! + n shows that gaps between primes can be arbitrarily large. Yet small gaps keep recurring infinitely often. That tension is the story.</li>
+  <li>Brun proved in 1919 that the sum of the reciprocals of the twin primes converges, while the sum of 1/p over all primes diverges (Euler). Twin primes are much sparser than the primes, but a convergent sum does not settle whether there are infinitely many.</li>
+</ul>
+
+<p><strong>Adapting it</strong></p>
+
+<div class="table-wrap" role="region" aria-label="Adapting Goldbach and twin primes by course" tabindex="0">
+<table>
+  <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
+  <tbody>
+    <tr><td>Middle school / Algebra 1</td><td>Prime lists and the sieve of Eratosthenes; build a table of Goldbach pairs for small even numbers; discuss why many examples are not a proof.</td></tr>
+    <tr><td>Geometry / Algebra 2</td><td>Parity arguments (why an odd sum of two primes needs a 2); the mod 3 argument for why multiples of 3 have more partitions; sequences of prime gaps.</td></tr>
+    <tr><td>Precalculus / Statistics</td><td>Plot partition counts against n and look for the bands; the prime-density heuristic; prove that Goldbach implies weak Goldbach.</td></tr>
+    <tr><td>Computer science</td><td>Sieve implementation; verify Goldbach up to a few million; build and plot the comet.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="further-reading">Further reading and viewing</h2>
+
+<ul>
+  <li><strong>Collatz:</strong> Numberphile, <a href="https://numberphile.com/videos/uncrackable-the-collatz-conjecture">“UNCRACKABLE? The Collatz Conjecture”</a>; Veritasium, <a href="https://www.veritasium.com/videos/2021/7/30/the-simplest-math-problem-no-one-can-solve">“The Simplest Math Problem No One Can Solve”</a>; <a href="https://www.quantamagazine.org/mathematician-terence-tao-and-the-collatz-conjecture-20191211/">Quanta Magazine’s 2019 article on Tao’s result</a>; Jeffrey Lagarias, <a href="https://bookstore.ams.org/mbk-78"><cite>The Ultimate Challenge: The 3x+1 Problem</cite></a> (AMS, 2010) for the serious reader.</li>
+  <li><strong>Euclid:</strong> Aigner and Ziegler, <a href="https://link.springer.com/book/10.1007/978-3-662-57265-8"><cite>Proofs from THE BOOK</cite></a>, which gives six different proofs that there are infinitely many primes; G. H. Hardy, <a href="https://www.cambridge.org/core/books/a-mathematicians-apology/B90D81A8E28674119781863988A3E11B"><cite>A Mathematician’s Apology</cite></a>, for his discussion of why this proof is beautiful.</li>
+  <li><strong>Goldbach and twin primes:</strong> Quanta Magazine’s coverage of <a href="https://www.quantamagazine.org/yitang-zhang-proves-landmark-theorem-in-distribution-of-prime-numbers-20130519/">Zhang’s 2013 breakthrough</a> and <a href="https://www.quantamagazine.org/mathematicians-team-up-on-twin-primes-conjecture-20131119/">the follow-up bounded-gaps work</a>; Apostolos Doxiadis, <a href="https://en.wikipedia.org/wiki/Uncle_Petros_and_Goldbach%27s_Conjecture"><cite>Uncle Petros and Goldbach’s Conjecture</cite></a> (a novel students can read).</li>
+  <li><strong>Tools:</strong> <a href="https://www.desmos.com/calculator">Desmos</a> or a spreadsheet for plotting step counts and Goldbach counts; any Python environment for sieves and sequence searches; the <a href="https://oeis.org/">OEIS (oeis.org)</a> to look up integer sequences students generate.</li>
+</ul>
+</main>
+</body>
+</html>
