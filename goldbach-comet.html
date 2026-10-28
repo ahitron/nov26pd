@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Goldbach comet</title>
+<meta name="description" content="Interactive plot: how many ways each even number can be written as a sum of two primes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%232447C9'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
@@ -63,6 +65,8 @@ body {
 }
 .wrap { max-width: 1280px; margin: 0 auto; padding: 20px 20px 32px; }
 h1 { font-size: 2rem; line-height: 1.15; margin: 0 0 6px; font-weight: 700; letter-spacing: -0.01em; }
+.back { display: inline-block; margin: 0 0 8px; color: var(--c-blue); font-weight: 700; text-underline-offset: 0.15em; }
+.back:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; border-radius: 2px; }
 .lede { margin: 0 0 18px; color: var(--muted); max-width: 62ch; }
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 @media (min-width: 960px) {
@@ -72,6 +76,8 @@ h1 { font-size: 2rem; line-height: 1.15; margin: 0 0 6px; font-weight: 700; lett
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
+  width: 100%;
+  min-width: 0;
   aspect-ratio: 4 / 3;
   min-height: 300px;
   overflow: hidden;
@@ -134,12 +140,14 @@ details p { margin: 10px 0 0; }
   body { font-size: 17px; }
   h1 { font-size: 1.6rem; }
   .wrap { padding: 16px 14px 28px; }
+  .plotcard { min-height: 240px; }
 }
 </style>
 </head>
 <body>
 <main class="wrap">
   <header>
+    <a class="back" href="index.html">Resource sheet</a>
     <h1>The Goldbach comet</h1>
     <p class="lede">Each dot is an even number n. Its height is the number of ways to write n as a sum of two primes. Hover, tap, or use the arrow keys to see the sums.</p>
   </header>
@@ -306,8 +314,12 @@ details p { margin: 10px 0 0; }
     xt.forEach(function (v) {
       var x = Math.round(px(v)) + 0.5;
       ctx.beginPath(); ctx.moveTo(x, g.T + g.ph); ctx.lineTo(x, g.T + g.ph + 5); ctx.stroke();
-      ctx.fillText(fmt.format(v), x, g.T + g.ph + 8);
+      // Keep the label inside the canvas when it would run past the right edge
+      var half = ctx.measureText(fmt.format(v)).width / 2;
+      ctx.textAlign = x + half > g.W - 2 ? "right" : "center";
+      ctx.fillText(fmt.format(v), ctx.textAlign === "right" ? g.W - 2 : x, g.T + g.ph + 8);
     });
+    ctx.textAlign = "center";
     ctx.strokeStyle = col("--muted");
     ctx.beginPath(); ctx.moveTo(g.L + 0.5, g.T); ctx.lineTo(g.L + 0.5, g.T + g.ph + 0.5); ctx.lineTo(g.L + g.pw, g.T + g.ph + 0.5); ctx.stroke();
 

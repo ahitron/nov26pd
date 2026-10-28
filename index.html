@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glimpses of Higher Math</title>
 <meta name="description" content="PD resource sheet: the Collatz conjecture, Euclid’s proof that there are infinitely many primes, and Goldbach’s conjecture with twin primes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%232447C9'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
@@ -56,14 +57,18 @@ p, ul, ol { margin: 0 0 1em; }
 ul, ol { padding-left: 1.4em; }
 li { margin: 0.3em 0; }
 a { color: var(--accent); text-underline-offset: 0.15em; }
-a:focus-visible, .table-wrap:focus-visible {
+a:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
   border-radius: 2px;
 }
 sup, sub { font-size: 0.72em; line-height: 0; }
 .meta { color: var(--muted); margin: 0 0 4px; }
-.download { margin: 12px 0 0; font-weight: 700; }
+.download { display: flex; flex-wrap: wrap; gap: 4px 1.25em; margin: 12px 0 0; font-weight: 700; }
+.toc { margin: 16px 0 0; }
+.toc h2 { font-size: 1rem; margin: 0 0 4px; padding: 0; border: 0; color: var(--muted); }
+.toc ul { margin: 0; }
+.toc li { margin: 0.15em 0; }
 .print-only { display: none; }
 .callout {
   background: var(--surface);
@@ -81,7 +86,7 @@ sup, sub { font-size: 0.72em; line-height: 0; }
   border-radius: 8px;
   background: var(--surface);
 }
-table { border-collapse: collapse; width: 100%; min-width: 18em; font-size: 0.95rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
 th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--line); }
 th + th, td + td { border-left: 1px solid var(--line); }
 tbody tr:last-child td { border-bottom: 0; }
@@ -104,7 +109,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   h3 { font-size: 12.5pt; }
   h2, h3 { break-after: avoid; page-break-after: avoid; }
   * { box-shadow: none !important; text-shadow: none !important; }
-  .download { display: none; }
+  .download, .toc { display: none; }
   .print-only { display: block; }
   .table-wrap { overflow: visible; border-color: #999999; }
   table { min-width: 0; }
@@ -122,7 +127,16 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <h1 id="top">Glimpses of Higher Math: PD Resource Sheet</h1>
   <p class="meta">Last updated <time datetime="2026-10-28">October 28, 2026</time></p>
   <p class="meta print-only">Online, with the interactive Goldbach comet: ahitron.github.io/nov26pd</p>
-  <p class="download"><a href="glimpses-of-higher-math.pdf">Download the PDF</a> (for printing)</p>
+  <p class="download"><a href="glimpses-of-higher-math.pdf">Download the PDF</a> <a href="goldbach-comet.html">Open the Goldbach comet</a></p>
+  <nav class="toc" aria-labelledby="toc-title">
+    <h2 id="toc-title">On this page</h2>
+    <ul>
+      <li><a href="#collatz">The Collatz conjecture</a></li>
+      <li><a href="#euclid">Euclid’s proof that there are infinitely many primes</a></li>
+      <li><a href="#goldbach">Goldbach’s conjecture</a></li>
+      <li><a href="#twin-primes">The twin prime conjecture</a></li>
+    </ul>
+  </nav>
 </header>
 
 <h2 id="how-to-use">How to use this sheet</h2>
@@ -177,7 +191,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 
 <p><strong>Adapting it</strong></p>
 
-<div class="table-wrap" role="region" aria-label="Adapting the Collatz conjecture by course" tabindex="0">
+<div class="table-wrap">
 <table>
   <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
   <tbody>
@@ -230,7 +244,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 
 <p><strong>Adapting it</strong></p>
 
-<div class="table-wrap" role="region" aria-label="Adapting Euclid’s proof by course" tabindex="0">
+<div class="table-wrap">
 <table>
   <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
   <tbody>
@@ -303,7 +317,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 
 <p><strong>Adapting it</strong></p>
 
-<div class="table-wrap" role="region" aria-label="Adapting Goldbach and twin primes by course" tabindex="0">
+<div class="table-wrap">
 <table>
   <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
   <tbody>
