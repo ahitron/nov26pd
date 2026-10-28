@@ -8,112 +8,198 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%232447C9'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
   color-scheme: light;
-  --bg: #F5F6F9;
+  --paper: #F6F7F3;
   --surface: #FFFFFF;
-  --ink: #16213A;
+  --ink: #14213D;
   --muted: #566176;
-  --line: #D6DBE5;
-  --accent: #2447C9;
+  --rule: #CFDCEB;
+  --blue: #2447C9;
+  --red: #C2362B;
+  --dot: #8591AA;
+  --serif: "STIX Two Text", "STIX Two", Cambria, Georgia, serif;
+  --sans: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #0E1322;
-    --surface: #161C30;
-    --ink: #EDF0F8;
-    --muted: #A4ADC3;
-    --line: #2B3453;
-    --accent: #7B9BFF;
+    --paper: #0F1626; --surface: #172036; --ink: #EDF0F8; --muted: #A4ADC3;
+    --rule: #26324A; --blue: #7B9BFF; --red: #FF7A6B; --dot: #7D89A6;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0E1322;
-  --surface: #161C30;
-  --ink: #EDF0F8;
-  --muted: #A4ADC3;
-  --line: #2B3453;
-  --accent: #7B9BFF;
+  --paper: #0F1626; --surface: #172036; --ink: #EDF0F8; --muted: #A4ADC3;
+  --rule: #26324A; --blue: #7B9BFF; --red: #FF7A6B; --dot: #7D89A6;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--paper);
   color: var(--ink);
-  font: 400 18px/1.5 "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font: 400 18px/1.55 var(--sans);
   overflow-wrap: break-word;
 }
-main { max-width: 70ch; margin: 0 auto; padding: 24px 16px 48px; }
-h1 { font-size: 2rem; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.01em; }
-h2 { font-size: 1.45rem; line-height: 1.25; margin: 2.2em 0 0.6em; padding-top: 0.9em; border-top: 1px solid var(--line); }
-h3 { font-size: 1.2rem; line-height: 1.3; margin: 1.8em 0 0.5em; }
-h2, h3 { scroll-margin-top: 16px; }
-p, ul, ol { margin: 0 0 1em; }
-ul, ol { padding-left: 1.4em; }
-li { margin: 0.3em 0; }
-a { color: var(--accent); text-underline-offset: 0.15em; }
-a:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 2px;
-}
+a { color: var(--blue); text-underline-offset: 0.16em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; border-radius: 2px; }
+var { font-family: var(--serif); font-style: italic; font-size: 1.1em; line-height: 1; padding-right: 0.04em; }
 sup, sub { font-size: 0.72em; line-height: 0; }
-.meta { color: var(--muted); margin: 0 0 4px; }
-.download { display: flex; flex-wrap: wrap; gap: 4px 1.25em; margin: 12px 0 0; font-weight: 700; }
-.toc { margin: 16px 0 0; }
-.toc h2 { font-size: 1rem; margin: 0 0 4px; padding: 0; border: 0; color: var(--muted); }
-.toc ul { margin: 0; }
-.toc li { margin: 0.15em 0; }
+sub { font-family: var(--serif); }
+
+/* Hero: title on the left, the sieve on the right */
+.hero { border-bottom: 1px solid var(--rule); }
+.hero-in {
+  max-width: 1180px; margin: 0 auto; padding: 40px 24px 36px;
+  display: grid; gap: 28px 56px; align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+}
+h1 {
+  font-family: var(--serif); font-weight: 600;
+  font-size: clamp(2.3rem, 1.6rem + 2.6vw, 3.4rem);
+  line-height: 1.05; letter-spacing: -0.012em; margin: 0;
+  text-wrap: balance;
+}
+.h1-sub { display: block; font-family: var(--sans); font-weight: 400; font-size: 1.1rem; letter-spacing: 0; color: var(--muted); margin-top: 12px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.meta { color: var(--muted); margin: 6px 0 0; font-size: 0.95rem; }
 .print-only { display: none; }
-.callout {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--accent);
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin: 0 0 1em;
+.actions { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 22px 0 0; font-weight: 700; }
+
+.sieve {
+  display: grid; grid-template-columns: repeat(20, minmax(0, 1fr));
+  border-top: 1px solid var(--rule); border-left: 1px solid var(--rule);
+  font-family: var(--serif); font-variant-numeric: lining-nums tabular-nums;
+  font-size: 0.95rem; line-height: 1; user-select: none;
 }
-.callout a { font-weight: 700; }
-.table-wrap {
-  overflow-x: auto;
-  margin: 0 0 1.2em;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
+.sieve span {
+  position: relative; display: grid; place-items: center;
+  aspect-ratio: 1; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  color: var(--ink);
 }
+.sieve .one { color: var(--muted); }
+.sieve .x { color: var(--muted); opacity: 0.6; transition: color 0.3s, opacity 0.3s; }
+.sieve span:not(.c):not(.one) { font-weight: 600; }
+.sieve .c::after {
+  content: ""; position: absolute; left: 16%; right: 16%; top: 50%; height: 2px; margin-top: -1px;
+  background: var(--red); border-radius: 1px;
+  transform: rotate(-24deg) scaleX(0); transform-origin: 0 50%;
+  transition: transform 0.22s ease-out;
+}
+.sieve .c.x::after { transform: rotate(-24deg) scaleX(1); }
+.sieve .ring::before {
+  content: ""; position: absolute; inset: 9%; border: 1.5px solid var(--red); border-radius: 50%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sieve .x, .sieve .c::after { transition: none; }
+}
+
+/* Body: sticky contents rail beside a single reading column */
+.layout { max-width: 1180px; margin: 0 auto; padding: 8px 24px 64px; }
+main { max-width: 66ch; }
+.toc { margin: 28px 0 8px; }
+.toc-title { font-family: var(--sans); font-size: 0.95rem; font-weight: 700; color: var(--muted); margin: 0 0 6px; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0; }
+.toc a { display: block; padding: 5px 0 5px 12px; border-left: 2px solid var(--rule); text-decoration: none; color: var(--ink); }
+.toc a:hover { color: var(--blue); }
+.toc a[aria-current="true"] { border-left-color: var(--blue); color: var(--blue); font-weight: 700; }
+@media (min-width: 1100px) {
+  .hero-in { grid-template-columns: minmax(0, 1fr) minmax(0, 600px); padding-top: 56px; padding-bottom: 48px; }
+  .layout { display: grid; grid-template-columns: 210px minmax(0, 66ch); gap: 64px; }
+  .toc { margin: 0; padding-top: 44px; }
+  .toc-in { position: sticky; top: 24px; }
+}
+
+h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.2; scroll-margin-top: 20px; text-wrap: balance; }
+h2 { font-size: 1.8rem; margin: 2.2em 0 0.6em; padding-top: 0.8em; border-top: 1px solid var(--rule); letter-spacing: -0.005em; }
+h3 { font-size: 1.35rem; margin: 1.8em 0 0.5em; }
+h2, h3 { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 16px; }
+main > h2:first-child { margin-top: 1.4em; padding-top: 0; border-top: 0; }
+.status { font-family: var(--sans); font-size: 0.9rem; font-weight: 700; letter-spacing: 0; white-space: nowrap; }
+.status.open { color: var(--red); }
+.status.proved { color: var(--ink); }
+.status.proved::before { content: "∎"; margin-right: 0.35em; font-family: var(--serif); }
+
+p, ul, ol { margin: 0 0 1em; }
+main ul, main ol { padding-left: 1.4em; }
+li { margin: 0.3em 0; }
+li::marker { color: var(--muted); }
+
+figure { margin: 1.4em 0 1.6em; }
+figcaption { font-size: 0.92rem; color: var(--muted); margin-top: 8px; }
+.traj svg { display: block; width: 100%; height: auto; }
+.traj .axis { stroke: var(--rule); stroke-width: 1.5; }
+.traj .path { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+.traj .peak { fill: var(--red); }
+.traj text { fill: var(--muted); font-family: var(--serif); font-size: 21px; }
+
+.comet-card {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px;
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 14px;
+}
+.comet-card .thumb { display: block; }
+.comet-card svg { display: block; width: 100%; height: auto; }
+.comet-card .d0 { fill: var(--dot); }
+.comet-card .d1 { fill: var(--blue); }
+.comet-card figcaption { margin: 0; font-size: 1rem; color: var(--ink); }
+.comet-card figcaption a { font-weight: 700; }
+@media (min-width: 640px) {
+  .comet-card { grid-template-columns: 220px minmax(0, 1fr); align-items: center; gap: 20px; }
+}
+
+.table-wrap { overflow-x: auto; margin: 0 0 1.4em; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
 table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
-th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--line); }
-th + th, td + td { border-left: 1px solid var(--line); }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--rule); }
+th + th, td + td { border-left: 1px solid var(--rule); }
 tbody tr:last-child td { border-bottom: 0; }
-thead th { background: var(--bg); }
+thead th { background: var(--paper); font-weight: 700; }
 tbody td:first-child { font-weight: 700; width: 30%; }
+
+@media (max-width: 700px) {
+  .sieve { grid-template-columns: repeat(10, minmax(0, 1fr)); font-size: 1rem; }
+  .sieve .hi { display: none; }
+}
 @media (max-width: 520px) {
   body { font-size: 17px; }
-  h1 { font-size: 1.6rem; }
+  .hero-in { padding: 28px 16px 24px; }
+  .layout { padding: 0 16px 48px; }
+  h2 { font-size: 1.55rem; }
+  h3 { font-size: 1.25rem; }
+  .traj text { font-size: 34px; }
 }
+
 @media print {
   :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
     color-scheme: light;
-    --bg: #FFFFFF; --surface: #FFFFFF; --ink: #000000; --muted: #333333; --line: #999999; --accent: #000000;
+    --paper: #FFFFFF; --surface: #FFFFFF; --ink: #000000; --muted: #333333;
+    --rule: #999999; --blue: #000000; --red: #000000; --dot: #777777;
   }
   @page { size: letter; margin: 0.7in 0.75in; }
   body { background: #FFFFFF; color: #000000; font-size: 11pt; line-height: 1.4; }
-  main { max-width: none; padding: 0; }
-  h1 { font-size: 20pt; }
-  h2 { font-size: 15pt; margin-top: 1.4em; }
-  h3 { font-size: 12.5pt; }
-  h2, h3 { break-after: avoid; page-break-after: avoid; }
+  .hero { border: 0; }
+  .hero-in, .layout { display: block; max-width: none; padding: 0; }
+  main { max-width: none; }
+  h1 { font-size: 22pt; }
+  .h1-sub { font-size: 12pt; margin-top: 4px; }
+  h2 { font-size: 16pt; margin-top: 1.3em; }
+  h3 { font-size: 13pt; }
+  h2, h3 { display: block; break-after: avoid; page-break-after: avoid; }
+  .status { font-size: 10pt; font-weight: 400; margin-left: 0.3em; }
+  .status::before { content: "(" !important; margin: 0 !important; font-family: var(--sans) !important; }
+  .status::after { content: ")"; }
   * { box-shadow: none !important; text-shadow: none !important; }
-  .download, .toc { display: none; }
+  .sieve, .toc, .actions, .comet-card .thumb { display: none; }
   .print-only { display: block; }
-  .table-wrap { overflow: visible; border-color: #999999; }
-  table { min-width: 0; }
-  tr, li, .callout { break-inside: avoid; page-break-inside: avoid; }
+  .comet-card { display: block; border: 0; padding: 0; background: none; }
+  .traj { max-width: 5in; break-inside: avoid; }
+  .traj text { font-size: 18px; }
+  .table-wrap { overflow: visible; }
+  tr, li, figure { break-inside: avoid; page-break-inside: avoid; }
   p:has(+ ul), p:has(+ ol), p:has(+ .table-wrap) { break-after: avoid; page-break-after: avoid; }
   p, li { orphans: 3; widows: 3; }
   a { color: #000000; }
@@ -122,23 +208,33 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 </style>
 </head>
 <body>
-<main>
-<header>
-  <h1 id="top">Glimpses of Higher Math: PD Resource Sheet</h1>
-  <p class="meta">Last updated <time datetime="2026-10-28">October 28, 2026</time></p>
-  <p class="meta print-only">Online, with the interactive Goldbach comet: ahitron.github.io/nov26pd</p>
-  <p class="download"><a href="glimpses-of-higher-math.pdf">Download the PDF</a> <a href="goldbach-comet.html">Open the Goldbach comet</a></p>
-  <nav class="toc" aria-labelledby="toc-title">
-    <h2 id="toc-title">On this page</h2>
-    <ul>
-      <li><a href="#collatz">The Collatz conjecture</a></li>
-      <li><a href="#euclid">Euclid’s proof that there are infinitely many primes</a></li>
-      <li><a href="#goldbach">Goldbach’s conjecture</a></li>
-      <li><a href="#twin-primes">The twin prime conjecture</a></li>
-    </ul>
-  </nav>
+<header class="hero">
+  <div class="hero-in">
+    <div class="hero-text">
+      <h1 id="top">Glimpses of Higher Math<span class="vh">:</span> <span class="h1-sub">PD Resource Sheet</span></h1>
+      <p class="meta">Last updated <time datetime="2026-10-28">October 28, 2026</time></p>
+      <p class="meta print-only">Online, with the interactive Goldbach comet: ahitron.github.io/nov26pd</p>
+      <p class="actions"><a href="glimpses-of-higher-math.pdf">Download the PDF</a> <a href="goldbach-comet.html">Open the Goldbach comet</a></p>
+    </div>
+    <div class="sieve" id="sieve" role="img" aria-label="A sieve of Eratosthenes: the numbers 1 to 200 with every multiple of 2, 3, 5, 7, 11 and 13 crossed out, leaving the primes."></div>
+  </div>
 </header>
 
+<div class="layout">
+<nav class="toc" aria-labelledby="toc-title">
+  <div class="toc-in">
+    <p class="toc-title" id="toc-title">On this page</p>
+    <ol>
+      <li><a href="#how-to-use">How to use this sheet</a></li>
+      <li><a href="#collatz">The Collatz conjecture</a></li>
+      <li><a href="#euclid">Euclid’s proof</a></li>
+      <li><a href="#goldbach">Goldbach’s conjecture</a></li>
+      <li><a href="#twin-primes">Twin primes</a></li>
+    </ol>
+  </div>
+</nav>
+
+<main>
 <h2 id="how-to-use">How to use this sheet</h2>
 
 <p>Each “glimpse” is a real piece of higher mathematics that fits in a 10-minute warm-up and stretches to a full period. Each one has the same parts: the question, a try-it activity, what is actually known, and ways to adapt it by course.</p>
@@ -152,7 +248,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li><strong>Honest uncertainty.</strong> Some of these problems are unsolved, and saying so is part of the lesson.</li>
 </ul>
 
-<h2 id="collatz">1. The Collatz conjecture</h2>
+<h2 id="collatz"><span class="ht">1. The Collatz conjecture</span> <span class="status open">Open problem</span></h2>
 
 <p><strong>The question.</strong> Pick any positive integer. If it is even, halve it. If it is odd, triple it and add 1. Repeat. Does every starting number eventually reach 1?</p>
 
@@ -167,13 +263,18 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li>Under 100, which start takes the longest? (97, with 118 steps.)</li>
 </ul>
 
+<figure class="traj">
+<svg viewBox="0 0 600 170" role="img" aria-label="Line graph of the Collatz sequence starting at 27: it wanders for 111 steps, climbs to 9,232, then falls to 1."><line class="axis" x1="8" y1="144" x2="592" y2="144"/><polyline class="path" points="8.0,143.7 13.3,143.0 18.5,143.5 23.8,142.5 29.0,143.3 34.3,143.6 39.6,142.9 44.8,143.4 50.1,142.3 55.4,143.2 60.6,141.5 65.9,142.7 71.1,140.2 76.4,142.1 81.7,138.2 86.9,141.1 92.2,142.6 97.4,139.7 102.7,141.8 108.0,142.9 113.2,140.7 118.5,142.4 123.7,139.1 129.0,141.5 134.3,142.8 139.5,140.3 144.8,142.2 150.1,138.4 155.3,141.2 160.6,135.7 165.8,139.8 171.1,141.9 176.4,137.7 181.6,140.9 186.9,134.6 192.1,139.3 197.4,129.9 202.7,136.9 207.9,122.8 213.2,133.4 218.5,138.7 223.7,128.1 229.0,136.0 234.2,140.0 239.5,142.0 244.8,138.0 250.0,141.0 255.3,135.0 260.5,139.5 265.8,130.5 271.1,137.3 276.3,140.6 281.6,133.9 286.8,138.9 292.1,128.8 297.4,136.4 302.6,140.2 307.9,132.6 313.2,138.3 318.4,126.9 323.7,135.4 328.9,118.3 334.2,131.1 339.5,105.4 344.7,124.7 350.0,86.1 355.2,115.1 360.5,57.2 365.8,100.6 371.0,122.3 376.3,133.1 381.5,111.4 386.8,127.7 392.1,95.1 397.3,119.6 402.6,70.7 407.9,107.3 413.1,34.0 418.4,89.0 423.6,116.5 428.9,130.2 434.2,137.1 439.4,123.4 444.7,133.7 449.9,138.8 455.2,128.5 460.5,136.3 465.7,140.1 471.0,132.4 476.3,138.2 481.5,141.1 486.8,142.5 492.0,143.3 497.3,141.8 502.6,142.9 507.8,143.5 513.1,143.7 518.3,143.2 523.6,143.6 528.9,142.7 534.1,143.4 539.4,142.1 544.6,143.0 549.9,143.5 555.2,143.8 560.4,143.9 565.7,143.9 571.0,143.8 576.2,143.9 581.5,144.0 586.7,144.0 592.0,144.0"/><circle class="peak" cx="413.1" cy="34.0" r="5"/><text x="8" y="166">27</text><text x="413.1" y="22.0" text-anchor="middle">9,232</text><text x="592" y="166" text-anchor="end">1</text></svg>
+<figcaption>The path from 27: 111 steps, up to 9,232, then down to 1.</figcaption>
+</figure>
+
 <p><strong>Discussion questions</strong></p>
 
 <ul>
   <li>Why does 1 lead to the loop 4, 2, 1, 4, …? Could any other loop exist?</li>
   <li>Can the sequence grow forever? What would that require?</li>
   <li>Which starting values are “boring”? (Powers of 2 collapse straight to 1.)</li>
-  <li>Change the rule to 3n − 1. What happens? (There are other loops, for example 5, 14, 7, 20, 10, 5.) What does that say about how special 3n + 1 is?</li>
+  <li>Change the rule to 3<var>n</var> − 1. What happens? (There are other loops, for example 5, 14, 7, 20, 10, 5.) What does that say about how special 3<var>n</var> + 1 is?</li>
 </ul>
 
 <p><strong>What is known.</strong> There are four kinds of “known,” and none of them is a proof.</p>
@@ -182,7 +283,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li><strong>Computer checks.</strong> Every starting value up to 2<sup>71</sup> (about 2.4 × 10<sup>21</sup>) reaches 1. Checking this far is evidence, not proof: Pólya’s conjecture on prime factors held up to about 9 × 10<sup>8</sup> and then failed, with smallest counterexample 906,150,257.</li>
   <li><strong>No small loops.</strong> The only known loop is 4, 2, 1. Hercher proved in 2023 that no other loop can have 91 or fewer “up-then-down” blocks, and any such loop would need at least about 7 × 10<sup>10</sup> odd steps. So a counterexample is most likely a sequence that grows forever, and nobody can rule that out.</li>
   <li><strong>“Almost all” results.</strong> Terras (1976) showed that almost all numbers eventually drop below their starting value. Terence Tao (2019) showed that, in a precise statistical sense (logarithmic density), almost all starting numbers eventually drop below any function that goes to infinity, however slowly. The set of possible exceptions is thin, but it is not shown to be empty.</li>
-  <li><strong>A heuristic.</strong> Odd n goes to (3n + 1)/2 and even n goes to n/2, so each step multiplies by about 3/2 or 1/2 with roughly equal odds. The geometric mean is √(3/4) ≈ 0.87, so sequences behave like random walks that drift downward. Compare 5n + 1, where the factor is √(5/4) ≈ 1.12: the drift is upward, and some sequences appear to run off to infinity.</li>
+  <li><strong>A heuristic.</strong> Odd <var>n</var> goes to (3<var>n</var> + 1)/2 and even <var>n</var> goes to <var>n</var>/2, so each step multiplies by about 3/2 or 1/2 with roughly equal odds. The geometric mean is √(3/4) ≈ 0.87, so sequences behave like random walks that drift downward. Compare 5<var>n</var> + 1, where the factor is √(5/4) ≈ 1.12: the drift is upward, and some sequences appear to run off to infinity.</li>
 </ol>
 
 <p><strong>Ask the room:</strong> which rung is most convincing, and which would you accept as “knowing” something in math? What would it take to climb from rung 3 to a proof?</p>
@@ -197,30 +298,30 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <tbody>
     <tr><td>Middle school / Algebra 1</td><td>Arithmetic practice with a mystery. Graph the sequence for a few starts and look at the shape.</td></tr>
     <tr><td>Geometry / Algebra 2</td><td>Parity and “why does every power of 2 work?”; track how many steps each start takes and look for patterns.</td></tr>
-    <tr><td>Precalculus / Statistics</td><td>Plot steps-to-1 for n = 1 to 1000 and discuss the distribution; heuristic argument for why the sequence tends to shrink (half the steps multiply by about 3/2 and half by 1/2, so the typical factor per step is √(3/4) ≈ 0.87, below 1).</td></tr>
+    <tr><td>Precalculus / Statistics</td><td>Plot steps-to-1 for <var>n</var> = 1 to 1000 and discuss the distribution; heuristic argument for why the sequence tends to shrink (half the steps multiply by about 3/2 and half by 1/2, so the typical factor per step is √(3/4) ≈ 0.87, below 1).</td></tr>
     <tr><td>Computer science</td><td>Write the function, memoize it, and search for the longest sequence under a million.</td></tr>
   </tbody>
 </table>
 </div>
 
-<h2 id="euclid">2. Euclid’s proof that there are infinitely many primes</h2>
+<h2 id="euclid"><span class="ht">2. Euclid’s proof that there are infinitely many primes</span> <span class="status proved">Proved</span></h2>
 
 <p><strong>The claim.</strong> No finite list of primes can contain all the primes. This is Proposition 20 of Book IX of Euclid’s Elements, more than 2,000 years old, and still a model of a short, complete proof. Euclid did not say “infinitely many.” He wrote that primes are more than any assigned multitude, and argued for three primes standing in for any finite list.</p>
 
 <p><strong>The argument.</strong></p>
 
 <ol>
-  <li>Take any finite list of primes, say p<sub>1</sub>, p<sub>2</sub>, …, p<sub>n</sub>.</li>
-  <li>Form N = p<sub>1</sub> × p<sub>2</sub> × … × p<sub>n</sub> + 1.</li>
-  <li>N is bigger than 1, so it has at least one prime factor q. (This uses a lemma Euclid proves separately: the smallest divisor of N greater than 1 must itself be prime, since otherwise it would have a smaller divisor.)</li>
-  <li>If q were on the list, it would divide the product, and also divide N, so it would divide the difference, which is 1. That is impossible.</li>
-  <li>So q is a prime not on the list. Every finite list is incomplete.</li>
+  <li>Take any finite list of primes, say <var>p</var><sub>1</sub>, <var>p</var><sub>2</sub>, …, <var>p</var><sub><var>n</var></sub>.</li>
+  <li>Form <var>N</var> = <var>p</var><sub>1</sub> × <var>p</var><sub>2</sub> × … × <var>p</var><sub><var>n</var></sub> + 1.</li>
+  <li><var>N</var> is bigger than 1, so it has at least one prime factor <var>q</var>. (This uses a lemma Euclid proves separately: the smallest divisor of <var>N</var> greater than 1 must itself be prime, since otherwise it would have a smaller divisor.)</li>
+  <li>If <var>q</var> were on the list, it would divide the product, and also divide <var>N</var>, so it would divide the difference, which is 1. That is impossible.</li>
+  <li>So <var>q</var> is a prime not on the list. Every finite list is incomplete.</li>
 </ol>
 
 <p><strong>Common misconceptions to address</strong></p>
 
 <ul>
-  <li>N does not have to be prime. With the first six primes, 2 × 3 × 5 × 7 × 11 × 13 + 1 = 30,031 = 59 × 509. The proof only needs N to have a prime factor outside the list.</li>
+  <li><var>N</var> does not have to be prime. With the first six primes, 2 × 3 × 5 × 7 × 11 × 13 + 1 = 30,031 = 59 × 509. The proof only needs <var>N</var> to have a prime factor outside the list.</li>
   <li>The proof does not tell you how to find the next prime, or say that multiplying primes and adding 1 generates them. It shows only that a new prime always exists.</li>
   <li>It is often presented as proof by contradiction, but it works directly: given any finite list, it produces a prime not on it.</li>
 </ul>
@@ -236,9 +337,9 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <p><strong>Extensions</strong></p>
 
 <ul>
-  <li>Arbitrarily long gaps: for any n, the numbers n! + 2, n! + 3, …, n! + n are all composite. Primes are infinite, yet can have huge empty stretches.</li>
-  <li>Euclid numbers: take the product of the first n primes and add 1. For n = 1 to 5 you get 3, 7, 31, 211, 2,311, all prime, but n = 6 gives 30,031 = 59 × 509. Whether infinitely many of these numbers are prime, or infinitely many are composite, is an open question.</li>
-  <li>Other proofs: Euler showed that the sum of 1/p over all primes diverges, and Furstenberg gave a topological proof in 1955. <cite>Proofs from THE BOOK</cite> collects six different proofs.</li>
+  <li>Arbitrarily long gaps: for any <var>n</var>, the numbers <var>n</var>! + 2, <var>n</var>! + 3, …, <var>n</var>! + <var>n</var> are all composite. Primes are infinite, yet can have huge empty stretches.</li>
+  <li>Euclid numbers: take the product of the first <var>n</var> primes and add 1. For <var>n</var> = 1 to 5 you get 3, 7, 31, 211, 2,311, all prime, but <var>n</var> = 6 gives 30,031 = 59 × 509. Whether infinitely many of these numbers are prime, or infinitely many are composite, is an open question.</li>
+  <li>Other proofs: Euler showed that the sum of 1/<var>p</var> over all primes diverges, and Furstenberg gave a topological proof in 1955. <cite>Proofs from THE BOOK</cite> collects six different proofs.</li>
   <li>Compare with the twin prime and Goldbach questions in the next section: infinitude of primes is solved, but their finer structure is not.</li>
 </ul>
 
@@ -250,7 +351,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <tbody>
     <tr><td>Middle school / Algebra 1</td><td>Factor products-plus-1 by hand; discuss “what is a proof?” vs. checking examples.</td></tr>
     <tr><td>Geometry</td><td>Proof structure: each step justified, parallel to a two-column proof.</td></tr>
-    <tr><td>Algebra 2 / Precalculus</td><td>Divisibility argument in step 4; the n! + k composite-gap argument.</td></tr>
+    <tr><td>Algebra 2 / Precalculus</td><td>Divisibility argument in step 4; the <var>n</var>! + <var>k</var> composite-gap argument.</td></tr>
     <tr><td>Computer science</td><td>Write a program that takes a list of primes and returns a prime not on it; find where brute force gets slow.</td></tr>
   </tbody>
 </table>
@@ -260,7 +361,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 
 <p>Two simple-to-state questions about primes that remain open. The session focuses on Goldbach, with twin primes as a short extension.</p>
 
-<h3 id="goldbach">Goldbach’s conjecture</h3>
+<h3 id="goldbach"><span class="ht">Goldbach’s conjecture</span> <span class="status open">Open problem</span></h3>
 
 <p><strong>The question.</strong> Can every even number greater than 2 be written as the sum of two primes? (Examples: 10 = 3 + 7 = 5 + 5; 28 = 5 + 23 = 11 + 17. Count each partition once, with the smaller prime first.) Christian Goldbach raised it in 1742, in letters exchanged with Euler.</p>
 
@@ -272,16 +373,19 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li>Why only even numbers? When can an odd number be a sum of two primes? (Parity forces one of the primes to be 2.)</li>
 </ul>
 
-<p><strong>Look at the comet.</strong> If you plot the number of partitions against n for even n up to a few thousand, the points spread into bands that widen as n grows, often called the “Goldbach comet.” We will look at a ready-made plot rather than build one. Questions to ask:</p>
+<p><strong>Look at the comet.</strong> If you plot the number of partitions against <var>n</var> for even <var>n</var> up to a few thousand, the points spread into bands that widen as <var>n</var> grows, often called the “Goldbach comet.” We will look at a ready-made plot rather than build one. Questions to ask:</p>
 
 <ul>
-  <li>Why do the counts tend to grow with n?</li>
-  <li>Why is there a clear upper band? (It is the multiples of 3. If n is a multiple of 3 and p is a prime other than 3, then n − p is not a multiple of 3 either, so every such p survives the mod 3 filter. If n ≡ 1 or 2 (mod 3), only half of the primes p do, so multiples of 3 have roughly twice as many partitions.)</li>
+  <li>Why do the counts tend to grow with <var>n</var>?</li>
+  <li>Why is there a clear upper band? (It is the multiples of 3. If <var>n</var> is a multiple of 3 and <var>p</var> is a prime other than 3, then <var>n</var> − <var>p</var> is not a multiple of 3 either, so every such <var>p</var> survives the mod 3 filter. If <var>n</var> ≡ 1 or 2 (mod 3), only half of the primes <var>p</var> do, so multiples of 3 have roughly twice as many partitions.)</li>
 </ul>
 
-<p class="callout"><a href="goldbach-comet.html">Open the interactive Goldbach comet</a>: a plot of how many ways each even number is a sum of two primes. Hover over or tap a dot to see the sums, and use the color options to show the bands.</p>
+<figure class="comet-card">
+<a class="thumb" href="goldbach-comet.html" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 220" aria-hidden="true" focusable="false"><path class="d0" d="M6.8 211.7h2v2h-2zM7.6 211.7h2v2h-2zM7.9 209.4h2v2h-2zM8.7 209.4h2v2h-2zM9.1 209.4h2v2h-2zM9.9 209.4h2v2h-2zM10.3 207.1h2v2h-2zM11.0 207.1h2v2h-2zM11.4 209.4h2v2h-2zM12.2 209.4h2v2h-2zM12.6 204.9h2v2h-2zM13.4 209.4h2v2h-2zM13.8 207.1h2v2h-2zM14.5 207.1h2v2h-2zM14.9 204.9h2v2h-2zM15.7 204.9h2v2h-2zM16.1 207.1h2v2h-2zM16.9 207.1h2v2h-2zM17.3 204.9h2v2h-2zM18.0 207.1h2v2h-2zM18.4 202.6h2v2h-2zM19.2 209.4h2v2h-2zM19.6 202.6h2v2h-2zM20.4 202.6h2v2h-2zM20.7 202.6h2v2h-2zM21.5 204.9h2v2h-2zM21.9 202.6h2v2h-2zM22.7 202.6h2v2h-2zM23.1 204.9h2v2h-2zM23.8 204.9h2v2h-2zM24.2 202.6h2v2h-2zM25.0 207.1h2v2h-2zM25.4 200.3h2v2h-2zM26.2 202.6h2v2h-2zM26.6 200.3h2v2h-2zM27.3 200.3h2v2h-2zM27.7 198.0h2v2h-2zM28.5 200.3h2v2h-2zM28.9 200.3h2v2h-2zM29.7 204.9h2v2h-2zM30.1 202.6h2v2h-2zM30.8 207.1h2v2h-2zM31.2 198.0h2v2h-2zM32.0 200.3h2v2h-2zM32.4 202.6h2v2h-2zM33.2 198.0h2v2h-2zM33.5 195.7h2v2h-2zM34.3 200.3h2v2h-2zM34.7 202.6h2v2h-2zM35.5 204.9h2v2h-2zM35.9 195.7h2v2h-2zM36.7 202.6h2v2h-2zM37.0 195.7h2v2h-2zM37.8 202.6h2v2h-2zM38.2 200.3h2v2h-2zM39.0 193.4h2v2h-2zM39.4 200.3h2v2h-2zM40.1 198.0h2v2h-2zM40.5 198.0h2v2h-2zM41.3 200.3h2v2h-2zM41.7 195.7h2v2h-2zM42.5 202.6h2v2h-2zM42.9 195.7h2v2h-2zM43.6 198.0h2v2h-2zM44.0 193.4h2v2h-2zM44.8 195.7h2v2h-2zM45.2 193.4h2v2h-2zM46.0 198.0h2v2h-2zM46.4 198.0h2v2h-2zM47.1 200.3h2v2h-2zM47.5 195.7h2v2h-2zM48.3 198.0h2v2h-2zM48.7 193.4h2v2h-2zM49.5 198.0h2v2h-2zM49.8 198.0h2v2h-2zM50.6 193.4h2v2h-2zM51.0 198.0h2v2h-2zM51.8 193.4h2v2h-2zM52.2 193.4h2v2h-2zM52.9 195.7h2v2h-2zM53.3 193.4h2v2h-2zM54.1 200.3h2v2h-2zM54.5 193.4h2v2h-2zM55.3 193.4h2v2h-2zM55.7 195.7h2v2h-2zM56.4 191.1h2v2h-2zM56.8 193.4h2v2h-2zM57.6 195.7h2v2h-2zM58.0 193.4h2v2h-2zM58.8 198.0h2v2h-2zM59.2 188.9h2v2h-2zM59.9 198.0h2v2h-2zM60.3 182.0h2v2h-2zM61.1 195.7h2v2h-2zM61.5 186.6h2v2h-2zM62.3 191.1h2v2h-2zM62.6 195.7h2v2h-2zM63.4 195.7h2v2h-2zM63.8 188.9h2v2h-2zM64.6 193.4h2v2h-2zM65.0 191.1h2v2h-2zM65.8 195.7h2v2h-2zM66.1 186.6h2v2h-2zM66.9 193.4h2v2h-2zM67.3 191.1h2v2h-2zM68.1 188.9h2v2h-2zM68.5 188.9h2v2h-2zM69.2 198.0h2v2h-2zM69.6 191.1h2v2h-2zM70.4 200.3h2v2h-2zM70.8 188.9h2v2h-2zM71.6 193.4h2v2h-2zM72.0 184.3h2v2h-2zM72.7 191.1h2v2h-2zM73.1 193.4h2v2h-2zM73.9 184.3h2v2h-2zM74.3 191.1h2v2h-2zM75.1 193.4h2v2h-2zM75.5 191.1h2v2h-2zM76.2 195.7h2v2h-2zM76.6 182.0h2v2h-2zM77.4 195.7h2v2h-2zM77.8 182.0h2v2h-2zM78.6 191.1h2v2h-2zM78.9 188.9h2v2h-2zM79.7 184.3h2v2h-2zM80.1 191.1h2v2h-2zM80.9 186.6h2v2h-2zM81.3 193.4h2v2h-2zM82.0 188.9h2v2h-2zM82.4 188.9h2v2h-2zM83.2 198.0h2v2h-2zM83.6 182.0h2v2h-2zM84.4 188.9h2v2h-2zM84.8 184.3h2v2h-2zM85.5 184.3h2v2h-2zM85.9 188.9h2v2h-2zM86.7 191.1h2v2h-2zM87.1 188.9h2v2h-2zM87.9 188.9h2v2h-2zM88.3 186.6h2v2h-2zM89.0 193.4h2v2h-2zM89.4 182.0h2v2h-2zM90.2 184.3h2v2h-2zM90.6 188.9h2v2h-2zM91.4 182.0h2v2h-2zM91.7 184.3h2v2h-2zM92.5 186.6h2v2h-2zM92.9 184.3h2v2h-2zM93.7 186.6h2v2h-2zM94.1 186.6h2v2h-2zM94.9 193.4h2v2h-2zM95.2 177.4h2v2h-2zM96.0 186.6h2v2h-2zM96.4 184.3h2v2h-2zM97.2 179.7h2v2h-2zM97.6 184.3h2v2h-2zM98.3 182.0h2v2h-2zM98.7 188.9h2v2h-2zM99.5 188.9h2v2h-2zM99.9 182.0h2v2h-2zM100.7 193.4h2v2h-2zM101.1 170.6h2v2h-2zM101.8 184.3h2v2h-2zM102.2 184.3h2v2h-2zM103.0 184.3h2v2h-2zM103.4 179.7h2v2h-2zM104.2 179.7h2v2h-2zM104.6 182.0h2v2h-2zM105.3 188.9h2v2h-2zM105.7 182.0h2v2h-2zM106.5 188.9h2v2h-2zM106.9 175.1h2v2h-2zM107.7 188.9h2v2h-2zM108.0 179.7h2v2h-2zM108.8 182.0h2v2h-2zM109.2 175.1h2v2h-2zM110.0 184.3h2v2h-2zM110.4 182.0h2v2h-2zM111.1 191.1h2v2h-2zM111.5 184.3h2v2h-2zM112.3 188.9h2v2h-2zM112.7 170.6h2v2h-2zM113.5 188.9h2v2h-2zM113.9 188.9h2v2h-2zM114.6 172.9h2v2h-2zM115.0 182.0h2v2h-2zM115.8 184.3h2v2h-2zM116.2 184.3h2v2h-2zM117.0 188.9h2v2h-2zM117.4 177.4h2v2h-2zM118.1 186.6h2v2h-2zM118.5 170.6h2v2h-2zM119.3 186.6h2v2h-2zM119.7 184.3h2v2h-2zM120.5 177.4h2v2h-2zM120.8 179.7h2v2h-2zM121.6 186.6h2v2h-2zM122.0 179.7h2v2h-2zM122.8 186.6h2v2h-2zM123.2 182.0h2v2h-2zM124.0 184.3h2v2h-2zM124.3 168.3h2v2h-2zM125.1 179.7h2v2h-2zM125.5 170.6h2v2h-2zM126.3 172.9h2v2h-2zM126.7 175.1h2v2h-2zM127.4 186.6h2v2h-2zM127.8 177.4h2v2h-2zM128.6 191.1h2v2h-2zM129.0 182.0h2v2h-2zM129.8 179.7h2v2h-2zM130.2 172.9h2v2h-2zM130.9 175.1h2v2h-2zM131.3 177.4h2v2h-2zM132.1 166.0h2v2h-2zM132.5 179.7h2v2h-2zM133.3 184.3h2v2h-2zM133.7 170.6h2v2h-2zM134.4 182.0h2v2h-2zM134.8 177.4h2v2h-2zM135.6 188.9h2v2h-2zM136.0 166.0h2v2h-2zM136.8 179.7h2v2h-2zM137.1 175.1h2v2h-2zM137.9 166.0h2v2h-2zM138.3 177.4h2v2h-2zM139.1 177.4h2v2h-2zM139.5 177.4h2v2h-2zM140.2 188.9h2v2h-2zM140.6 170.6h2v2h-2zM141.4 182.0h2v2h-2zM141.8 159.1h2v2h-2zM142.6 172.9h2v2h-2zM143.0 170.6h2v2h-2zM143.7 177.4h2v2h-2zM144.1 175.1h2v2h-2zM144.9 182.0h2v2h-2zM145.3 179.7h2v2h-2zM146.1 182.0h2v2h-2zM146.5 179.7h2v2h-2zM147.2 179.7h2v2h-2zM147.6 166.0h2v2h-2zM148.4 179.7h2v2h-2zM148.8 170.6h2v2h-2zM149.6 172.9h2v2h-2zM149.9 170.6h2v2h-2zM150.7 172.9h2v2h-2zM151.1 170.6h2v2h-2zM151.9 182.0h2v2h-2zM152.3 175.1h2v2h-2zM153.1 179.7h2v2h-2zM153.4 166.0h2v2h-2zM154.2 175.1h2v2h-2zM154.6 175.1h2v2h-2zM155.4 154.6h2v2h-2zM155.8 172.9h2v2h-2zM156.5 177.4h2v2h-2zM156.9 179.7h2v2h-2zM157.7 182.0h2v2h-2zM158.1 172.9h2v2h-2zM158.9 179.7h2v2h-2zM159.3 163.7h2v2h-2zM160.0 175.1h2v2h-2zM160.4 182.0h2v2h-2zM161.2 166.0h2v2h-2zM161.6 177.4h2v2h-2zM162.4 177.4h2v2h-2zM162.8 182.0h2v2h-2zM163.5 172.9h2v2h-2zM163.9 168.3h2v2h-2zM164.7 175.1h2v2h-2zM165.1 168.3h2v2h-2zM165.9 177.4h2v2h-2zM166.2 166.0h2v2h-2zM167.0 163.7h2v2h-2zM167.4 163.7h2v2h-2zM168.2 172.9h2v2h-2zM168.6 175.1h2v2h-2zM169.3 172.9h2v2h-2zM169.7 175.1h2v2h-2zM170.5 179.7h2v2h-2zM170.9 156.9h2v2h-2zM171.7 168.3h2v2h-2zM172.1 170.6h2v2h-2zM172.8 172.9h2v2h-2zM173.2 175.1h2v2h-2zM174.0 175.1h2v2h-2zM174.4 166.0h2v2h-2zM175.2 172.9h2v2h-2zM175.6 170.6h2v2h-2zM176.3 182.0h2v2h-2zM176.7 156.9h2v2h-2zM177.5 166.0h2v2h-2zM177.9 172.9h2v2h-2zM178.7 161.4h2v2h-2zM179.0 170.6h2v2h-2zM179.8 168.3h2v2h-2zM180.2 170.6h2v2h-2zM181.0 179.7h2v2h-2zM181.4 175.1h2v2h-2zM182.2 179.7h2v2h-2zM182.5 143.1h2v2h-2zM183.3 168.3h2v2h-2zM183.7 172.9h2v2h-2zM184.5 161.4h2v2h-2zM184.9 168.3h2v2h-2zM185.6 172.9h2v2h-2zM186.0 172.9h2v2h-2zM186.8 175.1h2v2h-2zM187.2 168.3h2v2h-2zM188.0 172.9h2v2h-2zM188.4 159.1h2v2h-2zM189.1 172.9h2v2h-2zM189.5 168.3h2v2h-2zM190.3 156.9h2v2h-2zM190.7 161.4h2v2h-2zM191.5 170.6h2v2h-2zM191.9 163.7h2v2h-2zM192.6 177.4h2v2h-2zM193.0 172.9h2v2h-2zM193.8 175.1h2v2h-2zM194.2 152.3h2v2h-2zM195.0 175.1h2v2h-2zM195.3 170.6h2v2h-2zM196.1 154.6h2v2h-2zM196.5 175.1h2v2h-2zM197.3 168.3h2v2h-2zM197.7 161.4h2v2h-2zM198.4 184.3h2v2h-2zM198.8 156.9h2v2h-2zM199.6 175.1h2v2h-2zM200.0 150.0h2v2h-2zM200.8 172.9h2v2h-2zM201.2 172.9h2v2h-2zM201.9 156.9h2v2h-2zM202.3 161.4h2v2h-2zM203.1 172.9h2v2h-2zM203.5 168.3h2v2h-2zM204.3 172.9h2v2h-2zM204.7 163.7h2v2h-2zM205.4 172.9h2v2h-2zM205.8 156.9h2v2h-2zM206.6 166.0h2v2h-2zM207.0 152.3h2v2h-2zM207.8 154.6h2v2h-2zM208.1 163.7h2v2h-2zM208.9 170.6h2v2h-2zM209.3 170.6h2v2h-2zM210.1 172.9h2v2h-2zM210.5 159.1h2v2h-2zM211.3 170.6h2v2h-2zM211.6 152.3h2v2h-2zM212.4 159.1h2v2h-2zM212.8 159.1h2v2h-2zM213.6 156.9h2v2h-2zM214.0 166.0h2v2h-2zM214.7 168.3h2v2h-2zM215.1 152.3h2v2h-2zM215.9 168.3h2v2h-2zM216.3 166.0h2v2h-2zM217.1 172.9h2v2h-2zM217.5 154.6h2v2h-2zM218.2 161.4h2v2h-2zM218.6 172.9h2v2h-2zM219.4 150.0h2v2h-2zM219.8 159.1h2v2h-2zM220.6 156.9h2v2h-2zM221.0 156.9h2v2h-2zM221.7 177.4h2v2h-2zM222.1 161.4h2v2h-2zM222.9 163.7h2v2h-2zM223.3 136.3h2v2h-2zM224.1 170.6h2v2h-2zM224.4 161.4h2v2h-2zM225.2 154.6h2v2h-2zM225.6 163.7h2v2h-2zM226.4 161.4h2v2h-2zM226.8 168.3h2v2h-2zM227.5 172.9h2v2h-2zM227.9 159.1h2v2h-2zM228.7 154.6h2v2h-2zM229.1 152.3h2v2h-2zM229.9 170.6h2v2h-2zM230.3 163.7h2v2h-2zM231.0 147.7h2v2h-2zM231.4 156.9h2v2h-2zM232.2 159.1h2v2h-2zM232.6 163.7h2v2h-2zM233.4 172.9h2v2h-2zM233.8 163.7h2v2h-2zM234.5 170.6h2v2h-2zM234.9 154.6h2v2h-2zM235.7 168.3h2v2h-2zM236.1 168.3h2v2h-2zM236.9 138.6h2v2h-2zM237.2 161.4h2v2h-2zM238.0 159.1h2v2h-2zM238.4 159.1h2v2h-2zM239.2 170.6h2v2h-2zM239.6 150.0h2v2h-2zM240.4 168.3h2v2h-2zM240.7 140.9h2v2h-2zM241.5 163.7h2v2h-2zM241.9 166.0h2v2h-2zM242.7 152.3h2v2h-2zM243.1 156.9h2v2h-2zM243.8 163.7h2v2h-2zM244.2 163.7h2v2h-2zM245.0 150.0h2v2h-2zM245.4 156.9h2v2h-2zM246.2 172.9h2v2h-2zM246.6 136.3h2v2h-2zM247.3 161.4h2v2h-2zM247.7 154.6h2v2h-2zM248.5 150.0h2v2h-2zM248.9 161.4h2v2h-2zM249.7 168.3h2v2h-2zM250.1 166.0h2v2h-2zM250.8 163.7h2v2h-2zM251.2 154.6h2v2h-2zM252.0 166.0h2v2h-2zM252.4 152.3h2v2h-2zM253.2 154.6h2v2h-2zM253.5 156.9h2v2h-2zM254.3 152.3h2v2h-2zM254.7 154.6h2v2h-2zM255.5 163.7h2v2h-2zM255.9 147.7h2v2h-2zM256.6 161.4h2v2h-2zM257.0 154.6h2v2h-2zM257.8 168.3h2v2h-2zM258.2 138.6h2v2h-2zM259.0 159.1h2v2h-2zM259.4 159.1h2v2h-2zM260.1 145.4h2v2h-2zM260.5 161.4h2v2h-2zM261.3 152.3h2v2h-2zM261.7 154.6h2v2h-2zM262.5 166.0h2v2h-2zM262.9 154.6h2v2h-2zM263.6 163.7h2v2h-2zM264.0 120.3h2v2h-2zM264.8 156.9h2v2h-2zM265.2 156.9h2v2h-2zM266.0 152.3h2v2h-2zM266.3 152.3h2v2h-2zM267.1 156.9h2v2h-2zM267.5 163.7h2v2h-2zM268.3 163.7h2v2h-2zM268.7 166.0h2v2h-2zM269.5 159.1h2v2h-2zM269.8 138.6h2v2h-2zM270.6 152.3h2v2h-2zM271.0 152.3h2v2h-2zM271.8 150.0h2v2h-2zM272.2 152.3h2v2h-2zM272.9 161.4h2v2h-2zM273.3 152.3h2v2h-2zM274.1 168.3h2v2h-2zM274.5 159.1h2v2h-2zM275.3 168.3h2v2h-2zM275.7 145.4h2v2h-2zM276.4 159.1h2v2h-2zM276.8 159.1h2v2h-2zM277.6 136.3h2v2h-2zM278.0 152.3h2v2h-2zM278.8 161.4h2v2h-2zM279.2 156.9h2v2h-2zM279.9 172.9h2v2h-2zM280.3 145.4h2v2h-2zM281.1 168.3h2v2h-2zM281.5 136.3h2v2h-2zM282.3 163.7h2v2h-2zM282.6 161.4h2v2h-2zM283.4 134.0h2v2h-2zM283.8 156.9h2v2h-2zM284.6 163.7h2v2h-2zM285.0 161.4h2v2h-2zM285.7 152.3h2v2h-2zM286.1 150.0h2v2h-2zM286.9 168.3h2v2h-2zM287.3 131.7h2v2h-2zM288.1 154.6h2v2h-2zM288.5 136.3h2v2h-2zM289.2 138.6h2v2h-2zM289.6 147.7h2v2h-2zM290.4 156.9h2v2h-2zM290.8 159.1h2v2h-2zM291.6 163.7h2v2h-2zM292.0 145.4h2v2h-2zM292.7 154.6h2v2h-2zM293.1 136.3h2v2h-2zM293.9 147.7h2v2h-2zM294.3 156.9h2v2h-2zM295.1 143.1h2v2h-2zM295.4 152.3h2v2h-2zM296.2 150.0h2v2h-2zM296.6 140.9h2v2h-2zM297.4 152.3h2v2h-2zM297.8 152.3h2v2h-2zM298.6 156.9h2v2h-2zM298.9 138.6h2v2h-2zM299.7 161.4h2v2h-2zM300.1 154.6h2v2h-2zM300.9 143.1h2v2h-2zM301.3 152.3h2v2h-2zM302.0 150.0h2v2h-2zM302.4 152.3h2v2h-2zM303.2 163.7h2v2h-2zM303.6 140.9h2v2h-2zM304.4 154.6h2v2h-2zM304.8 108.9h2v2h-2zM305.5 166.0h2v2h-2zM305.9 145.4h2v2h-2zM306.7 143.1h2v2h-2zM307.1 150.0h2v2h-2zM307.9 159.1h2v2h-2zM308.3 156.9h2v2h-2zM309.0 147.7h2v2h-2zM309.4 150.0h2v2h-2zM310.2 156.9h2v2h-2zM310.6 127.1h2v2h-2zM311.4 161.4h2v2h-2zM311.7 154.6h2v2h-2zM312.5 143.1h2v2h-2zM312.9 136.3h2v2h-2zM313.7 150.0h2v2h-2zM314.1 154.6h2v2h-2zM314.8 156.9h2v2h-2zM315.2 152.3h2v2h-2zM316.0 159.1h2v2h-2zM316.4 131.7h2v2h-2zM317.2 161.4h2v2h-2zM317.6 145.4h2v2h-2zM318.3 118.0h2v2h-2zM318.7 134.0h2v2h-2zM319.5 152.3h2v2h-2zM319.9 140.9h2v2h-2zM320.7 159.1h2v2h-2zM321.1 134.0h2v2h-2zM321.8 147.7h2v2h-2zM322.2 122.6h2v2h-2zM323.0 152.3h2v2h-2zM323.4 152.3h2v2h-2zM324.2 134.0h2v2h-2zM324.5 152.3h2v2h-2zM325.3 154.6h2v2h-2zM325.7 150.0h2v2h-2zM326.5 150.0h2v2h-2zM326.9 143.1h2v2h-2zM327.7 152.3h2v2h-2zM328.0 124.9h2v2h-2zM328.8 150.0h2v2h-2zM329.2 136.3h2v2h-2zM330.0 129.4h2v2h-2zM330.4 134.0h2v2h-2zM331.1 150.0h2v2h-2zM331.5 143.1h2v2h-2zM332.3 159.1h2v2h-2zM332.7 143.1h2v2h-2zM333.5 154.6h2v2h-2zM333.9 129.4h2v2h-2zM334.6 140.9h2v2h-2zM335.0 150.0h2v2h-2zM335.8 136.3h2v2h-2zM336.2 145.4h2v2h-2zM337.0 145.4h2v2h-2zM337.4 140.9h2v2h-2zM338.1 154.6h2v2h-2zM338.5 152.3h2v2h-2zM339.3 166.0h2v2h-2zM339.7 127.1h2v2h-2zM340.5 147.7h2v2h-2zM340.8 143.1h2v2h-2zM341.6 131.7h2v2h-2zM342.0 156.9h2v2h-2zM342.8 134.0h2v2h-2zM343.2 138.6h2v2h-2zM343.9 156.9h2v2h-2zM344.3 138.6h2v2h-2zM345.1 156.9h2v2h-2zM345.5 104.3h2v2h-2zM346.3 152.3h2v2h-2zM346.7 145.4h2v2h-2zM347.4 120.3h2v2h-2zM347.8 147.7h2v2h-2zM348.6 140.9h2v2h-2zM349.0 143.1h2v2h-2zM349.8 150.0h2v2h-2zM350.2 152.3h2v2h-2zM350.9 138.6h2v2h-2zM351.3 129.4h2v2h-2zM352.1 156.9h2v2h-2zM352.5 145.4h2v2h-2zM353.3 131.7h2v2h-2zM353.6 131.7h2v2h-2zM354.4 143.1h2v2h-2zM354.8 152.3h2v2h-2zM355.6 143.1h2v2h-2zM356.0 143.1h2v2h-2zM356.8 150.0h2v2h-2zM357.1 131.7h2v2h-2zM357.9 150.0h2v2h-2zM358.3 152.3h2v2h-2zM359.1 108.9h2v2h-2zM359.5 152.3h2v2h-2zM360.2 138.6h2v2h-2zM360.6 147.7h2v2h-2zM361.4 156.9h2v2h-2zM361.8 136.3h2v2h-2zM362.6 150.0h2v2h-2zM363.0 129.4h2v2h-2zM363.7 140.9h2v2h-2zM364.1 150.0h2v2h-2zM364.9 127.1h2v2h-2zM365.3 150.0h2v2h-2zM366.1 140.9h2v2h-2zM366.5 147.7h2v2h-2zM367.2 136.3h2v2h-2zM367.6 140.9h2v2h-2zM368.4 150.0h2v2h-2zM368.8 115.7h2v2h-2zM369.6 145.4h2v2h-2zM369.9 131.7h2v2h-2zM370.7 127.1h2v2h-2zM371.1 138.6h2v2h-2zM371.9 145.4h2v2h-2zM372.3 150.0h2v2h-2zM373.0 134.0h2v2h-2zM373.4 140.9h2v2h-2zM374.2 138.6h2v2h-2zM374.6 131.7h2v2h-2zM375.4 131.7h2v2h-2zM375.8 145.4h2v2h-2zM376.5 131.7h2v2h-2zM376.9 145.4h2v2h-2zM377.7 150.0h2v2h-2zM378.1 134.0h2v2h-2zM378.9 145.4h2v2h-2zM379.3 136.3h2v2h-2zM380.0 145.4h2v2h-2zM380.4 124.9h2v2h-2zM381.2 150.0h2v2h-2zM381.6 138.6h2v2h-2zM382.4 120.3h2v2h-2zM382.7 145.4h2v2h-2zM383.5 136.3h2v2h-2zM383.9 143.1h2v2h-2zM384.7 147.7h2v2h-2zM385.1 134.0h2v2h-2zM385.9 152.3h2v2h-2zM386.2 104.3h2v2h-2zM387.0 154.6h2v2h-2zM387.4 147.7h2v2h-2zM388.2 127.1h2v2h-2zM388.6 140.9h2v2h-2zM389.3 138.6h2v2h-2zM389.7 140.9h2v2h-2zM390.5 145.4h2v2h-2zM390.9 140.9h2v2h-2zM391.7 145.4h2v2h-2zM392.1 118.0h2v2h-2zM392.8 152.3h2v2h-2zM393.2 150.0h2v2h-2zM394.0 129.4h2v2h-2z"/><path class="d1" d="M7.2 211.7h2v2h-2zM8.3 211.7h2v2h-2zM9.5 209.4h2v2h-2zM10.7 207.1h2v2h-2zM11.8 207.1h2v2h-2zM13.0 204.9h2v2h-2zM14.1 204.9h2v2h-2zM15.3 202.6h2v2h-2zM16.5 202.6h2v2h-2zM17.6 200.3h2v2h-2zM18.8 200.3h2v2h-2zM20.0 200.3h2v2h-2zM21.1 198.0h2v2h-2zM22.3 195.7h2v2h-2zM23.5 193.4h2v2h-2zM24.6 198.0h2v2h-2zM25.8 195.7h2v2h-2zM27.0 195.7h2v2h-2zM28.1 191.1h2v2h-2zM29.3 186.6h2v2h-2zM30.4 191.1h2v2h-2zM31.6 193.4h2v2h-2zM32.8 195.7h2v2h-2zM33.9 188.9h2v2h-2zM35.1 186.6h2v2h-2zM36.3 188.9h2v2h-2zM37.4 191.1h2v2h-2zM38.6 184.3h2v2h-2zM39.8 188.9h2v2h-2zM40.9 182.0h2v2h-2zM42.1 184.3h2v2h-2zM43.2 188.9h2v2h-2zM44.4 184.3h2v2h-2zM45.6 182.0h2v2h-2zM46.7 170.6h2v2h-2zM47.9 184.3h2v2h-2zM49.1 188.9h2v2h-2zM50.2 186.6h2v2h-2zM51.4 179.7h2v2h-2zM52.6 172.9h2v2h-2zM53.7 177.4h2v2h-2zM54.9 177.4h2v2h-2zM56.1 182.0h2v2h-2zM57.2 177.4h2v2h-2zM58.4 170.6h2v2h-2zM59.5 177.4h2v2h-2zM60.7 177.4h2v2h-2zM61.9 175.1h2v2h-2zM63.0 170.6h2v2h-2zM64.2 166.0h2v2h-2zM65.4 179.7h2v2h-2zM66.5 175.1h2v2h-2zM67.7 179.7h2v2h-2zM68.9 168.3h2v2h-2zM70.0 159.1h2v2h-2zM71.2 170.6h2v2h-2zM72.3 175.1h2v2h-2zM73.5 177.4h2v2h-2zM74.7 168.3h2v2h-2zM75.8 163.7h2v2h-2zM77.0 172.9h2v2h-2zM78.2 172.9h2v2h-2zM79.3 163.7h2v2h-2zM80.5 170.6h2v2h-2zM81.7 152.3h2v2h-2zM82.8 166.0h2v2h-2zM84.0 175.1h2v2h-2zM85.2 168.3h2v2h-2zM86.3 166.0h2v2h-2zM87.5 145.4h2v2h-2zM88.6 166.0h2v2h-2zM89.8 170.6h2v2h-2zM91.0 166.0h2v2h-2zM92.1 166.0h2v2h-2zM93.3 152.3h2v2h-2zM94.5 159.1h2v2h-2zM95.6 150.0h2v2h-2zM96.8 159.1h2v2h-2zM98.0 161.4h2v2h-2zM99.1 147.7h2v2h-2zM100.3 161.4h2v2h-2zM101.4 163.7h2v2h-2zM102.6 161.4h2v2h-2zM103.8 152.3h2v2h-2zM104.9 140.9h2v2h-2zM106.1 161.4h2v2h-2zM107.3 159.1h2v2h-2zM108.4 156.9h2v2h-2zM109.6 163.7h2v2h-2zM110.8 145.4h2v2h-2zM111.9 145.4h2v2h-2zM113.1 161.4h2v2h-2zM114.3 161.4h2v2h-2zM115.4 159.1h2v2h-2zM116.6 143.1h2v2h-2zM117.7 154.6h2v2h-2zM118.9 156.9h2v2h-2zM120.1 147.7h2v2h-2zM121.2 152.3h2v2h-2zM122.4 140.9h2v2h-2zM123.6 152.3h2v2h-2zM124.7 154.6h2v2h-2zM125.9 154.6h2v2h-2zM127.1 143.1h2v2h-2zM128.2 120.3h2v2h-2zM129.4 150.0h2v2h-2zM130.5 156.9h2v2h-2zM131.7 152.3h2v2h-2zM132.9 147.7h2v2h-2zM134.0 120.3h2v2h-2zM135.2 143.1h2v2h-2zM136.4 138.6h2v2h-2zM137.5 150.0h2v2h-2zM138.7 145.4h2v2h-2zM139.9 124.9h2v2h-2zM141.0 145.4h2v2h-2zM142.2 143.1h2v2h-2zM143.4 159.1h2v2h-2zM144.5 129.4h2v2h-2zM145.7 124.9h2v2h-2zM146.8 143.1h2v2h-2zM148.0 143.1h2v2h-2zM149.2 147.7h2v2h-2zM150.3 143.1h2v2h-2zM151.5 124.9h2v2h-2zM152.7 134.0h2v2h-2zM153.8 145.4h2v2h-2zM155.0 143.1h2v2h-2zM156.2 140.9h2v2h-2zM157.3 113.4h2v2h-2zM158.5 145.4h2v2h-2zM159.6 136.3h2v2h-2zM160.8 127.1h2v2h-2zM162.0 140.9h2v2h-2zM163.1 124.9h2v2h-2zM164.3 136.3h2v2h-2zM165.5 147.7h2v2h-2zM166.6 136.3h2v2h-2zM167.8 138.6h2v2h-2zM169.0 97.4h2v2h-2zM170.1 140.9h2v2h-2zM171.3 143.1h2v2h-2zM172.5 124.9h2v2h-2zM173.6 138.6h2v2h-2zM174.8 108.9h2v2h-2zM175.9 131.7h2v2h-2zM177.1 124.9h2v2h-2zM178.3 129.4h2v2h-2zM179.4 136.3h2v2h-2zM180.6 104.3h2v2h-2zM181.8 136.3h2v2h-2zM182.9 143.1h2v2h-2zM184.1 134.0h2v2h-2zM185.3 106.6h2v2h-2zM186.4 115.7h2v2h-2zM187.6 131.7h2v2h-2zM188.7 136.3h2v2h-2zM189.9 138.6h2v2h-2zM191.1 129.4h2v2h-2zM192.2 111.1h2v2h-2zM193.4 111.1h2v2h-2zM194.6 140.9h2v2h-2zM195.7 134.0h2v2h-2zM196.9 124.9h2v2h-2zM198.1 95.1h2v2h-2zM199.2 129.4h2v2h-2zM200.4 131.7h2v2h-2zM201.6 118.0h2v2h-2zM202.7 124.9h2v2h-2zM203.9 97.4h2v2h-2zM205.0 118.0h2v2h-2zM206.2 131.7h2v2h-2zM207.4 122.6h2v2h-2zM208.5 124.9h2v2h-2zM209.7 83.7h2v2h-2zM210.9 113.4h2v2h-2zM212.0 129.4h2v2h-2zM213.2 124.9h2v2h-2zM214.4 122.6h2v2h-2zM215.5 90.6h2v2h-2zM216.7 124.9h2v2h-2zM217.8 104.3h2v2h-2zM219.0 122.6h2v2h-2zM220.2 113.4h2v2h-2zM221.3 90.6h2v2h-2zM222.5 120.3h2v2h-2zM223.7 106.6h2v2h-2zM224.8 124.9h2v2h-2zM226.0 102.0h2v2h-2zM227.2 81.4h2v2h-2zM228.3 127.1h2v2h-2zM229.5 131.7h2v2h-2zM230.7 118.0h2v2h-2zM231.8 115.7h2v2h-2zM233.0 81.4h2v2h-2zM234.1 102.0h2v2h-2zM235.3 122.6h2v2h-2zM236.5 115.7h2v2h-2zM237.6 111.1h2v2h-2zM238.8 90.6h2v2h-2zM240.0 115.7h2v2h-2zM241.1 118.0h2v2h-2zM242.3 102.0h2v2h-2zM243.5 111.1h2v2h-2zM244.6 88.3h2v2h-2zM245.8 118.0h2v2h-2zM246.9 113.4h2v2h-2zM248.1 111.1h2v2h-2zM249.3 97.4h2v2h-2zM250.4 58.6h2v2h-2zM251.6 118.0h2v2h-2zM252.8 122.6h2v2h-2zM253.9 118.0h2v2h-2zM255.1 108.9h2v2h-2zM256.3 76.9h2v2h-2zM257.4 102.0h2v2h-2zM258.6 92.9h2v2h-2zM259.8 108.9h2v2h-2zM260.9 108.9h2v2h-2zM262.1 63.1h2v2h-2zM263.2 92.9h2v2h-2zM264.4 106.6h2v2h-2zM265.6 111.1h2v2h-2zM266.7 90.6h2v2h-2zM267.9 76.9h2v2h-2zM269.1 120.3h2v2h-2zM270.2 113.4h2v2h-2zM271.4 104.3h2v2h-2zM272.6 106.6h2v2h-2zM273.7 74.6h2v2h-2zM274.9 79.1h2v2h-2zM276.0 113.4h2v2h-2zM277.2 111.1h2v2h-2zM278.4 104.3h2v2h-2zM279.5 81.4h2v2h-2zM280.7 106.6h2v2h-2zM281.9 120.3h2v2h-2zM283.0 83.7h2v2h-2zM284.2 99.7h2v2h-2zM285.4 76.9h2v2h-2zM286.5 111.1h2v2h-2zM287.7 102.0h2v2h-2zM288.9 104.3h2v2h-2zM290.0 106.6h2v2h-2zM291.2 47.1h2v2h-2zM292.3 97.4h2v2h-2zM293.5 95.1h2v2h-2zM294.7 95.1h2v2h-2zM295.8 99.7h2v2h-2zM297.0 60.9h2v2h-2zM298.2 97.4h2v2h-2zM299.3 79.1h2v2h-2zM300.5 86.0h2v2h-2zM301.7 104.3h2v2h-2zM302.8 56.3h2v2h-2zM304.0 106.6h2v2h-2zM305.1 108.9h2v2h-2zM306.3 97.4h2v2h-2zM307.5 72.3h2v2h-2zM308.6 49.4h2v2h-2zM309.8 97.4h2v2h-2zM311.0 83.7h2v2h-2zM312.1 106.6h2v2h-2zM313.3 81.4h2v2h-2zM314.5 51.7h2v2h-2zM315.6 67.7h2v2h-2zM316.8 92.9h2v2h-2zM318.0 106.6h2v2h-2zM319.1 92.9h2v2h-2zM320.3 65.4h2v2h-2zM321.4 88.3h2v2h-2zM322.6 76.9h2v2h-2zM323.8 60.9h2v2h-2zM324.9 95.1h2v2h-2zM326.1 40.3h2v2h-2zM327.3 88.3h2v2h-2zM328.4 90.6h2v2h-2zM329.6 92.9h2v2h-2zM330.8 86.0h2v2h-2zM331.9 24.3h2v2h-2zM333.1 86.0h2v2h-2zM334.2 83.7h2v2h-2zM335.4 95.1h2v2h-2zM336.6 88.3h2v2h-2zM337.7 35.7h2v2h-2zM338.9 58.6h2v2h-2zM340.1 67.7h2v2h-2zM341.2 92.9h2v2h-2zM342.4 88.3h2v2h-2zM343.6 40.3h2v2h-2zM344.7 88.3h2v2h-2zM345.9 95.1h2v2h-2zM347.1 88.3h2v2h-2zM348.2 56.3h2v2h-2zM349.4 47.1h2v2h-2zM350.5 92.9h2v2h-2zM351.7 79.1h2v2h-2zM352.9 95.1h2v2h-2zM354.0 63.1h2v2h-2zM355.2 42.6h2v2h-2zM356.4 49.4h2v2h-2zM357.5 92.9h2v2h-2zM358.7 92.9h2v2h-2zM359.9 81.4h2v2h-2zM361.0 40.3h2v2h-2zM362.2 72.3h2v2h-2zM363.3 90.6h2v2h-2zM364.5 54.0h2v2h-2zM365.7 90.6h2v2h-2zM366.8 40.3h2v2h-2zM368.0 92.9h2v2h-2zM369.2 81.4h2v2h-2zM370.3 74.6h2v2h-2zM371.5 74.6h2v2h-2zM372.7 6.0h2v2h-2zM373.8 70.0h2v2h-2zM375.0 88.3h2v2h-2zM376.2 81.4h2v2h-2zM377.3 63.1h2v2h-2zM378.5 28.9h2v2h-2zM379.6 81.4h2v2h-2zM380.8 58.6h2v2h-2zM382.0 65.4h2v2h-2zM383.1 81.4h2v2h-2zM384.3 24.3h2v2h-2zM385.5 92.9h2v2h-2zM386.6 86.0h2v2h-2zM387.8 72.3h2v2h-2zM389.0 51.7h2v2h-2zM390.1 26.6h2v2h-2zM391.3 81.4h2v2h-2zM392.4 79.1h2v2h-2zM393.6 86.0h2v2h-2z"/></svg></a>
+<figcaption><a href="goldbach-comet.html">Open the interactive Goldbach comet</a>: a plot of how many ways each even number is a sum of two primes. Hover over or tap a dot to see the sums, and use the color options to show the bands.</figcaption>
+</figure>
 
-<p><strong>In your classroom.</strong> Students can build the comet themselves: split the even numbers among groups, or write a short program or spreadsheet formula, pool the counts, and plot count against n. This works well as a multi-day activity or for a Math Club or computer science class.</p>
+<p><strong>In your classroom.</strong> Students can build the comet themselves: split the even numbers among groups, or write a short program or spreadsheet formula, pool the counts, and plot count against <var>n</var>. This works well as a multi-day activity or for a Math Club or computer science class.</p>
 
 <p><strong>What is known.</strong> As with Collatz, there are four kinds of “known,” and none of them is a proof.</p>
 
@@ -289,12 +393,12 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li><strong>Computer checks.</strong> Every even number up to 4 × 10<sup>18</sup> is a sum of two primes (<a href="https://sweet.ua.pt/tos/bib/4.12.html">Oliveira e Silva, Herzog and Pardi, 2013</a>).</li>
   <li><strong>Partial theorems.</strong> Vinogradov showed in 1937 that every sufficiently large odd number is a sum of three primes, and Harald Helfgott completed the proof for all odd numbers greater than 5 in 2013 (the “weak” Goldbach conjecture). Chen showed in 1973 that every sufficiently large even number is a prime plus a number with at most two prime factors.</li>
   <li><strong>“Almost all” results.</strong> In the 1930s it was shown that the even numbers that fail, if any, have density zero.</li>
-  <li><strong>A heuristic.</strong> The expected number of partitions of n grows roughly like n/(ln n)², so a counterexample becomes less and less plausible as n grows.</li>
+  <li><strong>A heuristic.</strong> The expected number of partitions of <var>n</var> grows roughly like <var>n</var>/(ln <var>n</var>)², so a counterexample becomes less and less plausible as <var>n</var> grows.</li>
 </ol>
 
-<p><strong>A short proof to try.</strong> Goldbach implies weak Goldbach. If every even number from 4 up is a sum of two primes, take an odd n ≥ 7. Then n − 3 is even and at least 4, so n − 3 = p + q for primes p and q, and n = 3 + p + q. The reverse direction is not known, which is why the weak version could be proved while the original remains open.</p>
+<p><strong>A short proof to try.</strong> Goldbach implies weak Goldbach. If every even number from 4 up is a sum of two primes, take an odd <var>n</var> ≥ 7. Then <var>n</var> − 3 is even and at least 4, so <var>n</var> − 3 = <var>p</var> + <var>q</var> for primes <var>p</var> and <var>q</var>, and <var>n</var> = 3 + <var>p</var> + <var>q</var>. The reverse direction is not known, which is why the weak version could be proved while the original remains open.</p>
 
-<h3 id="twin-primes">Extension: the twin prime conjecture</h3>
+<h3 id="twin-primes"><span class="ht">Extension: the twin prime conjecture</span> <span class="status open">Open problem</span></h3>
 
 <p><strong>The question.</strong> Twin primes are primes that differ by 2, such as 3 and 5, 11 and 13, 17 and 19. Are there infinitely many pairs?</p>
 
@@ -311,8 +415,8 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <p>Two connections to earlier ideas:</p>
 
 <ul>
-  <li>Euclid extension: n! + 2, …, n! + n shows that gaps between primes can be arbitrarily large. Yet small gaps keep recurring infinitely often. That tension is the story.</li>
-  <li>Brun proved in 1919 that the sum of the reciprocals of the twin primes converges, while the sum of 1/p over all primes diverges (Euler). Twin primes are much sparser than the primes, but a convergent sum does not settle whether there are infinitely many.</li>
+  <li>Euclid extension: <var>n</var>! + 2, …, <var>n</var>! + <var>n</var> shows that gaps between primes can be arbitrarily large. Yet small gaps keep recurring infinitely often. That tension is the story.</li>
+  <li>Brun proved in 1919 that the sum of the reciprocals of the twin primes converges, while the sum of 1/<var>p</var> over all primes diverges (Euler). Twin primes are much sparser than the primes, but a convergent sum does not settle whether there are infinitely many.</li>
 </ul>
 
 <p><strong>Adapting it</strong></p>
@@ -323,11 +427,55 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <tbody>
     <tr><td>Middle school / Algebra 1</td><td>Prime lists and the sieve of Eratosthenes; build a table of Goldbach pairs for small even numbers; discuss why many examples are not a proof.</td></tr>
     <tr><td>Geometry / Algebra 2</td><td>Parity arguments (why an odd sum of two primes needs a 2); the mod 3 argument for why multiples of 3 have more partitions; sequences of prime gaps.</td></tr>
-    <tr><td>Precalculus / Statistics</td><td>Plot partition counts against n and look for the bands; the prime-density heuristic; prove that Goldbach implies weak Goldbach.</td></tr>
+    <tr><td>Precalculus / Statistics</td><td>Plot partition counts against <var>n</var> and look for the bands; the prime-density heuristic; prove that Goldbach implies weak Goldbach.</td></tr>
     <tr><td>Computer science</td><td>Sieve implementation; verify Goldbach up to a few million; build and plot the comet.</td></tr>
   </tbody>
 </table>
 </div>
 </main>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  // Sieve of Eratosthenes in the header: strike multiples of each prime p, starting at p².
+  var grid = document.getElementById("sieve");
+  var small = window.matchMedia("(max-width: 700px)").matches;
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var N = small ? 100 : 200, cells = [null];
+  for (var i = 1; i <= 200; i++) {
+    var s = document.createElement("span");
+    s.textContent = i;
+    if (i === 1) s.className = "one";
+    if (i > 100) s.className += " hi";
+    grid.appendChild(s); cells.push(s);
+  }
+  var isP = [];
+  for (i = 2; i <= 200; i++) isP[i] = true;
+  for (i = 2; i * i <= 200; i++) if (isP[i]) for (var j = i * i; j <= 200; j += i) isP[j] = false;
+  for (i = 4; i <= 200; i++) if (!isP[i]) cells[i].classList.add("c");
+  var steps = [2, 3, 5, 7, 11, 13].filter(function (p) { return p * p <= N; });
+  function strike(p) {
+    cells[p].classList.add("ring");
+    for (var m = p * p; m <= 200; m += p) cells[m].classList.add("x");
+  }
+  if (still) steps.forEach(strike);
+  else steps.forEach(function (p, k) { setTimeout(function () { strike(p); }, 350 + k * 320); });
+  if (small) grid.setAttribute("aria-label", grid.getAttribute("aria-label").replace("1 to 200", "1 to 100").replace(", 11 and 13", ""));
+
+  // Mark the section being read in the contents rail.
+  var links = Array.prototype.slice.call(document.querySelectorAll(".toc a"));
+  var heads = links.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); });
+  var ticking = false;
+  function mark() {
+    ticking = false;
+    var cur = 0;
+    heads.forEach(function (h, k) { if (h.getBoundingClientRect().top < 140) cur = k; });
+    links.forEach(function (a, k) { if (k === cur) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+  }
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(mark); } }, { passive: true });
+  mark();
+})();
+</script>
 </body>
 </html>
