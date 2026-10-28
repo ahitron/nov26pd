@@ -109,6 +109,8 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   .table-wrap { overflow: visible; border-color: #999999; }
   table { min-width: 0; }
   tr, li, .callout { break-inside: avoid; page-break-inside: avoid; }
+  p:has(+ ul), p:has(+ ol), p:has(+ .table-wrap) { break-after: avoid; page-break-after: avoid; }
+  p, li { orphans: 3; widows: 3; }
   a { color: #000000; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; word-break: break-all; }
 }
@@ -181,7 +183,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <tbody>
     <tr><td>Middle school / Algebra 1</td><td>Arithmetic practice with a mystery. Graph the sequence for a few starts and look at the shape.</td></tr>
     <tr><td>Geometry / Algebra 2</td><td>Parity and “why does every power of 2 work?”; track how many steps each start takes and look for patterns.</td></tr>
-    <tr><td>Precalculus / Statistics</td><td>Plot steps-to-1 for n = 1 to 1000 and discuss the distribution; heuristic argument for why the sequence tends to shrink (each odd step is followed by at least one halving, so the average factor per step is below 1).</td></tr>
+    <tr><td>Precalculus / Statistics</td><td>Plot steps-to-1 for n = 1 to 1000 and discuss the distribution; heuristic argument for why the sequence tends to shrink (half the steps multiply by about 3/2 and half by 1/2, so the typical factor per step is √(3/4) ≈ 0.87, below 1).</td></tr>
     <tr><td>Computer science</td><td>Write the function, memoize it, and search for the longest sequence under a million.</td></tr>
   </tbody>
 </table>
