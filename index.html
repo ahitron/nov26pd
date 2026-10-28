@@ -179,7 +179,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
     --paper: #FFFFFF; --surface: #FFFFFF; --ink: #000000; --muted: #333333;
     --rule: #999999; --blue: #000000; --red: #000000; --dot: #777777;
   }
-  @page { size: letter; margin: 0.7in 0.75in; }
+  @page { size: letter; margin: 0.6in 0.7in; }
   body { background: #FFFFFF; color: #000000; font-size: 11pt; line-height: 1.4; }
   .hero { border: 0; }
   .hero-in, .layout { display: block; max-width: none; padding: 0; }
@@ -237,7 +237,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <main>
 <h2 id="how-to-use">How to use this sheet</h2>
 
-<p>Each “glimpse” is a real piece of higher mathematics that fits in a 10-minute warm-up and stretches to a full period. Each one has the same parts: the question, a try-it activity, what is actually known, and ways to adapt it by course.</p>
+<p>Each “glimpse” is a real piece of higher mathematics that fits in a 10-minute warm-up and stretches to a full period. Each one has a question, a try-it activity, what is known, and ways to adapt it by course.</p>
 
 <p>A good glimpse has four features:</p>
 
@@ -245,14 +245,14 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li><strong>Low floor.</strong> Any student can start with arithmetic they already know.</li>
   <li><strong>Real depth.</strong> The question connects to open problems or genuine theorems, not tricks.</li>
   <li><strong>Pattern, then proof.</strong> Students notice something first, then ask why it must be true (or whether it is).</li>
-  <li><strong>Honest uncertainty.</strong> Some of these problems are unsolved, and saying so is part of the lesson.</li>
+  <li><strong>Open questions.</strong> Some of these problems are unsolved, and that’s the draw: a sixth grader can understand a question nobody in the world can answer.</li>
 </ul>
 
 <h2 id="collatz"><span class="ht">1. The Collatz conjecture</span> <span class="status open">Open problem</span></h2>
 
 <p><strong>The question.</strong> Pick any positive integer. If it is even, halve it. If it is odd, triple it and add 1. Repeat. Does every starting number eventually reach 1?</p>
 
-<p>Nobody knows. Computers have checked every starting value up to 2<sup>71</sup> (about 2.4 × 10<sup>21</sup>) with no counterexample, but there is no proof.</p>
+<p>Nobody knows. Computers have checked an enormous range with no counterexample, but there is no proof.</p>
 
 <p><strong>Try it.</strong></p>
 
@@ -277,11 +277,11 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li>Change the rule to 3<var>n</var> − 1. What happens? (There are other loops, for example 5, 14, 7, 20, 10, 5.) What does that say about how special 3<var>n</var> + 1 is?</li>
 </ul>
 
-<p><strong>What is known.</strong> There are four kinds of “known,” and none of them is a proof.</p>
+<p><strong>What is known.</strong> There are four rungs of “known,” and none of them proves the conjecture.</p>
 
 <ol>
-  <li><strong>Computer checks.</strong> Every starting value up to 2<sup>71</sup> (about 2.4 × 10<sup>21</sup>) reaches 1. Checking this far is evidence, not proof: Pólya’s conjecture on prime factors held up to about 9 × 10<sup>8</sup> and then failed, with smallest counterexample 906,150,257.</li>
-  <li><strong>No small loops.</strong> The only known loop is 4, 2, 1. Hercher proved in 2023 that no other loop can have 91 or fewer “up-then-down” blocks, and any such loop would need at least about 7 × 10<sup>10</sup> odd steps. So a counterexample is most likely a sequence that grows forever, and nobody can rule that out.</li>
+  <li><strong>Computer checks.</strong> Every starting value up to 2<sup>71</sup> (about 2.4 × 10<sup>21</sup>) reaches 1. Checking this far is evidence, not proof: Pólya’s conjecture (that up to any point, at least half of the numbers have an odd number of prime factors, counted with repetition) held for every number below 906,150,257 and then failed.</li>
+  <li><strong>No small loops.</strong> The only known loop is 4, 2, 1. Hercher proved in 2023 that no other loop can have 91 or fewer “up-then-down” blocks, and any such loop would need at least about 7 × 10<sup>10</sup> odd steps. So a counterexample would have to be a very long loop or a sequence that grows forever, and nobody can rule out either.</li>
   <li><strong>“Almost all” results.</strong> Terras (1976) showed that almost all numbers eventually drop below their starting value. Terence Tao (2019) showed that, in a precise statistical sense (logarithmic density), almost all starting numbers eventually drop below any function that goes to infinity, however slowly. The set of possible exceptions is thin, but it is not shown to be empty.</li>
   <li><strong>A heuristic.</strong> Odd <var>n</var> goes to (3<var>n</var> + 1)/2 and even <var>n</var> goes to <var>n</var>/2, so each step multiplies by about 3/2 or 1/2 with roughly equal odds. The geometric mean is √(3/4) ≈ 0.87, so sequences behave like random walks that drift downward. Compare 5<var>n</var> + 1, where the factor is √(5/4) ≈ 1.12: the drift is upward, and some sequences appear to run off to infinity.</li>
 </ol>
@@ -299,7 +299,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
     <tr><td>Middle school / Algebra 1</td><td>Arithmetic practice with a mystery. Graph the sequence for a few starts and look at the shape.</td></tr>
     <tr><td>Geometry / Algebra 2</td><td>Parity and “why does every power of 2 work?”; track how many steps each start takes and look for patterns.</td></tr>
     <tr><td>Precalculus / Statistics</td><td>Plot steps-to-1 for <var>n</var> = 1 to 1000 and discuss the distribution; heuristic argument for why the sequence tends to shrink (half the steps multiply by about 3/2 and half by 1/2, so the typical factor per step is √(3/4) ≈ 0.87, below 1).</td></tr>
-    <tr><td>Computer science</td><td>Write the function, memoize it, and search for the longest sequence under a million.</td></tr>
+    <tr><td>Computer science</td><td>Write the function, memoize it, and search for the longest sequence under a million. (837,799, with 524 steps.)</td></tr>
   </tbody>
 </table>
 </div>
@@ -313,7 +313,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <ol>
   <li>Take any finite list of primes, say <var>p</var><sub>1</sub>, <var>p</var><sub>2</sub>, …, <var>p</var><sub><var>n</var></sub>.</li>
   <li>Form <var>N</var> = <var>p</var><sub>1</sub> × <var>p</var><sub>2</sub> × … × <var>p</var><sub><var>n</var></sub> + 1.</li>
-  <li><var>N</var> is bigger than 1, so it has at least one prime factor <var>q</var>. (This uses a lemma Euclid proves separately: the smallest divisor of <var>N</var> greater than 1 must itself be prime, since otherwise it would have a smaller divisor.)</li>
+  <li><var>N</var> is bigger than 1, so it has at least one prime factor <var>q</var>. (This uses a lemma Euclid proves separately, Book VII, Proposition 31: every number greater than 1 has a prime factor. A quick reason: the smallest divisor of <var>N</var> greater than 1 must be prime, since otherwise it would have a smaller divisor.)</li>
   <li>If <var>q</var> were on the list, it would divide the product, and also divide <var>N</var>, so it would divide the difference, which is 1. That is impossible.</li>
   <li>So <var>q</var> is a prime not on the list. Every finite list is incomplete.</li>
 </ol>
@@ -329,15 +329,15 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <p><strong>Try it.</strong></p>
 
 <ul>
-  <li>Give each group a different starting list (for example {2, 5, 11}). Compute the product plus 1, factor it, and name a prime not on the list. Answer key: 2 × 5 × 11 + 1 = 111 = 3 × 37, which gives two new primes at once; 3 × 5 × 7 + 1 = 106 = 2 × 53. The proof promises a prime not on the list, not the next prime.</li>
-  <li>Try {2, 3, 5, 7, 11}: 2,311 is prime. Try {2, 3, 5, 7, 11, 13}: 30,031 is not.</li>
+  <li>Give each group a different starting list (for example {2, 5, 11} or {3, 5, 7}). Compute the product plus 1, factor it, and name a prime not on the list. Answer key: 2 × 5 × 11 + 1 = 111 = 3 × 37, which gives two new primes at once; 3 × 5 × 7 + 1 = 106 = 2 × 53. The proof promises a prime not on the list, not the next prime.</li>
+  <li>Try {2, 3, 5, 7, 11}: 2,311 is prime. Does that pattern continue? (See Extensions.)</li>
   <li>Ask: where in the proof did we use that the list was finite? What breaks for an infinite list?</li>
 </ul>
 
 <p><strong>Extensions</strong></p>
 
 <ul>
-  <li>Arbitrarily long gaps: for any <var>n</var>, the numbers <var>n</var>! + 2, <var>n</var>! + 3, …, <var>n</var>! + <var>n</var> are all composite. Primes are infinite, yet can have huge empty stretches.</li>
+  <li>Arbitrarily long gaps: for any <var>n</var>, the numbers <var>n</var>! + 2, <var>n</var>! + 3, …, <var>n</var>! + <var>n</var> are all composite. There are infinitely many primes, yet they can have huge empty stretches.</li>
   <li>Euclid numbers: take the product of the first <var>n</var> primes and add 1. For <var>n</var> = 1 to 5 you get 3, 7, 31, 211, 2,311, all prime, but <var>n</var> = 6 gives 30,031 = 59 × 509. Whether infinitely many of these numbers are prime, or infinitely many are composite, is an open question.</li>
   <li>Other proofs: Euler showed that the sum of 1/<var>p</var> over all primes diverges, and Furstenberg gave a topological proof in 1955. <cite>Proofs from THE BOOK</cite> collects six different proofs.</li>
   <li>Compare with the twin prime and Goldbach questions in the next section: infinitude of primes is solved, but their finer structure is not.</li>
@@ -363,21 +363,21 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 
 <h3 id="goldbach"><span class="ht">Goldbach’s conjecture</span> <span class="status open">Open problem</span></h3>
 
-<p><strong>The question.</strong> Can every even number greater than 2 be written as the sum of two primes? (Examples: 10 = 3 + 7 = 5 + 5; 28 = 5 + 23 = 11 + 17. Count each partition once, with the smaller prime first.) Christian Goldbach raised it in 1742, in letters exchanged with Euler.</p>
+<p><strong>The question.</strong> Can every even number greater than 2 be written as the sum of two primes? (Examples: 10 = 3 + 7 = 5 + 5; 28 = 5 + 23 = 11 + 17. Count each way of writing it (each <em>partition</em>) once, with the smaller prime first.) Christian Goldbach raised it in 1742, in letters exchanged with Euler.</p>
 
 <p><strong>Try it.</strong></p>
 
 <ul>
   <li>Write each even number from 4 to 50 as a sum of two primes. Record how many ways each has.</li>
-  <li>Which even numbers have only one way? (4, 6, 8, and 12 are examples.) Which have the most?</li>
+  <li>Which even numbers have only one way? (Only 4, 6, 8, and 12. No larger even number with just one way is known.) Which have the most? (Up to 50: 48, with 5 ways.)</li>
   <li>Why only even numbers? When can an odd number be a sum of two primes? (Parity forces one of the primes to be 2.)</li>
 </ul>
 
-<p><strong>Look at the comet.</strong> If you plot the number of partitions against <var>n</var> for even <var>n</var> up to a few thousand, the points spread into bands that widen as <var>n</var> grows, often called the “Goldbach comet.” We will look at a ready-made plot rather than build one. Questions to ask:</p>
+<p><strong>Look at the comet.</strong> If you plot the number of partitions against <var>n</var> for even <var>n</var> up to a few thousand, the points spread into bands that widen as <var>n</var> grows, often called the “Goldbach comet.” The interactive comet below is a ready-made version; students can also build their own (see In your classroom). Questions to ask:</p>
 
 <ul>
-  <li>Why do the counts tend to grow with <var>n</var>?</li>
-  <li>Why is there a clear upper band? (It is the multiples of 3. If <var>n</var> is a multiple of 3 and <var>p</var> is a prime other than 3, then <var>n</var> − <var>p</var> is not a multiple of 3 either, so every such <var>p</var> survives the mod 3 filter. If <var>n</var> ≡ 1 or 2 (mod 3), only half of the primes <var>p</var> do, so multiples of 3 have roughly twice as many partitions.)</li>
+  <li>Why do the counts tend to grow with <var>n</var>? (More primes below <var>n</var> means more chances.)</li>
+  <li>Why is there a clear upper band? (It is the multiples of 3. If <var>n</var> is a multiple of 3 and <var>p</var> is a prime other than 3, then <var>n</var> − <var>p</var> is not a multiple of 3 either, so no such <var>p</var> is ruled out by divisibility by 3. If <var>n</var> ≡ 1 or 2 (mod 3), about half of the primes <var>p</var> are ruled out, so multiples of 3 have roughly twice as many partitions.)</li>
 </ul>
 
 <figure class="comet-card">
@@ -387,7 +387,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 
 <p><strong>In your classroom.</strong> Students can build the comet themselves: split the even numbers among groups, or write a short program or spreadsheet formula, pool the counts, and plot count against <var>n</var>. This works well as a multi-day activity or for a Math Club or computer science class.</p>
 
-<p><strong>What is known.</strong> As with Collatz, there are four kinds of “known,” and none of them is a proof.</p>
+<p><strong>What is known.</strong> As with Collatz, there are four rungs of “known,” and none of them proves the conjecture.</p>
 
 <ol>
   <li><strong>Computer checks.</strong> Every even number up to 4 × 10<sup>18</sup> is a sum of two primes (<a href="https://sweet.ua.pt/tos/bib/4.12.html">Oliveira e Silva, Herzog and Pardi, 2013</a>).</li>
@@ -396,7 +396,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li><strong>A heuristic.</strong> The expected number of partitions of <var>n</var> grows roughly like <var>n</var>/(ln <var>n</var>)², so a counterexample becomes less and less plausible as <var>n</var> grows.</li>
 </ol>
 
-<p><strong>A short proof to try.</strong> Goldbach implies weak Goldbach. If every even number from 4 up is a sum of two primes, take an odd <var>n</var> ≥ 7. Then <var>n</var> − 3 is even and at least 4, so <var>n</var> − 3 = <var>p</var> + <var>q</var> for primes <var>p</var> and <var>q</var>, and <var>n</var> = 3 + <var>p</var> + <var>q</var>. The reverse direction is not known, which is why the weak version could be proved while the original remains open.</p>
+<p><strong>A short proof to try.</strong> Goldbach implies weak Goldbach. If every even number from 4 up is a sum of two primes, take an odd <var>n</var> ≥ 7. Then <var>n</var> − 3 is even and at least 4, so <var>n</var> − 3 = <var>p</var> + <var>q</var> for primes <var>p</var> and <var>q</var>, and <var>n</var> = 3 + <var>p</var> + <var>q</var>. The weak version asks for less (three primes leave more room than two), which is why it could be proved while the original remains open.</p>
 
 <h3 id="twin-primes"><span class="ht">Extension: the twin prime conjecture</span> <span class="status open">Open problem</span></h3>
 
@@ -405,7 +405,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <p><strong>Try it.</strong></p>
 
 <ul>
-  <li>List the primes below 100 and circle the twin pairs. How many are there? Do they thin out?</li>
+  <li>List the primes below 100 and circle the twin pairs. How many are there? (8 pairs: 3 and 5, 5 and 7, 11 and 13, 17 and 19, 29 and 31, 41 and 43, 59 and 61, 71 and 73.) Do they thin out?</li>
   <li>Look at the gaps between consecutive primes. What gaps appear? Is a gap of 1 possible after 2? Why are all other gaps even?</li>
   <li>Generalize: what about primes that differ by 4 (cousin primes) or 6?</li>
 </ul>
@@ -415,7 +415,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <p>Two connections to earlier ideas:</p>
 
 <ul>
-  <li>Euclid extension: <var>n</var>! + 2, …, <var>n</var>! + <var>n</var> shows that gaps between primes can be arbitrarily large. Yet small gaps keep recurring infinitely often. That tension is the story.</li>
+  <li>Euclid extension: <var>n</var>! + 2, …, <var>n</var>! + <var>n</var> shows that gaps between primes can be arbitrarily large. Yet, by Zhang’s theorem and its successors, gaps of at most 246 recur infinitely often. That tension is the story.</li>
   <li>Brun proved in 1919 that the sum of the reciprocals of the twin primes converges, while the sum of 1/<var>p</var> over all primes diverges (Euler). Twin primes are much sparser than the primes, but a convergent sum does not settle whether there are infinitely many.</li>
 </ul>
 
