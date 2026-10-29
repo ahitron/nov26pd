@@ -1,8 +1,8 @@
 # Glimpses of Higher Math
 
-Resource sheet for a one-hour PD session for grades 6–12 math teachers: the Collatz
-conjecture, Euclid’s proof that there are infinitely many primes, and Goldbach’s
-conjecture (with twin primes as an extension).
+Resource sheet for a PD session for grades 6–12 math teachers: the irrationality of
+√2, Euclid’s proof that there are infinitely many primes, the Collatz conjecture,
+Goldbach’s conjecture, and the twin prime conjecture.
 
 Live site: https://ahitron.github.io/nov26pd/
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glimpses of Higher Math</title>
-<meta name="description" content="PD resource sheet: the Collatz conjecture, Euclid’s proof that there are infinitely many primes, and Goldbach’s conjecture with twin primes.">
+<meta name="description" content="PD resource sheet: the irrationality of √2, Euclid’s proof that there are infinitely many primes, the Collatz conjecture, Goldbach’s conjecture, and the twin prime conjecture.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%232447C9'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -134,6 +134,10 @@ figure { margin: 1.4em 0 1.6em; }
 figcaption { font-size: 0.92rem; color: var(--muted); margin-top: 8px; }
 .traj { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 14px 12px; }
 .traj svg { display: block; width: 100%; height: auto; }
+.sq svg { display: block; width: 100%; max-width: 220px; height: auto; }
+.sq .side { fill: none; stroke: var(--ink); stroke-width: 2; }
+.sq .diag { stroke: var(--red); stroke-width: 2.5; }
+.sq text { fill: var(--ink); font-family: var(--serif); font-size: 20px; }
 .traj figcaption { color: var(--ink); font-size: 1rem; margin-top: 10px; }
 .traj figcaption a { font-weight: 700; }
 .traj .axis { stroke: var(--rule); stroke-width: 1.5; }
@@ -183,7 +187,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
     --rule: #999999; --blue: #000000; --red: #000000; --dot: #777777;
   }
   @page { size: letter; margin: 0.6in 0.7in; }
-  body { background: #FFFFFF; color: #000000; font-size: 11pt; line-height: 1.4; }
+  body { background: #FFFFFF; color: #000000; font-size: 10.5pt; line-height: 1.4; }
   .hero { border: 0; }
   .hero-in, .layout { display: block; max-width: none; padding: 0; }
   main { max-width: none; }
@@ -202,6 +206,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   .traj { max-width: none; border: 0; padding: 0; background: none; break-inside: avoid; }
   .traj svg { max-width: 5in; }
   .traj text { font-size: 18px; }
+  .sq svg { max-width: 1.6in; }
   .table-wrap { overflow: visible; }
   tr, li, figure { break-inside: avoid; page-break-inside: avoid; }
   p:has(+ ul), p:has(+ ol), p:has(+ .table-wrap) { break-after: avoid; page-break-after: avoid; }
@@ -216,7 +221,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <div class="hero-in">
     <div class="hero-text">
       <h1 id="top">Glimpses of Higher Math<span class="vh">:</span> <span class="h1-sub">PD Resource Sheet</span></h1>
-      <p class="meta">Last updated <time datetime="2026-10-28">October 28, 2026</time></p>
+      <p class="meta">Last updated <time datetime="2026-10-29">October 29, 2026</time></p>
       <p class="meta print-only">Online, with the interactive Collatz explorer and Goldbach comet: ahitron.github.io/nov26pd</p>
       <p class="actions"><a href="glimpses-of-higher-math.pdf">Download the PDF</a> <a href="collatz.html">Open the Collatz explorer</a> <a href="goldbach-comet.html">Open the Goldbach comet</a></p>
     </div>
@@ -230,8 +235,9 @@ tbody td:first-child { font-weight: 700; width: 30%; }
     <p class="toc-title" id="toc-title">On this page</p>
     <ol>
       <li><a href="#how-to-use">How to use this sheet</a></li>
-      <li><a href="#collatz">The Collatz conjecture</a></li>
+      <li><a href="#sqrt2">√2 is irrational</a></li>
       <li><a href="#euclid">Euclid’s proof</a></li>
+      <li><a href="#collatz">The Collatz conjecture</a></li>
       <li><a href="#goldbach">Goldbach’s conjecture</a></li>
       <li><a href="#twin-primes">Twin primes</a></li>
     </ol>
@@ -252,7 +258,120 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li><strong>Open questions.</strong> Some of these problems are unsolved, and that’s the draw: a sixth grader can understand a question nobody in the world can answer.</li>
 </ul>
 
-<h2 id="collatz"><span class="ht">1. The Collatz conjecture</span> <span class="status open">Open problem</span></h2>
+<h2 id="sqrt2"><span class="ht">1. The irrationality of √2</span> <span class="status proved">Proved</span></h2>
+
+<p><strong>The claim.</strong> No fraction has a square of exactly 2. So the diagonal of a square with sides of length 1, which is √2 long, can’t be measured exactly in any unit that also measures the side. The Pythagoreans are usually credited with the discovery, in the 5th century BCE, and Aristotle uses it as his standard example of a proof by contradiction. (A later story says a Pythagorean, often named as Hippasus, was drowned for revealing it. It makes a good hook, but historians treat it as legend.)</p>
+
+<figure class="sq">
+<svg viewBox="0 0 240 200" role="img" aria-label="A square with sides of length 1 and its diagonal, of length the square root of 2."><rect class="side" x="40" y="20" width="150" height="150"/><line class="diag" x1="40" y1="170" x2="190" y2="20"/><text x="115" y="194" text-anchor="middle">1</text><text x="26" y="101" text-anchor="middle">1</text><text x="106" y="86" text-anchor="end">√2</text></svg>
+<figcaption>By the Pythagorean theorem, the diagonal of a unit square has length √2.</figcaption>
+</figure>
+
+<p><strong>The argument.</strong></p>
+
+<ol>
+  <li>Suppose √2 = <var>a</var>/<var>b</var>, a fraction in lowest terms.</li>
+  <li>Squaring, <var>a</var>² = 2<var>b</var>², so <var>a</var>² is even.</li>
+  <li>So <var>a</var> is even, because the square of an odd number is odd. Write <var>a</var> = 2<var>c</var>.</li>
+  <li>Then 4<var>c</var>² = 2<var>b</var>², so <var>b</var>² = 2<var>c</var>², and <var>b</var> is even too.</li>
+  <li>Both <var>a</var> and <var>b</var> are even, so <var>a</var>/<var>b</var> was not in lowest terms after all. That contradicts step 1, so no such fraction exists.</li>
+</ol>
+
+<p><strong>Common misconceptions to address</strong></p>
+
+<ul>
+  <li>“Its decimals never repeat, so it’s irrational.” That is a consequence of being irrational, not a proof: no one can check infinitely many digits.</li>
+  <li>A calculator’s 1.414213562 is not √2. It is a fraction (1,414,213,562 over a billion) whose square is close to 2.</li>
+  <li>“Why can we assume lowest terms?” Every fraction can be reduced, so the assumption costs nothing. Ask where the proof uses it.</li>
+  <li>This is a genuine proof by contradiction. Compare Euclid’s proof in the next section, which can be done directly.</li>
+</ul>
+
+<p><strong>Try it.</strong></p>
+
+<ul>
+  <li>Hunt for fractions whose square is close to 2, starting from 3/2. Answer key: 3/2, 7/5, 17/12, 41/29. Each time, <var>a</var>² − 2<var>b</var>² is 1 or −1 (9 − 8, 49 − 50, 289 − 288, 1,681 − 1,682): as close as whole numbers can get, but never exact.</li>
+  <li>Count the factors of 2. Whatever <var>a</var> is, <var>a</var>² has an even number of 2s in its prime factorization, and 2<var>b</var>² has an odd number. So they can never be equal. (A second proof, and a good one for middle school.)</li>
+  <li>Last digits: a square ends in 0, 1, 4, 5, 6, or 9. What can 2<var>b</var>² end in? What does that force? (2<var>b</var>² ends in 0, 2, or 8, so <var>a</var>² must end in 0; pushing on shows <var>a</var> and <var>b</var> both end in 0, a third proof.)</li>
+  <li>Run the same proof for √3. Then try it for √4: where exactly does it break?</li>
+</ul>
+
+<p><strong>Extensions</strong></p>
+
+<ul>
+  <li>Better and better fractions: from <var>a</var>/<var>b</var>, the next is (<var>a</var> + 2<var>b</var>)/(<var>a</var> + <var>b</var>), giving 3/2, 7/5, 17/12, 41/29, 99/70, … These are the best approximations to √2 for their size.</li>
+  <li>A proof without algebra: Tennenbaum’s overlapping squares. Put two squares of side <var>b</var> in opposite corners of a square of side <var>a</var>. They overlap in exactly the area they leave uncovered, which gives a smaller pair of whole numbers with the same property, and so on forever.</li>
+  <li>A-series paper (A4, the international cousin of Letter) has sides in the ratio √2, so folding a sheet in half gives the same shape.</li>
+  <li>An open question to end on: nobody knows whether π + <var>e</var> is rational.</li>
+</ul>
+
+<p><strong>Adapting it</strong></p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
+  <tbody>
+    <tr><td>Middle school / Algebra 1</td><td>Near-miss fractions on a calculator; counting factors of 2; squares and their last digits.</td></tr>
+    <tr><td>Geometry</td><td>The diagonal of the unit square; why A-series paper keeps its shape; Tennenbaum’s picture proof.</td></tr>
+    <tr><td>Algebra 2 / Precalculus</td><td>The structure of a proof by contradiction; √3, and why the proof fails for √4; the (<var>a</var> + 2<var>b</var>)/(<var>a</var> + <var>b</var>) sequence.</td></tr>
+    <tr><td>Computer science</td><td>Generate the near-miss fractions and check that <var>a</var>² − 2<var>b</var>² alternates between 1 and −1.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="euclid"><span class="ht">2. Euclid’s proof that there are infinitely many primes</span> <span class="status proved">Proved</span></h2>
+
+<p><strong>The claim.</strong> No finite list of primes can contain all the primes. This is Proposition 20 of Book IX of Euclid’s Elements, more than 2,000 years old, and still a model of a short, complete proof. Euclid did not say “infinitely many.” He wrote that primes are more than any assigned multitude, and argued for three primes standing in for any finite list.</p>
+
+<p><strong>The argument.</strong></p>
+
+<ol>
+  <li>Take any finite list of primes, say <var>p</var><sub>1</sub>, <var>p</var><sub>2</sub>, …, <var>p</var><sub><var>n</var></sub>.</li>
+  <li>Form <var>N</var> = <var>p</var><sub>1</sub> × <var>p</var><sub>2</sub> × … × <var>p</var><sub><var>n</var></sub> + 1.</li>
+  <li><var>N</var> is bigger than 1, so it has at least one prime factor <var>q</var>. (This uses a lemma Euclid proves separately, Book VII, Proposition 31: every number greater than 1 has a prime factor. A quick reason: the smallest divisor of <var>N</var> greater than 1 must be prime, since otherwise it would have a smaller divisor.)</li>
+  <li>If <var>q</var> were on the list, it would divide the product, and also divide <var>N</var>, so it would divide the difference, which is 1. That is impossible.</li>
+  <li>So <var>q</var> is a prime not on the list. Every finite list is incomplete.</li>
+</ol>
+
+<p><strong>Common misconceptions to address</strong></p>
+
+<ul>
+  <li><var>N</var> does not have to be prime. With the first six primes, 2 × 3 × 5 × 7 × 11 × 13 + 1 = 30,031 = 59 × 509. The proof only needs <var>N</var> to have a prime factor outside the list.</li>
+  <li>The proof does not tell you how to find the next prime, or say that multiplying primes and adding 1 generates them. It shows only that a new prime always exists.</li>
+  <li>It is often presented as proof by contradiction, but it works directly: given any finite list, it produces a prime not on it.</li>
+</ul>
+
+<p><strong>Try it.</strong></p>
+
+<ul>
+  <li>Give each group a different starting list (for example {2, 5, 11} or {3, 5, 7}). Compute the product plus 1, factor it, and name a prime not on the list. Answer key: 2 × 5 × 11 + 1 = 111 = 3 × 37, which gives two new primes at once; 3 × 5 × 7 + 1 = 106 = 2 × 53. The proof promises a prime not on the list, not the next prime.</li>
+  <li>Try {2, 3, 5, 7, 11}: 2,311 is prime. Does that pattern continue? (See Extensions.)</li>
+  <li>Ask: where in the proof did we use that the list was finite? What breaks for an infinite list?</li>
+</ul>
+
+<p><strong>Extensions</strong></p>
+
+<ul>
+  <li>Arbitrarily long gaps: for any <var>n</var>, the numbers <var>n</var>! + 2, <var>n</var>! + 3, …, <var>n</var>! + <var>n</var> are all composite. There are infinitely many primes, yet they can have huge empty stretches.</li>
+  <li>Euclid numbers: take the product of the first <var>n</var> primes and add 1. For <var>n</var> = 1 to 5 you get 3, 7, 31, 211, 2,311, all prime, but <var>n</var> = 6 gives 30,031 = 59 × 509. Whether infinitely many of these numbers are prime, or infinitely many are composite, is an open question.</li>
+  <li>Other proofs: Euler showed that the sum of 1/<var>p</var> over all primes diverges, and Furstenberg gave a topological proof in 1955. <cite>Proofs from THE BOOK</cite> collects six different proofs.</li>
+  <li>Compare with the Goldbach and twin prime questions in sections 4 and 5: infinitude of primes is solved, but their finer structure is not.</li>
+</ul>
+
+<p><strong>Adapting it</strong></p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
+  <tbody>
+    <tr><td>Middle school / Algebra 1</td><td>Factor products-plus-1 by hand; discuss “what is a proof?” vs. checking examples.</td></tr>
+    <tr><td>Geometry</td><td>Proof structure: each step justified, parallel to a two-column proof.</td></tr>
+    <tr><td>Algebra 2 / Precalculus</td><td>Divisibility argument in step 4; the <var>n</var>! + <var>k</var> composite-gap argument.</td></tr>
+    <tr><td>Computer science</td><td>Write a program that takes a list of primes and returns a prime not on it; find where brute force gets slow.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="collatz"><span class="ht">3. The Collatz conjecture</span> <span class="status open">Open problem</span></h2>
 
 <p><strong>The question.</strong> Pick any positive integer. If it is even, halve it. If it is odd, triple it and add 1. Repeat. Does every starting number eventually reach 1?</p>
 
@@ -308,64 +427,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 </table>
 </div>
 
-<h2 id="euclid"><span class="ht">2. Euclid’s proof that there are infinitely many primes</span> <span class="status proved">Proved</span></h2>
-
-<p><strong>The claim.</strong> No finite list of primes can contain all the primes. This is Proposition 20 of Book IX of Euclid’s Elements, more than 2,000 years old, and still a model of a short, complete proof. Euclid did not say “infinitely many.” He wrote that primes are more than any assigned multitude, and argued for three primes standing in for any finite list.</p>
-
-<p><strong>The argument.</strong></p>
-
-<ol>
-  <li>Take any finite list of primes, say <var>p</var><sub>1</sub>, <var>p</var><sub>2</sub>, …, <var>p</var><sub><var>n</var></sub>.</li>
-  <li>Form <var>N</var> = <var>p</var><sub>1</sub> × <var>p</var><sub>2</sub> × … × <var>p</var><sub><var>n</var></sub> + 1.</li>
-  <li><var>N</var> is bigger than 1, so it has at least one prime factor <var>q</var>. (This uses a lemma Euclid proves separately, Book VII, Proposition 31: every number greater than 1 has a prime factor. A quick reason: the smallest divisor of <var>N</var> greater than 1 must be prime, since otherwise it would have a smaller divisor.)</li>
-  <li>If <var>q</var> were on the list, it would divide the product, and also divide <var>N</var>, so it would divide the difference, which is 1. That is impossible.</li>
-  <li>So <var>q</var> is a prime not on the list. Every finite list is incomplete.</li>
-</ol>
-
-<p><strong>Common misconceptions to address</strong></p>
-
-<ul>
-  <li><var>N</var> does not have to be prime. With the first six primes, 2 × 3 × 5 × 7 × 11 × 13 + 1 = 30,031 = 59 × 509. The proof only needs <var>N</var> to have a prime factor outside the list.</li>
-  <li>The proof does not tell you how to find the next prime, or say that multiplying primes and adding 1 generates them. It shows only that a new prime always exists.</li>
-  <li>It is often presented as proof by contradiction, but it works directly: given any finite list, it produces a prime not on it.</li>
-</ul>
-
-<p><strong>Try it.</strong></p>
-
-<ul>
-  <li>Give each group a different starting list (for example {2, 5, 11} or {3, 5, 7}). Compute the product plus 1, factor it, and name a prime not on the list. Answer key: 2 × 5 × 11 + 1 = 111 = 3 × 37, which gives two new primes at once; 3 × 5 × 7 + 1 = 106 = 2 × 53. The proof promises a prime not on the list, not the next prime.</li>
-  <li>Try {2, 3, 5, 7, 11}: 2,311 is prime. Does that pattern continue? (See Extensions.)</li>
-  <li>Ask: where in the proof did we use that the list was finite? What breaks for an infinite list?</li>
-</ul>
-
-<p><strong>Extensions</strong></p>
-
-<ul>
-  <li>Arbitrarily long gaps: for any <var>n</var>, the numbers <var>n</var>! + 2, <var>n</var>! + 3, …, <var>n</var>! + <var>n</var> are all composite. There are infinitely many primes, yet they can have huge empty stretches.</li>
-  <li>Euclid numbers: take the product of the first <var>n</var> primes and add 1. For <var>n</var> = 1 to 5 you get 3, 7, 31, 211, 2,311, all prime, but <var>n</var> = 6 gives 30,031 = 59 × 509. Whether infinitely many of these numbers are prime, or infinitely many are composite, is an open question.</li>
-  <li>Other proofs: Euler showed that the sum of 1/<var>p</var> over all primes diverges, and Furstenberg gave a topological proof in 1955. <cite>Proofs from THE BOOK</cite> collects six different proofs.</li>
-  <li>Compare with the twin prime and Goldbach questions in the next section: infinitude of primes is solved, but their finer structure is not.</li>
-</ul>
-
-<p><strong>Adapting it</strong></p>
-
-<div class="table-wrap">
-<table>
-  <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
-  <tbody>
-    <tr><td>Middle school / Algebra 1</td><td>Factor products-plus-1 by hand; discuss “what is a proof?” vs. checking examples.</td></tr>
-    <tr><td>Geometry</td><td>Proof structure: each step justified, parallel to a two-column proof.</td></tr>
-    <tr><td>Algebra 2 / Precalculus</td><td>Divisibility argument in step 4; the <var>n</var>! + <var>k</var> composite-gap argument.</td></tr>
-    <tr><td>Computer science</td><td>Write a program that takes a list of primes and returns a prime not on it; find where brute force gets slow.</td></tr>
-  </tbody>
-</table>
-</div>
-
-<h2 id="goldbach-and-twin-primes">3. Goldbach and twin primes</h2>
-
-<p>Two simple-to-state questions about primes that remain open. The session focuses on Goldbach, with twin primes as a short extension.</p>
-
-<h3 id="goldbach"><span class="ht">Goldbach’s conjecture</span> <span class="status open">Open problem</span></h3>
+<h2 id="goldbach"><span class="ht">4. Goldbach’s conjecture</span> <span class="status open">Open problem</span></h2>
 
 <p><strong>The question.</strong> Can every even number greater than 2 be written as the sum of two primes? (Examples: 10 = 3 + 7 = 5 + 5; 28 = 5 + 23 = 11 + 17. Count each way of writing it (each <em>partition</em>) once, with the smaller prime first.) Christian Goldbach raised it in 1742, in letters exchanged with Euler.</p>
 
@@ -402,7 +464,24 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 
 <p><strong>A short proof to try.</strong> Goldbach implies weak Goldbach. If every even number from 4 up is a sum of two primes, take an odd <var>n</var> ≥ 7. Then <var>n</var> − 3 is even and at least 4, so <var>n</var> − 3 = <var>p</var> + <var>q</var> for primes <var>p</var> and <var>q</var>, and <var>n</var> = 3 + <var>p</var> + <var>q</var>. The weak version asks for less (three primes leave more room than two), which is why it could be proved while the original remains open.</p>
 
-<h3 id="twin-primes"><span class="ht">Extension: the twin prime conjecture</span> <span class="status open">Open problem</span></h3>
+<p><strong>Adapting it</strong></p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
+  <tbody>
+    <tr><td>Middle school / Algebra 1</td><td>Build a table of Goldbach pairs for small even numbers; discuss why many examples are not a proof.</td></tr>
+    <tr><td>Geometry / Algebra 2</td><td>Parity arguments (why an odd sum of two primes needs a 2); the mod 3 argument for why multiples of 3 have more partitions.</td></tr>
+    <tr><td>Precalculus / Statistics</td><td>Plot partition counts against <var>n</var> and look for the bands; the prime-density heuristic; prove that Goldbach implies weak Goldbach.</td></tr>
+    <tr><td>Computer science</td><td>Verify Goldbach up to a few million; build and plot the comet.</td></tr>
+  </tbody>
+</table>
+</div>
+
+
+<h2 id="twin-primes"><span class="ht">5. The twin prime conjecture</span> <span class="status open">Open problem</span></h2>
+
+<p>Another simple-to-state question about primes that remains open.</p>
 
 <p><strong>The question.</strong> Twin primes are primes that differ by 2, such as 3 and 5, 11 and 13, 17 and 19. Are there infinitely many pairs?</p>
 
@@ -429,13 +508,14 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <table>
   <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
   <tbody>
-    <tr><td>Middle school / Algebra 1</td><td>Prime lists and the sieve of Eratosthenes; build a table of Goldbach pairs for small even numbers; discuss why many examples are not a proof.</td></tr>
-    <tr><td>Geometry / Algebra 2</td><td>Parity arguments (why an odd sum of two primes needs a 2); the mod 3 argument for why multiples of 3 have more partitions; sequences of prime gaps.</td></tr>
-    <tr><td>Precalculus / Statistics</td><td>Plot partition counts against <var>n</var> and look for the bands; the prime-density heuristic; prove that Goldbach implies weak Goldbach.</td></tr>
-    <tr><td>Computer science</td><td>Sieve implementation; verify Goldbach up to a few million; build and plot the comet.</td></tr>
+    <tr><td>Middle school / Algebra 1</td><td>Prime lists and the sieve of Eratosthenes; circle the twin pairs (the sieve at the top of this page works).</td></tr>
+    <tr><td>Geometry / Algebra 2</td><td>Sequences of prime gaps; why every gap after 2 is even; why 3, 5, 7 is the only prime triple with gaps of 2 (of any three odd numbers in a row, one is a multiple of 3).</td></tr>
+    <tr><td>Precalculus / Statistics</td><td>Count twin pairs below 100, 1,000, and 10,000 and compare with the count of all primes; Brun’s convergent sum against Euler’s divergent one.</td></tr>
+    <tr><td>Computer science</td><td>Sieve implementation; count twin pairs up to a million; find the largest gap between consecutive primes below a million.</td></tr>
   </tbody>
 </table>
 </div>
+
 </main>
 </div>
 
