@@ -247,7 +247,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <main>
 <h2 id="how-to-use">How to use this sheet</h2>
 
-<p>Each “glimpse” is a real piece of higher mathematics that fits in a 10-minute warm-up and stretches to a full period. Each one has a question, a try-it activity, what is known, and ways to adapt it by course.</p>
+<p>Each “glimpse” is a real piece of higher mathematics that fits in a 10-minute warm-up and can stretch to a full period. Each one has a question, a try-it activity, what is known, and ways to adapt it by course.</p>
 
 <p>A good glimpse has four features:</p>
 
@@ -255,12 +255,12 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li><strong>Low floor.</strong> Any student can start with arithmetic they already know.</li>
   <li><strong>Real depth.</strong> The question connects to open problems or genuine theorems, not tricks.</li>
   <li><strong>Pattern, then proof.</strong> Students notice something first, then ask why it must be true (or whether it is).</li>
-  <li><strong>Open questions.</strong> Some of these problems are unsolved, and that’s the draw: a sixth grader can understand a question nobody in the world can answer.</li>
+  <li><strong>Open questions.</strong> Some of these problems are unsolved, and that’s part of the draw: a sixth grader can understand a question nobody in the world can answer.</li>
 </ul>
 
 <h2 id="sqrt2"><span class="ht">1. The irrationality of √2</span> <span class="status proved">Proved</span></h2>
 
-<p><strong>The claim.</strong> No fraction has a square of exactly 2. So the diagonal of a square with sides of length 1, which is √2 long, can’t be measured exactly in any unit that also measures the side. The Pythagoreans are usually credited with the discovery, in the 5th century BCE, and Aristotle uses it as his standard example of a proof by contradiction. (A later story says a Pythagorean, often named as Hippasus, was drowned for revealing it. It makes a good hook, but historians treat it as legend.)</p>
+<p><strong>The claim.</strong> No ratio of integers has a square of exactly 2. So the diagonal of a square with sides of length 1, which is √2 long, can’t be measured exactly in any unit that also measures the side (incommensurability). The Pythagoreans are usually credited with the discovery, in the 5th century BCE, and Aristotle uses it as his standard example of a proof by contradiction.</p>
 
 <figure class="sq">
 <svg viewBox="0 0 240 200" role="img" aria-label="A square with sides of length 1 and its diagonal, of length the square root of 2."><rect class="side" x="40" y="20" width="150" height="150"/><line class="diag" x1="40" y1="170" x2="190" y2="20"/><text x="115" y="194" text-anchor="middle">1</text><text x="26" y="101" text-anchor="middle">1</text><text x="106" y="86" text-anchor="end">√2</text></svg>
@@ -270,7 +270,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <p><strong>The argument.</strong></p>
 
 <ol>
-  <li>Suppose √2 = <var>a</var>/<var>b</var>, a fraction in lowest terms.</li>
+  <li>Suppose √2 = <var>a</var>/<var>b</var>, a ratio of integers in lowest terms.</li>
   <li>Squaring, <var>a</var>² = 2<var>b</var>², so <var>a</var>² is even.</li>
   <li>So <var>a</var> is even, because the square of an odd number is odd. Write <var>a</var> = 2<var>c</var>.</li>
   <li>Then 4<var>c</var>² = 2<var>b</var>², so <var>b</var>² = 2<var>c</var>², and <var>b</var> is even too.</li>
@@ -299,7 +299,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 
 <ul>
   <li>Better and better fractions: from <var>a</var>/<var>b</var>, the next is (<var>a</var> + 2<var>b</var>)/(<var>a</var> + <var>b</var>), giving 3/2, 7/5, 17/12, 41/29, 99/70, … These are the best approximations to √2 for their size.</li>
-  <li>A proof without algebra: Tennenbaum’s overlapping squares. Put two squares of side <var>b</var> in opposite corners of a square of side <var>a</var>. They overlap in exactly the area they leave uncovered, which gives a smaller pair of whole numbers with the same property, and so on forever.</li>
+  <li>A proof without algebra: <a href="https://divisbyzero.com/2009/10/06/tennenbaums-proof-of-the-irrationality-of-the-square-root-of-2/">Tennenbaum’s overlapping squares</a>. Put two squares of side <var>b</var> in opposite corners of a square of side <var>a</var>. They overlap in exactly the area they leave uncovered, which gives a smaller pair of whole numbers with the same property, and so on forever.</li>
   <li>A-series paper (A4, the international cousin of Letter) has sides in the ratio √2, so folding a sheet in half gives the same shape.</li>
   <li>An open question to end on: nobody knows whether π + <var>e</var> is rational.</li>
 </ul>
@@ -353,7 +353,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <ul>
   <li>Arbitrarily long gaps: for any <var>n</var>, the numbers <var>n</var>! + 2, <var>n</var>! + 3, …, <var>n</var>! + <var>n</var> are all composite. There are infinitely many primes, yet they can have huge empty stretches.</li>
   <li>Euclid numbers: take the product of the first <var>n</var> primes and add 1. For <var>n</var> = 1 to 5 you get 3, 7, 31, 211, 2,311, all prime, but <var>n</var> = 6 gives 30,031 = 59 × 509. Whether infinitely many of these numbers are prime, or infinitely many are composite, is an open question.</li>
-  <li>Other proofs: Euler showed that the sum of 1/<var>p</var> over all primes diverges, and Furstenberg gave a topological proof in 1955. <cite>Proofs from THE BOOK</cite> collects six different proofs.</li>
+  <li>Other proofs: Euler showed that the sum of 1/<var>p</var> over all primes diverges, and there are other proofs of the infinitude of the primes.</li>
   <li>Compare with the Goldbach and twin prime questions in sections 4 and 5: infinitude of primes is solved, but their finer structure is not.</li>
 </ul>
 
@@ -364,7 +364,6 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <thead><tr><th scope="col">Course</th><th scope="col">Angle</th></tr></thead>
   <tbody>
     <tr><td>Middle school / Algebra 1</td><td>Factor products-plus-1 by hand; discuss “what is a proof?” vs. checking examples.</td></tr>
-    <tr><td>Geometry</td><td>Proof structure: each step justified, parallel to a two-column proof.</td></tr>
     <tr><td>Algebra 2 / Precalculus</td><td>Divisibility argument in step 4; the <var>n</var>! + <var>k</var> composite-gap argument.</td></tr>
     <tr><td>Computer science</td><td>Write a program that takes a list of primes and returns a prime not on it; find where brute force gets slow.</td></tr>
   </tbody>
@@ -411,8 +410,6 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 
 <p><strong>Ask the room:</strong> which rung is most convincing, and which would you accept as “knowing” something in math? What would it take to climb from rung 3 to a proof?</p>
 
-<p>Sources: <a href="https://link.springer.com/article/10.1007/s11227-025-07337-0">Barina (2025)</a> for the computer bound; <a href="https://arxiv.org/abs/2201.00406">Hercher (2023)</a> for loops; Tao (2019), “Almost all orbits of the Collatz map attain almost bounded values.”</p>
-
 <p><strong>Adapting it</strong></p>
 
 <div class="table-wrap">
@@ -456,7 +453,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
 <p><strong>What is known.</strong> As with Collatz, there are four rungs of “known,” and none of them proves the conjecture.</p>
 
 <ol>
-  <li><strong>Computer checks.</strong> Every even number up to 4 × 10<sup>18</sup> is a sum of two primes (<a href="https://sweet.ua.pt/tos/bib/4.12.html">Oliveira e Silva, Herzog and Pardi, 2013</a>).</li>
+  <li><strong>Computer checks.</strong> Every even number up to 4 × 10<sup>18</sup> is a sum of two primes.</li>
   <li><strong>Partial theorems.</strong> Vinogradov showed in 1937 that every sufficiently large odd number is a sum of three primes, and Harald Helfgott completed the proof for all odd numbers greater than 5 in 2013 (the “weak” Goldbach conjecture). Chen showed in 1973 that every sufficiently large even number is a prime plus a number with at most two prime factors.</li>
   <li><strong>“Almost all” results.</strong> In the 1930s it was shown that the even numbers that fail, if any, have density zero.</li>
   <li><strong>A heuristic.</strong> The expected number of partitions of <var>n</var> grows roughly like <var>n</var>/(ln <var>n</var>)², so a counterexample becomes less and less plausible as <var>n</var> grows.</li>
@@ -493,7 +490,7 @@ tbody td:first-child { font-weight: 700; width: 30%; }
   <li>Generalize: what about primes that differ by 4 (cousin primes) or 6?</li>
 </ul>
 
-<p><strong>What is known.</strong> In 2013 Yitang Zhang proved that infinitely many pairs of primes differ by less than 70 million. Soon after, James Maynard (and, independently, Terence Tao) cut the bound to 600, and the Polymath project refined it to 246 (2014). In 2026, new preprints, some found with AI help, have pushed it lower still; none is peer-reviewed yet. Getting the bound down to 2 is the open problem.</p>
+<p><strong>What is known.</strong> In 2013 Yitang Zhang proved that infinitely many pairs of primes differ by less than 70 million. Soon after, James Maynard (and, independently, Terence Tao) cut the bound to 600, and the Polymath project refined it to 246. In 2026, new preprints, some found with AI help, have pushed it lower still; none is peer-reviewed yet. Getting the bound down to 2 is the open problem.</p>
 
 <p>Two connections to earlier ideas:</p>
 
